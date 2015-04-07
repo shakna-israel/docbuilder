@@ -18,9 +18,21 @@ import os
 import sys
 
 # The *FILE* variable tells Docbuilder what file it should build documentation from.
-FILE = "write-good.py"
+# See if the user has provided a file name to build documentation for.
+try:
+    # The file provided should be the first argument.
+    FILE = sys.argv[1]
+# If the user hasn't provided a file, just build documentation for docbuilder itself.
+except:
+    FILE = docbuilder.py
 # The *EXPORT* variable tells Docbuilder what file it should build documentation into.
-EXPORT = "docs/write-good-py.md"
+# See if the user has provided a file name to build documentation out to.
+try:
+    # The file to build out to should be the second argument.
+    EXPORT = sys.argv[2]
+# If the user hasn't, try and guess what to call the file.
+except:
+    EXPORT = "docs/" + FILE + ".md"
 # Instantiate the string variable, which is used by Docbuilder to read and write files.
 string = "Unset"
 # Check if the *EXPORT* file exists:
