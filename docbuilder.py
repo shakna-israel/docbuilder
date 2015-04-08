@@ -24,12 +24,13 @@ try:
     FILE = sys.argv[1]
 # If the user hasn't provided a file, just build documentation for docbuilder itself.
 except:
-    FILE = docbuilder.py
+    FILE = "docbuilder.py"
 # The *EXPORT* variable tells Docbuilder what file it should build documentation into.
 # See if the user has provided a file name to build documentation out to.
 try:
     # The file to build out to should be the second argument.
-    EXPORT = sys.argv[2]
+    # Docbuilder will always build to the docs directory.
+    EXPORT = "docs/" + sys.argv[2]
 # If the user hasn't, try and guess what to call the file.
 except:
     EXPORT = "docs/" + FILE + ".md"
@@ -39,6 +40,9 @@ string = "Unset"
 if os.path.isfile(EXPORT):
     # If the file exists, clobber it.
     os.remove(EXPORT)
+# If the ```docs``` directory doesn't exist, make it.
+if not os.path.exists("docs"):
+    os.makedirs("docs")
 # Open the file we're building documentation from in read-only mode, so we can't kill it.
 file = open(FILE, "r")
 # Open the file we're building documentation into, in write mode. Create it if it doesn't exist. (Which would happen if we clobbered it).
