@@ -1,7 +1,7 @@
 import unittest
 import pep8
 
-
+# A simple test using pep8 to check compliance
 class TestCodeFormat(unittest.TestCase):
 
     def test_pep8_complicance(self):
