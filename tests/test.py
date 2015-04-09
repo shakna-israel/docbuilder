@@ -111,19 +111,26 @@ class TestCodeFormat(unittest.TestCase):
             print("Titles compile correctly to Markdown.")
             pass
         else:
-            print("Title fail to compile correctly to Markdown.")
+            print("Title failed to compile correctly to Markdown.")
             print("Expected: # This is a title.\n")
-            print("Received... " + lines[1])
+            print("Received: " + lines[1])
             assert False
         pass
     
     def test_markdown_comments(self):
         """Test that normal comments appear correctly when compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
         # Exoect line 2: This is a comment.
-        pass
+        global lines
+        if lines[3] == "This is a comment.\n":
+            print("Comments compile correctly to Markdown.")
+            pass
+        else:
+            print("Comment failed to compile correctly to Markdown.")
+            print("Expected: This is a comment.\n")
+            print("Received: " + lines[3])
+            assert False
     
     def test_markdown_bullet_points(self):
         """Test that bullet points appear correctly when compiled to Markdown."""
