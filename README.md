@@ -1,6 +1,6 @@
 # Docbuilder
 
-Development Branch: ![args](https://travis-ci.org/shakna-israel/docbuilder.svg?branch=args)
+![Build](https://travis-ci.org/shakna-israel/docbuilder.svg)
 
 ![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)
 
