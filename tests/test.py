@@ -1,6 +1,7 @@
 import unittest
 import pep8
 import os
+import subprocess
 
 # A simple test using pep8 to check compliance
 class TestCodeFormat(unittest.TestCase):
