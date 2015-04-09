@@ -24,6 +24,7 @@ try:
     FILE = sys.argv[1]
 # If the user hasn't provided a file, just build documentation for docbuilder itself.
 except:
+    print("No file provided to document... Building for Docbuilder.")
     FILE = "docbuilder.py"
 # The *EXPORT* variable tells Docbuilder what file it should build documentation into.
 # See if the user has provided a file name to build documentation out to.
@@ -33,7 +34,9 @@ try:
     EXPORT = "docs/" + sys.argv[2]
 # If the user hasn't, try and guess what to call the file.
 except:
+    print("No output file provided, guessing...")
     EXPORT = "docs/" + FILE + ".md"
+    print(EXPORT)
 # Instantiate the string variable, which is used by Docbuilder to read and write files.
 string = "Unset"
 # Check if the *EXPORT* file exists:
