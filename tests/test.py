@@ -25,7 +25,7 @@ def teardown():
 # A function to test against to check for Markdown syntax:
 def buildup():
     file = open("testme.py", "w+")
-    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n # This should be in a code block.")
+    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n This should be in a code block.")
     file.close()
     subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
 
@@ -100,6 +100,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Expect line 0: # This is a title.
         pass
     
     def test_markdown_comments(self):
@@ -107,6 +108,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Exoect line 2: This is a comment.
         pass
     
     def test_markdown_bullet_points(self):
@@ -114,6 +116,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Expect line 4: * This is a bullet point.
         pass
     
     def test_markdown_italics(self):
@@ -121,6 +124,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Expect line 6: *This* is an italic word.
         pass
     
     def test_markdown_bolds(self):
@@ -128,6 +132,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Expect line 8: **This** is a bold word.
         pass
     
     def test_markdown_italics_and_bolds(self):
@@ -135,6 +140,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Expect line 10: ***This*** is an italic and bold word.
         pass
     
     def test_markdown_codeblocks(self):
@@ -142,6 +148,7 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
+        # Expect line 12: ```This should be in a code block.```
         pass
 
 # Remove all test data. 
