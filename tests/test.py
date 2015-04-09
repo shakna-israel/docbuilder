@@ -25,3 +25,25 @@ class TestCodeFormat(unittest.TestCase):
         else:
             print("Docbuilder failed to generate it's own documentation.")
             assert False
+
+    def test_file_guess(self):
+        """Test to test that Docbuilder can guess a file name."""
+        # This subprocess calls docbuilder.
+        subprocess.call("python ../docbuilder.py docbuilder.py", shell=True)
+        if os.path.isfile("docs/docbuilder.py.md"):
+            print("Docbuilder successfully guessed a name for a file.")
+            pass
+        else:
+            print("Docbuilder failed to guess a filename.")
+            assert False
+            
+    def test_custom_directories(self):
+        """Test that Docbuilder can make custom documentation directories"""
+        # This subprocess calls docbuilder.
+        subprocess.call("python ../docbuilder.py docbuilder.py docbuilder.py.md documents", shell=True)
+        if os.path.isfile("documents/docbuilder.py.md"):
+            print("Docbuilder successfully created a custom directory.")
+            pass
+        else:
+            print("Docbuilder failed to create a custom directory.")
+            assert False
