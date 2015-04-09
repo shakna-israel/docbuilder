@@ -193,12 +193,12 @@ class TestCodeFormat(unittest.TestCase):
         buildup()
         # Expect line 12: ```This should be in a code block.```
         global lines
-        if lines[13] == "```This should be in a code block.```":
+        if lines[13] == "```This should be in a code block.```\n":
             print("Code blocks compile correctly to Markdown.")
             pass
         else:
             print("Code block failed to compile to Markdown.")
-            print("Expected: ```This should be in a code block.```")
+            print("Expected: ```This should be in a code block.```\n")
             print("Received: " + lines[13])
             assert False
 
