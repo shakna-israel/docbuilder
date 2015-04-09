@@ -43,6 +43,8 @@ If the user hasn't provided a file, just build documentation for docbuilder itse
 
 ```except:```
 
+```print("No file provided to document... Building for Docbuilder.")```
+
 ```FILE = "docbuilder.py"```
 
 The *EXPORT* variable tells Docbuilder what file it should build documentation into.
@@ -61,7 +63,11 @@ If the user hasn't, try and guess what to call the file.
 
 ```except:```
 
+```print("No output file provided, guessing...")```
+
 ```EXPORT = "docs/" + FILE + ".md"```
+
+```print(EXPORT)```
 
 Instantiate the string variable, which is used by Docbuilder to read and write files.
 
