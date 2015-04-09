@@ -5,6 +5,7 @@ python:
 # - "3.2"
 # Support for 3.2 dropped. See [Python Compatibility](https://github.com/shakna-israel/docbuilder/issues/12#issuecomment-91116032)
  - "3.3"
+ - "3.2"
  - "3.4"
  - "pypy"
  - "pypy3"

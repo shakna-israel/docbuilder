@@ -65,7 +65,7 @@ for line in file.read().split('\n'):
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
     char = string[:1]
     # Check if the first character is a *#* to see if it is a comment, and should be markdown.
-    if char == u'\u0023':
+    if char == u"\u0023":
         # Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem. However, see [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
         string = string.strip()
         # Remove the first letter, and strip the whitespace.
