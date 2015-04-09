@@ -17,7 +17,7 @@ class TestCodeFormat(unittest.TestCase):
     def test_file_generation(self):
         """Test that Docbuilder can create it's own documentation."""
         # This subprocess calls docbuilder, so we can see if it's building it's own documentation.
-        subprocess.call("python ../docbuilder.py", shell=True)
+        subprocess.call("python docbuilder.py", shell=True)
         # Test if Docbuilder can build it's own documentation.
         if os.path.isfile("docs/docbuilder.py.md"):
             print("Docbuilder successfully generated it's own documentation.")
@@ -29,7 +29,7 @@ class TestCodeFormat(unittest.TestCase):
     def test_file_guess(self):
         """Test to test that Docbuilder can guess a file name."""
         # This subprocess calls docbuilder.
-        subprocess.call("python ../docbuilder.py docbuilder.py", shell=True)
+        subprocess.call("python docbuilder.py docbuilder.py", shell=True)
         if os.path.isfile("docs/docbuilder.py.md"):
             print("Docbuilder successfully guessed a name for a file.")
             pass
@@ -40,7 +40,7 @@ class TestCodeFormat(unittest.TestCase):
     def test_custom_directories(self):
         """Test that Docbuilder can make custom documentation directories"""
         # This subprocess calls docbuilder.
-        subprocess.call("python ../docbuilder.py docbuilder.py docbuilder.py.md documents", shell=True)
+        subprocess.call("python docbuilder.py docbuilder.py docbuilder.py.md documents", shell=True)
         if os.path.isfile("documents/docbuilder.py.md"):
             print("Docbuilder successfully created a custom directory.")
             pass
