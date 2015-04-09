@@ -18,7 +18,7 @@ class TestCodeFormat(unittest.TestCase):
         # This subprocess calls docbuilder, so we can see if it's building it's own documentation.
         subprocess.call("python ../docbuilder.py", shell=True)
         # Test if Docbuilder can build it's own documentation.
-        if os.path.isfile("docs/docbuilder.py.md):
+        if os.path.isfile("docs/docbuilder.py.md"):
             print("Docbuilder successfully generated it's own documentation.")
             pass
         else:
