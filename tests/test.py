@@ -3,6 +3,9 @@ import pep8
 import os
 import subprocess
 
+global lines
+lines = "Not set"
+
 # A function to clean up after each test.
 def teardown():
     if os.path.isfile("testme.py"):
@@ -30,7 +33,7 @@ def buildup():
     subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
     testfile=open('testdocs/testme.md')
     global lines
-    lines=testfile.readlines()
+    lines = testfile.readlines()
     testfile.close()
 
 # A simple test using pep8 to check compliance
