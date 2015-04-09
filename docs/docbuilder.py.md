@@ -25,156 +25,252 @@
 
 ``` os ``` and ``` sys ``` are used to check if files exist, and to let you write to them.
 
-```import os```
+```
+import os
+```
 
-```import sys```
+```
+import sys
+```
 
 The *FILE* variable tells Docbuilder what file it should build documentation from.
 
 See if the user has provided a file name to build documentation for.
 
-```try:```
+```
+try:
+```
 
 The file provided should be the first argument.
 
-```FILE = sys.argv[1]```
+```
+FILE = sys.argv[1]
+```
 
 If the user hasn't provided a file, just build documentation for docbuilder itself.
 
-```except:```
+```
+except:
+```
 
-```print("No file provided to document... Building for Docbuilder.")```
+```
+print("No file provided to document... Building for Docbuilder.")
+```
 
-```FILE = "docbuilder.py"```
+```
+FILE = "docbuilder.py"
+```
 
 The *DIRECTORY* variable tells Docbuilder where to build documentation to.
 
-```try:```
+```
+try:
+```
 
 Check if a user has specified a directory.
 
-```DIRECTORY = sys.argv[3] + "/"```
+```
+DIRECTORY = sys.argv[3] + "/"
+```
 
-```except:```
+```
+except:
+```
 
 If the user doesn't specify a directory, use docs.
 
-```DIRECTORY = "docs/"```
+```
+DIRECTORY = "docs/"
+```
 
 The *EXPORT* variable tells Docbuilder what file it should build documentation into.
 
 See if the user has provided a file name to build documentation out to.
 
-```try:```
+```
+try:
+```
 
 The file to build out to should be the second argument.
 
-```EXPORT = DIRECTORY + sys.argv[2]```
+```
+EXPORT = DIRECTORY + sys.argv[2]
+```
 
 If the user hasn't, try and guess what to call the file.
 
-```except:```
+```
+except:
+```
 
-```print("No output file provided, guessing...")```
+```
+print("No output file provided, guessing...")
+```
 
-```EXPORT = DIRECTORY + FILE + ".md"```
+```
+EXPORT = DIRECTORY + FILE + ".md"
+```
 
-```print(EXPORT)```
+```
+print(EXPORT)
+```
 
 Instantiate the string variable, which is used by Docbuilder to read and write files.
 
-```string = "Unset"```
+```
+string = "Unset"
+```
 
 Check if the *EXPORT* file exists:
 
-```if os.path.isfile(EXPORT):```
+```
+if os.path.isfile(EXPORT):
+```
 
 If the file exists, clobber it.
 
-```os.remove(EXPORT)```
+```
+os.remove(EXPORT)
+```
 
 If the ```docs``` directory doesn't exist, make it.
 
-```if not os.path.exists(DIRECTORY):```
+```
+if not os.path.exists(DIRECTORY):
+```
 
-```os.makedirs(DIRECTORY)```
+```
+os.makedirs(DIRECTORY)
+```
 
 Open the file we're building documentation from in read-only mode, so we can't kill it.
 
-```file = open(FILE, "r")```
+```
+file = open(FILE, "r")
+```
 
 Open the file we're building documentation into, in write mode. Create it if it doesn't exist. (Which would happen if we clobbered it).
 
-```outfile = open(EXPORT, "w+")```
+```
+outfile = open(EXPORT, "w+")
+```
 
 Read the file, that we're building from, into memory.
 
-```for line in file.read().split('\n'):```
+```
+for line in file.read().split('\n'):
+```
 
 For each line found in the file, assign it to the string variable.
 
-```string = line```
+```
+string = line
+```
 
 Strip whitespace, because indentation can break Markdown from working. However, as seen in [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
 
-```string = string.strip()```
+```
+string = string.strip()
+```
 
 Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
 
-```char = string[:1]```
+```
+char = string[:1]
+```
 
 Check if the first character is a *#* to see if it is a comment, and should be markdown.
 
-```if char == u'\u0023':```
+```
+if char == u'\u0023':
+```
 
 Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem. However, see [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
 
-```string = string.strip()```
+```
+string = string.strip()
+```
 
 Remove the first letter, and strip the whitespace.
 
-```string = string[1:].strip()```
+```
+string = string[1:].strip()
+```
 
 Push every string onto it's own line.
 
-```outfile.write("\n")```
+```
+outfile.write("\n")
+```
 
-```outfile.write(string)```
+```
+outfile.write(string)
+```
 
-```outfile.write("\n")```
+```
+outfile.write("\n")
+```
 
 If the first character isn't a *#*, turn it into a codeblock.
 
-```else:```
+```
+else:
+```
 
 Make sure we aren't just looking at a blank line.
 
-```if string != "":```
+```
+if string != "":
+```
 
 Push it onto it's own line.
 
-```outfile.write("\n")```
+```
+outfile.write("\n")
+```
 
 Open the codeblock fence.
 
-```outfile.write("```")```
+```
+outfile.write("```")
+```
+
+Due to MKDocs, make it a block by inserting EOLs before and after the string.
+
+```
+outfile.write("\n")
+```
 
 Insert the code
 
-```outfile.write(string)```
+```
+outfile.write(string)
+```
+
+```
+outfile.write("\n")
+```
 
 Close the codeblock fence.
 
-```outfile.write("```")```
+```
+outfile.write("```")
+```
 
 Make sure there's a gap, so Markdown plays nice.
 
-```outfile.write("\n")```
+```
+outfile.write("\n")
+```
 
 Close out the file we're reading, to make sure we aren't leaving it locked.
 
-```file.close()```
+```
+file.close()
+```
 
 Close out the file we wrote, to make sure we aren't leaving it locked.
 
-```outfile.close()```
+```
+outfile.close()
+```

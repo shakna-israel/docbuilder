@@ -82,8 +82,11 @@ for line in file.read().split('\n'):
             outfile.write("\n")
             # Open the codeblock fence.
             outfile.write("```")
+            # Due to MKDocs, make it a block by inserting EOLs before and after the string.
+            outfile.write("\n")
             # Insert the code
             outfile.write(string)
+            outfile.write("\n")
             # Close the codeblock fence.
             outfile.write("```")
             # Make sure there's a gap, so Markdown plays nice.
