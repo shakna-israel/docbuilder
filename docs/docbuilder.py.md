@@ -47,6 +47,20 @@ If the user hasn't provided a file, just build documentation for docbuilder itse
 
 ```FILE = "docbuilder.py"```
 
+The *DIRECTORY* variable tells Docbuilder where to build documentation to.
+
+```try:```
+
+Check if a user has specified a directory.
+
+```DIRECTORY = sys.argv[3]```
+
+```except:```
+
+If the user doesn't specify a directory, use docs.
+
+```DIRECTORY = "docs"```
+
 The *EXPORT* variable tells Docbuilder what file it should build documentation into.
 
 See if the user has provided a file name to build documentation out to.
@@ -55,9 +69,7 @@ See if the user has provided a file name to build documentation out to.
 
 The file to build out to should be the second argument.
 
-Docbuilder will always build to the docs directory.
-
-```EXPORT = "docs/" + sys.argv[2]```
+```EXPORT = DIRECTORY + "/" + sys.argv[2]```
 
 If the user hasn't, try and guess what to call the file.
 
