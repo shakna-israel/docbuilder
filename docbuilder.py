@@ -26,9 +26,9 @@ try:
 except:
     print("No file provided to document... Building for Docbuilder.")
     FILE = "docbuilder.py"
-#The *DIRECTORY* variable tells Docbuilder where to build documentation to.
+# The *DIRECTORY* variable tells Docbuilder where to build documentation to.
 try:
-    #Check if a user has specified a directory.
+    # Check if a user has specified a directory.
     DIRECTORY = sys.argv[3]
 except:
     # If the user doesn't specify a directory, use docs.
