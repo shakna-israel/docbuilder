@@ -19,6 +19,7 @@ def buildup():
     file = open("testme.py", "w+")
     file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n # This should be in a code block.")
     file.close()
+    subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
 
 # A simple test using pep8 to check compliance
 class TestCodeFormat(unittest.TestCase):
