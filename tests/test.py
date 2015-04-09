@@ -121,7 +121,6 @@ class TestCodeFormat(unittest.TestCase):
         """Test that normal comments appear correctly when compiled to Markdown."""
         teardown()
         buildup()
-        # Exoect line 2: This is a comment.
         global lines
         if lines[3] == "This is a comment.\n":
             print("Comments compile correctly to Markdown.")
@@ -134,43 +133,74 @@ class TestCodeFormat(unittest.TestCase):
     
     def test_markdown_bullet_points(self):
         """Test that bullet points appear correctly when compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
-        # Expect line 4: * This is a bullet point.
-        pass
+        global lines
+        if lines[5] == "* This is a bullet point.\n":
+            print("Bullet points compile correctly to Markdown.")
+            pass
+        else:
+            print("Bullet points fail to compile correctly to Markdown.")
+            print("Expected: * This is a bullet point.\n")
+            print("Received: " + lines[5])
+            assert False
     
     def test_markdown_italics(self):
         """Test that italics appear correctly when compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
-        # Expect line 6: *This* is an italic word.
-        pass
+        global lines
+        if lines[7] == "*This* is an italic word.\n":
+            print("Italics compile correctly to Markdown.")
+            pass
+        else:
+            print("Italics failed to compile correctly to Markdown.")
+            print("Expected: *This* is an italic word.\n")
+            print("Received: " + lines[7])
+            assert False
     
     def test_markdown_bolds(self):
         """Test that bolds appear correctly when compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
-        # Expect line 8: **This** is a bold word.
-        pass
+        global lines
+        if lines[9] == "**This** is a bold word.\n":
+            print("Bold compiled correctly to Markdown.")
+            pass
+        else:
+            print("Bold failed to compile correctly to Markdown.")
+            print("Expected: **This is a bold word.\n")
+            print("Recieved: " + lines[9])
+            assert False
     
     def test_markdown_italics_and_bolds(self):
         """Test that words that are both bold and italic appear correctly when compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
-        # Expect line 10: ***This*** is an italic and bold word.
-        pass
+        global lines
+        if lines[11] == "***This*** is an italic and bold word.\n"):
+            print("Both bold and italic compiles correctly to Markdown.")
+            pass
+        else:
+            print("Both bold and italic phrases failed to compile to Markdown.")
+            print("Expected: ***This*** is an italic and bold word.\n")
+            print("Received: " + lines[11])
+            assert False
     
     def test_markdown_codeblocks(self):
         """Test that codeblocks are correctly compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
         # Expect line 12: ```This should be in a code block.```
-        pass
+        global lines
+        if lines[13] == "```This should be in a code block.```:
+            print("Code blocks compile correctly to Markdown.")
+            pass
+        else:
+            print("Code block failed to compile to Markdown.")
+            print("Expected: ```This should be in a code block.```")
+            print("Received: " + lines[13])
+            assert False
 
 # Remove all test data. 
 teardown()
