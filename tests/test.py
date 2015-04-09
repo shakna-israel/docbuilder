@@ -114,6 +114,8 @@ class TestCodeFormat(unittest.TestCase):
             print("Title fail to compile correctly to Markdown.")
             print("Expected: # This is a title.")
             print("Received... " + lines[0])
+            print("lines[0]: " + lines[0])
+            print("lines[1]: " + lines[1])
             assert False
         pass
     
