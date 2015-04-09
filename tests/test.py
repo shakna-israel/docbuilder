@@ -7,13 +7,19 @@ import subprocess
 def teardown():
     if os.path.isfile("testdocs/testme.md"):
         os.remove("testdocs/testme.md")
+    if os.path.exists("testdocs"):
+        os.rmdir("testdocs")
     if os.path.isfile("docs/docbuilder.py.md"):
         os.remove("docs/docbuilder.py.md")
     if os.path.isfile("docs/docbuilder.md"):
         os.remove("docs/docbuilder.md")
     if os.path.exists("docs"):
         os.rmdir("docs")
-        
+    if os.path.isfile("documents/docbuilder.py.md"):
+        os.remove("documents/docbuilder.py.md")
+    if os.path.exists("documents"):
+        os.rmdir("documents")
+
 # A function to test against to check for Markdown syntax:
 def buildup():
     file = open("testme.py", "w+")
@@ -135,3 +141,6 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         pass
+
+# Remove all test data. 
+teardown()

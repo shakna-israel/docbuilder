@@ -53,13 +53,13 @@ The *DIRECTORY* variable tells Docbuilder where to build documentation to.
 
 Check if a user has specified a directory.
 
-```DIRECTORY = sys.argv[3]```
+```DIRECTORY = sys.argv[3] + "/"```
 
 ```except:```
 
 If the user doesn't specify a directory, use docs.
 
-```DIRECTORY = "docs"```
+```DIRECTORY = "docs/"```
 
 The *EXPORT* variable tells Docbuilder what file it should build documentation into.
 
@@ -69,7 +69,7 @@ See if the user has provided a file name to build documentation out to.
 
 The file to build out to should be the second argument.
 
-```EXPORT = DIRECTORY + "/" + sys.argv[2]```
+```EXPORT = DIRECTORY + sys.argv[2]```
 
 If the user hasn't, try and guess what to call the file.
 
@@ -77,7 +77,7 @@ If the user hasn't, try and guess what to call the file.
 
 ```print("No output file provided, guessing...")```
 
-```EXPORT = "docs/" + FILE + ".md"```
+```EXPORT = DIRECTORY + FILE + ".md"```
 
 ```print(EXPORT)```
 
@@ -95,9 +95,9 @@ If the file exists, clobber it.
 
 If the ```docs``` directory doesn't exist, make it.
 
-```if not os.path.exists("docs"):```
+```if not os.path.exists(DIRECTORY):```
 
-```os.makedirs("docs")```
+```os.makedirs(DIRECTORY)```
 
 Open the file we're building documentation from in read-only mode, so we can't kill it.
 
