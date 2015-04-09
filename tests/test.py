@@ -107,12 +107,12 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[1] == "# This is a title.":
+        if lines[1] == "# This is a title.\n":
             print("Titles compile correctly to Markdown.")
             pass
         else:
             print("Title fail to compile correctly to Markdown.")
-            print("Expected: # This is a title.")
+            print("Expected: # This is a title.\n")
             print("Received... " + lines[1])
             assert False
         pass
