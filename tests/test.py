@@ -5,12 +5,20 @@ import subprocess
 
 # A function to clean up after each test.
 def teardown():
+    if os.path.isfile("docs/testme.py.md"):
+        os.remove("docs/testme.py.md")
     if os.path.isfile("docs/docbuilder.py.md"):
         os.remove("docs/docbuilder.py.md")
     if os.path.isfile("docs/docbuilder.md"):
         os.remove("docs/docbuilder.md")
     if os.path.exists("docs"):
         os.rmdir("docs")
+        
+# A function to test against to check for Markdown syntax:
+def buildup():
+    file = open("testme.py", "w+")
+    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n # This should be in a code block.")
+    file.close()
 
 # A simple test using pep8 to check compliance
 class TestCodeFormat(unittest.TestCase):
@@ -77,3 +85,52 @@ class TestCodeFormat(unittest.TestCase):
         else:
             print("Docbuilder failed to create a custom directory.")
             assert False
+            
+    def test_markdown_titles(self):
+        """Test that titles appear correctly when compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
+    
+    def test_markdown_comments(self):
+        """Test that normal comments appear correctly when compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
+    
+    def test_markdown_bullet_points(self):
+        """Test that bullet points appear correctly when compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
+    
+    def test_markdown_italics(self):
+        """Test that italics appear correctly when compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
+    
+    def test_markdown_bolds(self):
+        """Test that bolds appear correctly when compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
+    
+    def test_markdown_italics_and_bolds(self):
+        """Test that words that are both bold and italic appear correctly when compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
+    
+    def test_markdown_codeblocks(self):
+        """Test that codeblocks are correctly compiled to Markdown."""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
