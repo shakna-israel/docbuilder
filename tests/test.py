@@ -21,8 +21,6 @@ def teardown():
         os.remove("documents/docbuilder.py.md")
     if os.path.exists("documents"):
         os.rmdir("documents")
-    file.close()
-    testfile.close()
 
 # A function to test against to check for Markdown syntax:
 def buildup():
@@ -33,6 +31,7 @@ def buildup():
     testfile=open('testdocs/testme.md')
     global lines
     lines=testfile.readlines()
+    testfile.close()
 
 # A simple test using pep8 to check compliance
 class TestCodeFormat(unittest.TestCase):
