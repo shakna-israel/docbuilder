@@ -1,9 +1,12 @@
 language: python
 python:
+ - "2.5"
  - "2.6"
  - "2.7"
-# - "3.2"
-# Support for 3.2 dropped. See [Python Compatibility](https://github.com/shakna-israel/docbuilder/issues/12#issuecomment-91116032)
+ - "2.8"
+ - "3.0"
+ - "3.1"
+ - "3.2"
  - "3.3"
  - "3.2"
  - "3.4"
