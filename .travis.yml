@@ -11,6 +11,3 @@ python:
  - "nightly" # Cython
 install: "pip install -r tests/dev-requirements.txt"
 script: "nosetests"
-branches:
-  only:
-    - args
