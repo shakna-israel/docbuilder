@@ -21,6 +21,8 @@ def teardown():
         os.remove("documents/docbuilder.py.md")
     if os.path.exists("documents"):
         os.rmdir("documents")
+    file.close()
+    testfile.close()
 
 # A function to test against to check for Markdown syntax:
 def buildup():
@@ -28,6 +30,9 @@ def buildup():
     file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n This should be in a code block.")
     file.close()
     subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
+    testfile=open('testdocs/testme.md')
+    global lines
+    lines=testfile.readlines()
 
 # A simple test using pep8 to check compliance
 class TestCodeFormat(unittest.TestCase):
@@ -97,10 +102,15 @@ class TestCodeFormat(unittest.TestCase):
             
     def test_markdown_titles(self):
         """Test that titles appear correctly when compiled to Markdown."""
-        # This test has not yet been written.
         teardown()
         buildup()
-        # Expect line 0: # This is a title.
+        global lines
+        if lines[0] == "# This is a title.":
+            print("Titles compile correctly to Markdown.")
+            pass
+        else:
+            print("Title fail to compile correctly to Markdown.")
+            assert False
         pass
     
     def test_markdown_comments(self):
