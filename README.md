@@ -28,3 +28,5 @@ Currently, the supported versions of Python are:
 ![PyPy](https://img.shields.io/badge/Python-PyPy-brightgreen.svg)
 
 ![PyPy3](https://img.shields.io/badge/Python-PyPy3-brightgreen.svg)
+
+![Cython](https://img.shields.io/badge/Python-Cython Nightly-brightgreen.svg)
