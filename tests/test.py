@@ -191,14 +191,25 @@ class TestCodeFormat(unittest.TestCase):
         """Test that codeblocks are correctly compiled to Markdown."""
         teardown()
         buildup()
-        # Expect line 12: ```This should be in a code block.```
         global lines
-        if lines[13] == "```This should be in a code block.```\n":
-            print("Code blocks compile correctly to Markdown.")
-            pass
+        if lines[13] == "```\n":
+            if lines[14] == "This should be in a code block.\n":
+                if lines[15] == "```\n":
+                    print("Code blocks compile correctly to Markdown.")
+                    pass
+                else:
+                    print("Code block failed to compile to Markdown.")
+                    print("Expected: ```\n")
+                    print("Received: " + lines[15])
+                    assert False
+            else:
+               print("Code block failed to compile to Markdown.")
+               print("Expected: This should be in a code block.\n")
+               print("Received: " + lines[14])
+               assert False
         else:
             print("Code block failed to compile to Markdown.")
-            print("Expected: ```This should be in a code block.```\n")
+            print("Expected: ```\n")
             print("Received: " + lines[13])
             assert False
 
