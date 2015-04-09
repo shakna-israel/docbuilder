@@ -5,8 +5,8 @@ import subprocess
 
 # A function to clean up after each test.
 def teardown():
-    if os.path.isfile("docs/testme.py.md"):
-        os.remove("docs/testme.py.md")
+    if os.path.isfile("testdocs/testme.md"):
+        os.remove("testdocs/testme.md")
     if os.path.isfile("docs/docbuilder.py.md"):
         os.remove("docs/docbuilder.py.md")
     if os.path.isfile("docs/docbuilder.md"):
