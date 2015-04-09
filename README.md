@@ -1,5 +1,7 @@
 # Docbuilder
 
+![Release](https://img.shields.io/github/tag/shakna-israel/docbuilder.svg)
+
 ![Build](https://travis-ci.org/shakna-israel/docbuilder.svg)
 
 ![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)
