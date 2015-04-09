@@ -178,7 +178,7 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[11] == "***This*** is an italic and bold word.\n"):
+        if lines[11] == "***This*** is an italic and bold word.\n":
             print("Both bold and italic compiles correctly to Markdown.")
             pass
         else:
