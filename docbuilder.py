@@ -64,9 +64,14 @@ for line in file.read().split('\n'):
     string = string.strip()
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
     char = string[:1]
+    # Hack to make Docbuilder pass on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
+    try:
+        compare_char = unichr(35)
+    except:
+        compare_char = chr(35)
     # Check if the first character is a *#* to see if it is a comment, and should be markdown.
-    if char == u'\u0023':
-        # Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem. However, see [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
+    if char == compare_char:
+        # Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem.
         string = string.strip()
         # Remove the first letter, and strip the whitespace.
         string = string[1:].strip()
@@ -91,6 +96,7 @@ for line in file.read().split('\n'):
             outfile.write("```")
             # Make sure there's a gap, so Markdown plays nice.
             outfile.write("\n")
+
 # Close out the file we're reading, to make sure we aren't leaving it locked.
 file.close()
 # Close out the file we wrote, to make sure we aren't leaving it locked.
