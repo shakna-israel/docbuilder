@@ -2,9 +2,11 @@
 
 ![Release](https://img.shields.io/github/tag/shakna-israel/docbuilder.svg)
 
-![Build](https://travis-ci.org/shakna-israel/docbuilder.svg)
+[![Build](https://travis-ci.org/shakna-israel/docbuilder.svg)](https://travis-ci.org/shakna-israel/docbuilder/)
 
-![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)
+[![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)](https://github.com/shakna-israel/docbuilder/issues)
+
+[![Code Health](https://landscape.io/github/shakna-israel/docbuilder/master/landscape.svg?style=flat)](https://landscape.io/github/shakna-israel/docbuilder/master)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
