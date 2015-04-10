@@ -28,7 +28,7 @@ def teardown():
 # A function to test against to check for Markdown syntax:
 def buildup():
     file = open("testme.py", "w+")
-    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n This should be in a code block.")
+    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n This should be in a code block.\n    This is an indented code block.")
     file.close()
     subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
     testfile=open('testdocs/testme.md')
@@ -212,6 +212,13 @@ class TestCodeFormat(unittest.TestCase):
             print("Expected: ```\n")
             print("Received: " + lines[13])
             assert False
+
+    def test_markdown_indented_code_block(self):
+        """Test to see if code blocks indent correctly when compiled to Markdown"""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        pass
 
 # Remove all test data. 
 teardown()
