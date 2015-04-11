@@ -23,14 +23,14 @@ try:
     # The file provided should be the first argument.
     FILE = sys.argv[1]
 # If the user hasn't provided a file, just build documentation for docbuilder itself.
-except:
+except IndexError:
     print("No file provided to document... Building for Docbuilder.")
     FILE = "docbuilder.py"
 # The *DIRECTORY* variable tells Docbuilder where to build documentation to.
 try:
     # Check if a user has specified a directory.
     DIRECTORY = sys.argv[3] + "/"
-except:
+except IndexError:
     # If the user doesn't specify a directory, use docs.
     DIRECTORY = "docs/"
 # The *EXPORT* variable tells Docbuilder what file it should build documentation into.
@@ -39,7 +39,7 @@ try:
     # The file to build out to should be the second argument.
     EXPORT = DIRECTORY + sys.argv[2]
 # If the user hasn't, try and guess what to call the file.
-except:
+except IndexError:
     print("No output file provided, guessing...")
     EXPORT = DIRECTORY + FILE + ".md"
     print(EXPORT)
@@ -67,7 +67,7 @@ for line in file.read().split('\n'):
     # Hack to make Docbuilder pass on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
     try:
         compare_char = unichr(35)
-    except:
+    except NameError:
         compare_char = chr(35)
     # Check if the first character is a *#* to see if it is a comment, and should be markdown.
     if char == compare_char:
