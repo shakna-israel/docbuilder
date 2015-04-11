@@ -60,7 +60,7 @@ outfile = open(EXPORT, "w+")
 for line in infile.read().split('\n'):
     # For each line found in the file, assign it to the string variable.
     string = line
-    # Strip whitespace, because indentation can break Markdown from working. However, as seen in [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
+    # Strip whitespace, because indentation can break Markdown from working.
     string = string.strip()
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
     char = string[:1]
