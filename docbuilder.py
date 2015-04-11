@@ -45,6 +45,7 @@ except IndexError:
     print(EXPORT)
 # Instantiate the string variable, which is used by Docbuilder to read and write files.
 string = "Unset"
+stringStripped = "Unset"
 # Check if the *EXPORT* file exists:
 if os.path.isfile(EXPORT):
     # If the file exists, clobber it.
@@ -62,9 +63,9 @@ for line in infile.read().split('\n'):
     string = line
     # Strip whitespace, because indentation can break Markdown from working.
     # We assign this to a seperate variable, so code doesn't have it's identation stolen.
-    string-stripped = string.strip()
+    stringStripped = string.strip()
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
-    char = string-stripped[:1]
+    char = stringStripped[:1]
     # Hack to make Docbuilder pass on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
     try:
         compare_char = unichr(35)
@@ -73,12 +74,12 @@ for line in infile.read().split('\n'):
     # Check if the first character is a *#* to see if it is a comment, and should be markdown.
     if char == compare_char:
         # Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem.
-        string-stripped = string.strip()
+        stringStripped = string.strip()
         # Remove the first letter, and strip the whitespace.
-        string-stripped = string-stripped[1:].strip()
+        stringStripped = stringStripped[1:].strip()
         # Push every string onto it's own line.
         outfile.write("\n")
-        outfile.write(string-stripped)
+        outfile.write(stringStripped)
         outfile.write("\n")
     # If the first character isn't a *#*, turn it into a codeblock.
     else:
