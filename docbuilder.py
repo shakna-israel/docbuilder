@@ -61,9 +61,10 @@ for line in infile.read().split('\n'):
     # For each line found in the file, assign it to the string variable.
     string = line
     # Strip whitespace, because indentation can break Markdown from working.
-    string = string.strip()
+    # We assign this to a seperate variable, so code doesn't have it's identation stolen.
+    string-stripped = string.strip()
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
-    char = string[:1]
+    char = string-stripped[:1]
     # Hack to make Docbuilder pass on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
     try:
         compare_char = unichr(35)
@@ -72,12 +73,12 @@ for line in infile.read().split('\n'):
     # Check if the first character is a *#* to see if it is a comment, and should be markdown.
     if char == compare_char:
         # Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem.
-        string = string.strip()
+        string-stripped = string.strip()
         # Remove the first letter, and strip the whitespace.
-        string = string[1:].strip()
+        string-stripped = string-stripped[1:].strip()
         # Push every string onto it's own line.
         outfile.write("\n")
-        outfile.write(string)
+        outfile.write(string-stripped)
         outfile.write("\n")
     # If the first character isn't a *#*, turn it into a codeblock.
     else:
