@@ -1,0 +1,4 @@
+max-line-length: 300
+pep8:
+  disable:
+    - E266

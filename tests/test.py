@@ -28,7 +28,7 @@ def teardown():
 # A function to test against to check for Markdown syntax:
 def buildup():
     file = open("testme.py", "w+")
-    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n This should be in a code block.")
+    file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n print('This should be in a code block.')\n    print('This is an indented code block.')")
     file.close()
     subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
     testfile=open('testdocs/testme.md')
@@ -193,7 +193,7 @@ class TestCodeFormat(unittest.TestCase):
         buildup()
         global lines
         if lines[13] == "```\n":
-            if lines[14] == "This should be in a code block.\n":
+            if lines[14] == " print('This should be in a code block.')\n":
                 if lines[15] == "```\n":
                     print("Code blocks compile correctly to Markdown.")
                     pass
@@ -204,13 +204,40 @@ class TestCodeFormat(unittest.TestCase):
                     assert False
             else:
                print("Code block failed to compile to Markdown.")
-               print("Expected: This should be in a code block.\n")
+               print("Expected:  print('This should be in a code block.')\n")
                print("Received: " + lines[14])
                assert False
         else:
             print("Code block failed to compile to Markdown.")
             print("Expected: ```\n")
             print("Received: " + lines[13])
+            assert False
+
+    def test_markdown_indented_code_block(self):
+        """Test to see if code blocks indent correctly when compiled to Markdown"""
+        # This test has not yet been written.
+        teardown()
+        buildup()
+        global lines
+        if lines[17] == "```\n":
+            if lines[18] == "    print('This is an indented code block.')\n":
+                if lines[19] == "```\n":
+                    print("Code blocks with indentation compile correctly to Markdown.")
+                    pass
+                else:
+                    print("Indented code block failed to compile to Markdown.")
+                    print("Expected: ```\n")
+                    print("Received: " + lines[19])
+                    assert False
+            else:
+                print("Indented code block failed to compile to Markdown.")
+                print("Expected:     print('This is an indented code block.')\n")
+                print("Recieved: " + lines[18])
+                assert False
+        else:
+            print("Indented code block failed to compile to Markdown.")
+            print("Expected: ```\n")
+            print("Received: " + lines[17])
             assert False
 
 # Remove all test data. 

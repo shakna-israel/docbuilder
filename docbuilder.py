@@ -23,14 +23,14 @@ try:
     # The file provided should be the first argument.
     FILE = sys.argv[1]
 # If the user hasn't provided a file, just build documentation for docbuilder itself.
-except:
+except IndexError:
     print("No file provided to document... Building for Docbuilder.")
     FILE = "docbuilder.py"
 # The *DIRECTORY* variable tells Docbuilder where to build documentation to.
 try:
     # Check if a user has specified a directory.
     DIRECTORY = sys.argv[3] + "/"
-except:
+except IndexError:
     # If the user doesn't specify a directory, use docs.
     DIRECTORY = "docs/"
 # The *EXPORT* variable tells Docbuilder what file it should build documentation into.
@@ -39,12 +39,13 @@ try:
     # The file to build out to should be the second argument.
     EXPORT = DIRECTORY + sys.argv[2]
 # If the user hasn't, try and guess what to call the file.
-except:
+except IndexError:
     print("No output file provided, guessing...")
     EXPORT = DIRECTORY + FILE + ".md"
     print(EXPORT)
 # Instantiate the string variable, which is used by Docbuilder to read and write files.
 string = "Unset"
+stringStripped = "Unset"
 # Check if the *EXPORT* file exists:
 if os.path.isfile(EXPORT):
     # If the file exists, clobber it.
@@ -53,31 +54,32 @@ if os.path.isfile(EXPORT):
 if not os.path.exists(DIRECTORY):
     os.makedirs(DIRECTORY)
 # Open the file we're building documentation from in read-only mode, so we can't kill it.
-file = open(FILE, "r")
+infile = open(FILE, "r")
 # Open the file we're building documentation into, in write mode. Create it if it doesn't exist. (Which would happen if we clobbered it).
 outfile = open(EXPORT, "w+")
 # Read the file, that we're building from, into memory.
-for line in file.read().split('\n'):
+for line in infile.read().split('\n'):
     # For each line found in the file, assign it to the string variable.
     string = line
-    # Strip whitespace, because indentation can break Markdown from working. However, as seen in [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
-    string = string.strip()
+    # Strip whitespace, because indentation can break Markdown from working.
+    # We assign this to a seperate variable, so code doesn't have it's identation stolen.
+    stringStripped = string.strip()
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
-    char = string[:1]
+    char = stringStripped[:1]
     # Hack to make Docbuilder pass on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
     try:
         compare_char = unichr(35)
-    except:
+    except NameError:
         compare_char = chr(35)
     # Check if the first character is a *#* to see if it is a comment, and should be markdown.
     if char == compare_char:
         # Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem.
-        string = string.strip()
+        stringStripped = string.strip()
         # Remove the first letter, and strip the whitespace.
-        string = string[1:].strip()
+        stringStripped = stringStripped[1:].strip()
         # Push every string onto it's own line.
         outfile.write("\n")
-        outfile.write(string)
+        outfile.write(stringStripped)
         outfile.write("\n")
     # If the first character isn't a *#*, turn it into a codeblock.
     else:
@@ -98,6 +100,6 @@ for line in file.read().split('\n'):
             outfile.write("\n")
 
 # Close out the file we're reading, to make sure we aren't leaving it locked.
-file.close()
+infile.close()
 # Close out the file we wrote, to make sure we aren't leaving it locked.
 outfile.close()
