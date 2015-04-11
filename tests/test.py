@@ -218,7 +218,27 @@ class TestCodeFormat(unittest.TestCase):
         # This test has not yet been written.
         teardown()
         buildup()
-        pass
+        global lines
+        if lines[17] == "```\n":
+            if lines[18] == "    This is an indented code block.\n":
+                if lines[19] == "```\n":
+                    print("Code blocks with indentation compile correctly to Markdown.")
+                    pass
+                else:
+                    print("Indented code block failed to compile to Markdown.")
+                    print("Expected: ```\n")
+                    print("Received: " + lines[19])
+                    assert False
+            else:
+                print("Indented code block failed to compile to Markdown.")
+                print("Expected:     This is an indented code block.\n")
+                print("Recieved: " + lines[18])
+                assert False
+        else:
+            print("Indented code block failed to compile to Markdown.")
+            print("Expected: ```\n")
+            print("Received: " + lines[17])
+            assert False
 
 # Remove all test data. 
 teardown()
