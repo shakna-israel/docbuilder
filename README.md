@@ -6,7 +6,11 @@
 
 [![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)](https://github.com/shakna-israel/docbuilder/issues)
 
+[![Stories in Ready](https://badge.waffle.io/shakna-israel/docbuilder.svg?label=ready&title=Ready)](http://waffle.io/shakna-israel/docbuilder)
+
 [![Code Health](https://landscape.io/github/shakna-israel/docbuilder/master/landscape.svg?style=flat)](https://landscape.io/github/shakna-israel/docbuilder/master)
+
+[![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
@@ -17,22 +21,9 @@
 
 ## Python Versions
 
-Currently, the supported versions of Python are:
+Currently, the supported versions of Python are: [![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12)
 
 *Check [Python Compatibility](https://github.com/shakna-israel/docbuilder/issues/12) for more information.*
 
-![Python 2.6](https://img.shields.io/badge/Python-2.6-brightgreen.svg)
+[![Throughput Graph](https://graphs.waffle.io/shakna-israel/docbuilder/throughput.svg)](https://waffle.io/shakna-israel/docbuilder/metrics)
 
-![Python 2.7](https://img.shields.io/badge/Python-2.7-brightgreen.svg)
-
-![Python 3.2](https://img.shields.io/badge/Python-3.2-brightgreen.svg)
-
-![Python 3.3](https://img.shields.io/badge/Python-3.3-brightgreen.svg)
-
-![Python 3.4](https://img.shields.io/badge/Python-3.4-brightgreen.svg)
-
-![PyPy](https://img.shields.io/badge/Python-PyPy-brightgreen.svg)
-
-![PyPy3](https://img.shields.io/badge/Python-PyPy3-brightgreen.svg)
-
-![Cython](https://img.shields.io/badge/Python-Cython Nightly-brightgreen.svg)
