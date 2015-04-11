@@ -53,11 +53,11 @@ if os.path.isfile(EXPORT):
 if not os.path.exists(DIRECTORY):
     os.makedirs(DIRECTORY)
 # Open the file we're building documentation from in read-only mode, so we can't kill it.
-file = open(FILE, "r")
+infile = open(FILE, "r")
 # Open the file we're building documentation into, in write mode. Create it if it doesn't exist. (Which would happen if we clobbered it).
 outfile = open(EXPORT, "w+")
 # Read the file, that we're building from, into memory.
-for line in file.read().split('\n'):
+for line in infile.read().split('\n'):
     # For each line found in the file, assign it to the string variable.
     string = line
     # Strip whitespace, because indentation can break Markdown from working. However, as seen in [#2](https://github.com/shakna-israel/write-good-py/issues/2) and [#3](https://github.com/shakna-israel/write-good-py/issues/3)
@@ -98,6 +98,6 @@ for line in file.read().split('\n'):
             outfile.write("\n")
 
 # Close out the file we're reading, to make sure we aren't leaving it locked.
-file.close()
+infile.close()
 # Close out the file we wrote, to make sure we aren't leaving it locked.
 outfile.close()
