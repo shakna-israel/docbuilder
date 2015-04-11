@@ -1,8 +1,8 @@
 # Docbuilder
 
-![Release](https://img.shields.io/github/tag/shakna-israel/docbuilder.svg) [![Build](https://travis-ci.org/shakna-israel/docbuilder.svg)](https://travis-ci.org/shakna-israel/docbuilder/) [![Code Health](https://landscape.io/github/shakna-israel/docbuilder/master/landscape.svg?style=flat)](https://landscape.io/github/shakna-israel/docbuilder/master)
+![Release](https://img.shields.io/github/tag/shakna-israel/docbuilder.svg) [![Build](https://travis-ci.org/shakna-israel/docbuilder.svg)](https://travis-ci.org/shakna-israel/docbuilder/) 
 
-[![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)](https://github.com/shakna-israel/docbuilder/issues) [![Stories in Ready](https://badge.waffle.io/shakna-israel/docbuilder.svg?label=ready&title=Ready)](http://waffle.io/shakna-israel/docbuilder)
+[![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)](https://github.com/shakna-israel/docbuilder/issues)
 
 [![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12) ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
@@ -17,5 +17,12 @@ Currently, the supported versions of Python are: [![Python Versions](https://img
 
 *Check [Python Compatibility](https://github.com/shakna-israel/docbuilder/issues/12) for more information.*
 
+## Testing
+
 [![Throughput Graph](https://graphs.waffle.io/shakna-israel/docbuilder/throughput.svg)](https://waffle.io/shakna-israel/docbuilder/metrics)
 
+[![Codeship](https://codeship.com/projects/320ce4c0-c272-0132-53d4-36229af8a5d4/status?branch=master)](https://codeship.com/projects/73757)
+
+[![Code Health](https://landscape.io/github/shakna-israel/docbuilder/master/landscape.svg?style=flat)](https://landscape.io/github/shakna-israel/docbuilder/master)
+
+[![Stories in Ready](https://badge.waffle.io/shakna-israel/docbuilder.svg?label=ready&title=Ready)](http://waffle.io/shakna-israel/docbuilder)
