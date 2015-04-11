@@ -23,9 +23,9 @@ A literate program combines both Markdown and a programming language. It is trad
 
 * Docbuilder will not ask before clobbering your output file. It may even kill the entire directory.
 
-* Docbuilder has no dependencies, except those that come with Python 2.7. (Previous versions of Python probably need some modifications to work. Python 3.x also will need some modification.)
+* Docbuilder has no dependencies.
 
-* Docbuilder simply converts your comments and code into Markdown, and mkdocs can serve or build that for you.
+* Docbuilder simply converts your comments and code into Markdown.
 
 * Docbuilder builds Markdown, and is mostly compatible with whatever [Python Markdown](https://pythonhosted.org/Markdown/) can read. But just in case, check the [Issues](https://github.com/shakna-israel/docbuilder/issues).
 
