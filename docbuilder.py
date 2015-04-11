@@ -1,16 +1,32 @@
 #!/usr/bin/env python
 
-## Docbuilder
-# * Docbuilder is a small python script that will take another Python program, and turn it into documentation.
-# * Docbuilder is used to generate technical documentation. It isn't reccomended at this stage for User Documentation.
-# * It makes use of MkDocs as it's documentation engine, though it doesn't require it to be installed.
+# # Docbuilder
+# *Docbuilder is a small python script that will take another Python program, and turn it into documentation.*
+# Docbuilder is a tool for developing *Literate Programs* with Python.
+# A literate program combines both Markdown and a programming language. It is traditionally used for scientific purposes.
+# ## Why Docbuilder?
+# * No need to detangle programs before running them - Python reads the Docbuilder syntax fine. If your code is written correctly, it will run.
+# * Generates Markdown instead of generating both Markdown and an executable file.
+# * The options for Literate Programming under Python is few and far between.
+# * Impressive compatibility. It doesn't really matter what version of Python you are running. Docbuilder will run.
 
 ## Notes:
-# * Docbuilder will *clobber* your docs/*FILE*. It just will... Unless you change the *EXPORT* variable to something else... Then it will clobber whatever that is.
-# * Docbuilder won't generate a *mkdocs.yml* file for you. You'll need to either make one, or just use ``` mkdocs new . ``` in your current folder. [Coming in V1].
+# * Docbuilder will not ask before clobbering your output file. It may even kill the entire directory.
 # * Docbuilder has no dependencies, except those that come with Python 2.7. (Previous versions of Python probably need some modifications to work. Python 3.x also will need some modification.)
 # * Docbuilder simply converts your comments and code into Markdown, and mkdocs can serve or build that for you.
 # * Docbuilder builds Markdown, and is mostly compatible with whatever [Python Markdown](https://pythonhosted.org/Markdown/) can read. But just in case, check the [Issues](https://github.com/shakna-israel/docbuilder/issues).
+
+## Usage:
+# Docbuilder is easy to use.
+### Under Windows:
+# ```python docbuilder.py PythonLiterateFile DocumentationFile DocumentationDirectory```
+# e.g. ```python docbuilder.py myFile.py myFile.md docs```
+### Under Linux:
+# ```./docbuilder.py PythonLiterateFile DocumentationFile DocumentationDirectory```
+# e.g. ```./docbuilder.py myFile.py myFile.md docs```
+
+# * If you do not specify a DocumentationFile, Docbuilder will try and guess one for you.
+# * If you don't specify a DocumentationDirectory, Docbuilder will use the ```docs``` folder.
 
 # # Dependencies:
 # ``` os ``` and ``` sys ``` are used to check if files exist, and to let you write to them.
@@ -66,7 +82,7 @@ for line in infile.read().split('\n'):
     stringStripped = string.strip()
     # Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
     char = stringStripped[:1]
-    # Hack to make Docbuilder pass on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
+    # Test to make unicode literals work on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
     try:
         compare_char = unichr(35)
     except NameError:
@@ -89,7 +105,7 @@ for line in infile.read().split('\n'):
             outfile.write("\n")
             # Open the codeblock fence.
             outfile.write("```")
-            # Due to MKDocs, make it a block by inserting EOLs before and after the string.
+            # Due to Markdown, make it a block by inserting EOLs before and after the string.
             outfile.write("\n")
             # Insert the code
             outfile.write(string)
