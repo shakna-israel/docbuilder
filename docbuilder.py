@@ -100,7 +100,7 @@ for lineRead in inFile.read().split('\n'):
     # If the first character isn't a *#*, turn it into a codeblock.
     else:
         # Make sure we aren't just looking at a blank line.
-        if string != "":
+        if stringUnstripped != "":
             # Push it onto it's own line.
             outFile.write("\n")
             # Open the codeblock fence.
