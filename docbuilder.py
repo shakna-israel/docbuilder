@@ -124,3 +124,16 @@ def readFile(input, output):
     inFile.close()
     outFile.close()
 
+def setFiles(input, export, directory):
+    checkExportFile(export)
+    checkExportDir(directory)
+    fileReadFrom(input)
+    directoryWriteTo(directory)
+    fileWriteTo(export)
+
+def main():
+    global verboseActive
+    verboseActive = True
+    setFiles(sys.argv[1], sys.argv[2], sys.argv[3])
+
+if __name__ =='__main__':main()
