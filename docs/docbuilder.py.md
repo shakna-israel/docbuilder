@@ -146,7 +146,7 @@ except IndexError:
 Instantiate the string variable, which is used by Docbuilder to read and write files.
 
 ```
-string = "Unset"
+stringUnstripped = "Unset"
 ```
 
 ```
@@ -178,25 +178,25 @@ if not os.path.exists(DIRECTORY):
 Open the file we're building documentation from in read-only mode, so we can't kill it.
 
 ```
-infile = open(FILE, "r")
+inFile = open(FILE, "r")
 ```
 
 Open the file we're building documentation into, in write mode. Create it if it doesn't exist. (Which would happen if we clobbered it).
 
 ```
-outfile = open(EXPORT, "w+")
+outFile = open(EXPORT, "w+")
 ```
 
 Read the file, that we're building from, into memory.
 
 ```
-for line in infile.read().split('\n'):
+for lineRead in inFile.read().split('\n'):
 ```
 
 For each line found in the file, assign it to the string variable.
 
 ```
-    string = line
+    stringUnstripped = lineRead
 ```
 
 Strip whitespace, because indentation can break Markdown from working.
@@ -204,13 +204,13 @@ Strip whitespace, because indentation can break Markdown from working.
 We assign this to a seperate variable, so code doesn't have it's identation stolen.
 
 ```
-    stringStripped = string.strip()
+    stringStripped = stringUnstripped.strip()
 ```
 
 Assign the variable *char* to the first character in string. So we can tell if it's a comment, and should be seen as valid Markdown, or if it's not, should be fenced in a code block.
 
 ```
-    char = stringStripped[:1]
+    firstChar = stringStripped[:1]
 ```
 
 Test to make unicode literals work on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
@@ -220,7 +220,7 @@ Test to make unicode literals work on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
 ```
 
 ```
-        compare_char = unichr(35)
+        compareChar = unichr(35)
 ```
 
 ```
@@ -228,19 +228,19 @@ Test to make unicode literals work on Python 2.x-3.x (Especially 3.0, 3.1, 3.2)
 ```
 
 ```
-        compare_char = chr(35)
+        compareChar = chr(35)
 ```
 
 Check if the first character is a *#* to see if it is a comment, and should be markdown.
 
 ```
-    if char == compare_char:
+    if firstChar == compareChar:
 ```
 
 Strip the whitespace. So if there is an ident between comment beginning, and Markdown, it isn't a problem.
 
 ```
-        stringStripped = string.strip()
+        stringStripped = stringUnstripped.strip()
 ```
 
 Remove the first letter, and strip the whitespace.
@@ -252,15 +252,15 @@ Remove the first letter, and strip the whitespace.
 Push every string onto it's own line.
 
 ```
-        outfile.write("\n")
+        outFile.write("\n")
 ```
 
 ```
-        outfile.write(stringStripped)
+        outFile.write(stringStripped)
 ```
 
 ```
-        outfile.write("\n")
+        outFile.write("\n")
 ```
 
 If the first character isn't a *#*, turn it into a codeblock.
@@ -272,57 +272,57 @@ If the first character isn't a *#*, turn it into a codeblock.
 Make sure we aren't just looking at a blank line.
 
 ```
-        if string != "":
+        if stringUnstripped != "":
 ```
 
 Push it onto it's own line.
 
 ```
-            outfile.write("\n")
+            outFile.write("\n")
 ```
 
 Open the codeblock fence.
 
 ```
-            outfile.write("```")
+            outFile.write("```")
 ```
 
 Due to Markdown, make it a block by inserting EOLs before and after the string.
 
 ```
-            outfile.write("\n")
+            outFile.write("\n")
 ```
 
 Insert the code
 
 ```
-            outfile.write(string)
+            outFile.write(stringUnstripped)
 ```
 
 ```
-            outfile.write("\n")
+            outFile.write("\n")
 ```
 
 Close the codeblock fence.
 
 ```
-            outfile.write("```")
+            outFile.write("```")
 ```
 
 Make sure there's a gap, so Markdown plays nice.
 
 ```
-            outfile.write("\n")
+            outFile.write("\n")
 ```
 
 Close out the file we're reading, to make sure we aren't leaving it locked.
 
 ```
-infile.close()
+inFile.close()
 ```
 
 Close out the file we wrote, to make sure we aren't leaving it locked.
 
 ```
-outfile.close()
+outFile.close()
 ```
