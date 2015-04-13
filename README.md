@@ -24,5 +24,3 @@ Currently, the supported versions of Python are: [![Python Versions](https://img
 [![Codeship](https://codeship.com/projects/320ce4c0-c272-0132-53d4-36229af8a5d4/status?branch=master)](https://codeship.com/projects/73757)
 
 [![Code Health](https://landscape.io/github/shakna-israel/docbuilder/master/landscape.svg?style=flat)](https://landscape.io/github/shakna-israel/docbuilder/master)
-
-[![Stories in Ready](https://badge.waffle.io/shakna-israel/docbuilder.svg?label=ready&title=Ready)](http://waffle.io/shakna-israel/docbuilder)
