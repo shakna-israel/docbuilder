@@ -94,26 +94,26 @@ for lineRead in inFile.read().split('\n'):
         # Remove the first letter, and strip the whitespace.
         stringStripped = stringStripped[1:].strip()
         # Push every string onto it's own line.
-        outfile.write("\n")
-        outfile.write(stringStripped)
-        outfile.write("\n")
+        outFile.write("\n")
+        outFile.write(stringStripped)
+        outFile.write("\n")
     # If the first character isn't a *#*, turn it into a codeblock.
     else:
         # Make sure we aren't just looking at a blank line.
         if string != "":
             # Push it onto it's own line.
-            outfile.write("\n")
+            outFile.write("\n")
             # Open the codeblock fence.
-            outfile.write("```")
+            outFile.write("```")
             # Due to Markdown, make it a block by inserting EOLs before and after the string.
-            outfile.write("\n")
+            outFile.write("\n")
             # Insert the code
-            outfile.write(stringUnstripped)
-            outfile.write("\n")
+            outFile.write(stringUnstripped)
+            outFile.write("\n")
             # Close the codeblock fence.
-            outfile.write("```")
+            outFile.write("```")
             # Make sure there's a gap, so Markdown plays nice.
-            outfile.write("\n")
+            outFile.write("\n")
 
 # Close out the file we're reading, to make sure we aren't leaving it locked.
 inFile.close()
