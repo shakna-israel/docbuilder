@@ -26,6 +26,10 @@ import sys
 global verboseActive
 # By default, keep Docbuilder quiet.
 verboseActive = False
+# *For Developers:*
+# Adding a global variable is one way to make sure your pull request won't be accepted.
+# That being said, if you can explain the need well enough, ... Maybe.
+
 
 def fileReadFrom(thisFile):
     global FILE
@@ -108,5 +112,6 @@ def readFile(inputFile, outputFile):
 def main():
     global verboseActive
     verboseActive = True
+    
 
 if __name__ =='__main__':main()
