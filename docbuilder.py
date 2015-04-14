@@ -72,6 +72,7 @@ def codeblockWrite(stringLine, fileToWrite):
     outFile.close()
 
 def readFile(inputFile, outputFile):
+    outFile = getFlags()[1]
     inFile = open(inputFile, "r")
     for lineRead in inFile.read().split("\n"):
         stringUnstripped = stringManage(lineRead)[0]
