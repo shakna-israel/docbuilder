@@ -58,14 +58,14 @@ def unicodeCompareChar(uniCode):
     return compareChar
 
 def markdownWrite(stringLine, fileToWrite):
-    outFile = open(FileToWrite, "w+")
+    outFile = open(fileToWrite, "w+")
     outFile.write("\n")
     outFile.write(stringLine)
     outFile.write("\n")
     outFile.close()
 
 def codeblockWrite(stringLine, fileToWrite):
-    outFile = open(FileToWrite, "w+")
+    outFile = open(fileToWrite, "w+")
     outFile.write("\n```\n")
     outFile.write(input)
     outFile.write("\n```\n")
