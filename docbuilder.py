@@ -107,8 +107,8 @@ def getFlags():
 def main():
     global verboseActive
     verboseActive = True
-    inFile = getFlags()[1]
-    outFile = getFlags()[2]
+    inFile = getFlags()[0]
+    outFile = getFlags()[1]
     readFile(inFile, outFile)
     
 if __name__ =='__main__':main()
