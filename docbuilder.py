@@ -11,7 +11,7 @@
 # * Impressive compatibility. It doesn't really matter what version of Python you are running. Docbuilder will run.
 
 # # Notes:
-# * Docbuilder will not ask before clobbering your output file. It may even kill the entire directory.
+# * Docbuilder will not ask before clobbering your output file.
 # * Docbuilder has no dependencies.
 # * Docbuilder simply converts your comments and code into Markdown.
 # * Docbuilder builds Markdown, and is mostly compatible with whatever [Python Markdown](https://pythonhosted.org/Markdown/) can read. But just in case, check the [Issues](https://github.com/shakna-israel/docbuilder/issues).
@@ -43,21 +43,13 @@ global outFile
 
 def fileReadFrom(input):
     global FILE
-    try:
-        FILE = input
-    except IndexError:
-        if verboseActive:
-            print("No file provided to build documentation for.\nBuilding Docbuilder documentation.")
-        FILE = "docbuilder.py"
+    checkExportFile(input)
+    FILE = input
 
 def directoryWriteTo(dir):
     global DIRECTORY
-    try:
-        DIRECTORY = dir + "/"
-    except IndexError:
-        if verboseActive:
-            print("No directory provided to build documentation into.\nBuilding into 'docs' directory.")
-        DIRECTORY = "docs/"
+    checkExportDir(dir)
+    DIRECTORY = dir + "/"
 
 def fileWriteTo(input):
     global EXPORT
@@ -124,16 +116,29 @@ def readFile(input, output):
     inFile.close()
     outFile.close()
 
-def setFiles(input, export, directory):
-    checkExportFile(export)
-    checkExportDir(directory)
-    fileReadFrom(input)
-    directoryWriteTo(directory)
-    fileWriteTo(export)
-
 def main():
     global verboseActive
+    global FILE
+    global DIRECTORY
     verboseActive = True
-    setFiles(sys.argv[1], sys.argv[2], sys.argv[3])
+    try:
+        readFile = fileReadFrom(sys.argv[1])
+    except IndexError:
+        if verboseActive:
+            print("No file specified. Building documentation for Docbuilder")
+        readFile = fileReadFrom("docbuilder.py")
+    try:
+        directoryWriteTo(sys.argv[3])
+    except:
+        if verboseActive:
+            print("No output directory specified. Using 'docs' directory.")
+        directoryWriteTo("docs")
+    try:
+        fileWriteTo(sys.argv[2])
+    except IndexError:
+        fileWriteTo(DIRECTORY + FILE + ".md")
+        if verboseActive:
+            print("No output file specified. Guessing..." + DIRECTORY + FILE + ".md")
+    readFile(fileReadFrom("docbuilder.py"), fileWriteTo("docs"))
 
 if __name__ =='__main__':main()
