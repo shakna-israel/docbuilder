@@ -21,6 +21,12 @@
 import os
 import sys
 
+# # Global Variables:
+# The *verboseActive* variable is used to make Docbuilder speak louder.
+global verboseActive
+# By default, keep Docbuilder quiet.
+verboseActive = False
+
 def fileReadFrom(thisFile):
     global FILE
     checkExportFile(thisFile)
@@ -101,27 +107,6 @@ def readFile(inputFile, outputFile):
 
 def main():
     global verboseActive
-    global FILE
-    global DIRECTORY
     verboseActive = True
-    try:
-        readFile = fileReadFrom(sys.argv[1])
-    except IndexError:
-        if verboseActive:
-            print("No file specified. Building documentation for Docbuilder")
-        readFile = fileReadFrom("docbuilder.py")
-    try:
-        directoryWriteTo(sys.argv[3])
-    except:
-        if verboseActive:
-            print("No output directory specified. Using 'docs' directory.")
-        directoryWriteTo("docs")
-    try:
-        fileWriteTo(sys.argv[2])
-    except IndexError:
-        fileWriteTo(DIRECTORY + FILE + ".md")
-        if verboseActive:
-            print("No output file specified. Guessing..." + DIRECTORY + FILE + ".md")
-    readFile(fileReadFrom("docbuilder.py"), fileWriteTo("docs"))
 
 if __name__ =='__main__':main()
