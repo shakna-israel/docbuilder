@@ -73,7 +73,6 @@ def codeblockWrite(stringLine, fileToWrite):
 
 def readFile(inputFile, outputFile):
     inFile = open(inputFile, "r")
-    outFile = open(outputFile, "w+")
     for lineRead in inFile.read().split("\n"):
         stringUnstripped = stringManage(lineRead)[0]
         stringStripped = stringManage(lineRead)[1]
@@ -85,7 +84,6 @@ def readFile(inputFile, outputFile):
             if stringUnstripped != "":
                 codeblockWrite(stringUnstripped, outFile)
     inFile.close()
-    outFile.close()
 
 def getFlags():
     try:
