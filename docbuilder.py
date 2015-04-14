@@ -80,10 +80,10 @@ def readFile(inputFile, outputFile):
         firstChar = stringManage(lineRead)[2]
         compareChar = unicodeCompareChar(35)
         if firstChar == compareChar:
-            markdownWrite(stringStripped)
+            markdownWrite(stringStripped, outFile)
         else:
             if stringUnstripped != "":
-                codeblockWrite(stringUnstripped)
+                codeblockWrite(stringUnstripped, outFile)
     inFile.close()
     outFile.close()
 
