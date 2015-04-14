@@ -21,50 +21,29 @@
 import os
 import sys
 
-# # Global Variables:
-# *FILE* is used to tell Docbuilder what file to build documentation for.
-global FILE
-# *DIRECTORY* is used to tell Docbuilder where to build documentation to.
-global DIRECTORY
-# *EXPORT* is used to tell DOcbuilder what file to build documentation into.
-global EXPORT
-# *verboseActive* is used to tell Docbuilder to say more on the commandline. A lot more.
-global verboseActive
-# *stringUnstripped* is used to tell Docbuilder what the current line of the file being processed looks like.
-global stringUnstripped
-# *stringStripped* tells Docbuilder what the current line of the file being process looks like without whitespace.
-global stringStripped
-# *firstChar* tell Docbuilder what the first character of the current line of the file being processed looks like.
-global firstChar
-# *compareChar* is a unicode symbol for the hash symbol, to prevent Python breaking Docbuilder's code.
-global compareChar
-# *outFile* tells Docbuilder what memory object is the file it is writing to.
-global outFile
-
-def fileReadFrom(input):
+def fileReadFrom(thisFile):
     global FILE
-    checkExportFile(input)
-    FILE = input
+    checkExportFile(thisFile)
+    FILE = thisFile
+    return FILE
 
 def directoryWriteTo(dir):
     global DIRECTORY
     checkExportDir(dir)
     DIRECTORY = dir + "/"
+    return DIRECTORY
 
-def fileWriteTo(input):
-    global EXPORT
+def fileWriteTo(thatFile):
     try:
-        EXPORT = DIRECTORY + "/" + input
+        EXPORT = DIRECTORY + "/" + thatFile
     except IndexError:
         EXPORT = DIRECTORY + FILE + ".md"
         if verboseActive:
             print("No output file provided, guessing... " + EXPORT)
+    return EXPORT
 
-def stringManage(line):
-    global stringUnstripped
-    global stringStripped
-    global firstChar
-    stringUnstripped = line
+def stringManage(lineInFile):
+    stringUnstripped = lineInFile
     if verboseActive:
         print("The current unstripped line is... " + stringUnstripped)
     stringStripped = stringUnstripped.strip()
@@ -73,41 +52,45 @@ def stringManage(line):
     firstChar = stringStripped[:1]
     if verboseActive:
         print("The first character of the current line is..." + firstChar)
+    return (stringUnstripped, stringStripped, firstChar)
 
-def checkExportFile(input):
-    if os.path.isfile(input):
-        os.remove(input)
+def checkExportFile(fileExists):
+    if os.path.isfile(fileExists):
+        os.remove(fileExists)
 
-def checkExportDir(input):
-    if not os.path.exists(input):
-        os.makedirs(input)
+def checkExportDir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
 
-def unicodeCompareChar(input):
-    global compareChar
+def unicodeCompareChar(uniCode):
     try:
-        compareChar = unichr(input)
+        compareChar = unichr(uniCode)
     except NameError:
-        compareChar = chr(input)
+        compareChar = chr(uniCode)
+    return compareChar
 
-def markdownWrite(input):
-    global outFile
+def markdownWrite(stringLine, fileToWrite):
+    outFile = open(FileToWrite, "w+")
     outFile.write("\n")
-    outFile.write(input)
+    outFile.write(stringLine)
     outFile.write("\n")
+    outFile.close()
 
-def codeblockWrite(input):
-    global outFile
+def codeblockWrite(stringLine, fileToWrite):
+    outFile = open(FileToWrite, "w+")
     outFile.write("\n```\n")
     outFile.write(input)
     outFile.write("\n```\n")
+    outFile.close()
 
-def readFile(input, output):
-    global outFile
-    inFile = open(input, "r")
-    outFile = open(output, "w+")
+def readFile(inputFile, outputFile):
+    inFile = open(inputFile, "r")
+    outFile = open(outputFile, "w+")
     for lineRead in inFile.read().split("\n"):
-        stringManage(input)
-        unicodeCompareChar(35)
+        stringUnstripped = stringManage(lineRead)[0]
+        stringStripped = stringManage(lineRead)[1]
+        firstChar = stringManage(lineRead)[2]
+        compareChar = unicodeCompareChar(35)
         if firstChar == compareChar:
             markdownWrite(stringStripped)
         else:
