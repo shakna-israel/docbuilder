@@ -30,7 +30,6 @@ verboseActive = False
 # Adding a global variable is one way to make sure your pull request won't be accepted.
 # That being said, if you can explain the need well enough, ... Maybe.
 
-
 def stringManage(lineInFile):
     stringUnstripped = lineInFile
     if verboseActive:
@@ -107,6 +106,8 @@ def getFlags():
 def main():
     global verboseActive
     verboseActive = True
+    inFile = getFlags()[1]
+    outFile = getFlags()[2]
+    readFile(inFile, outFile)
     
-
 if __name__ =='__main__':main()
