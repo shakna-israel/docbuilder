@@ -93,9 +93,9 @@ def getFlags():
     except IndexError:
         inFile = "docbuilder.py"
     try:
-        outDir = sys.argv[3]
+        outDir = sys.argv[3] + "/"
     except IndexError:
-        outDir = "docs"
+        outDir = "docs/"
     checkExportDir(outDir)
     try:
         outFile = sys.argv[2]
