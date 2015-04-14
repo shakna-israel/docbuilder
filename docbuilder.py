@@ -67,7 +67,7 @@ def markdownWrite(stringLine, fileToWrite):
 def codeblockWrite(stringLine, fileToWrite):
     outFile = open(fileToWrite, "w+")
     outFile.write("\n```\n")
-    outFile.write(input)
+    outFile.write(stringLine)
     outFile.write("\n```\n")
     outFile.close()
 
