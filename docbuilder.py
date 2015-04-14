@@ -31,27 +31,6 @@ verboseActive = False
 # That being said, if you can explain the need well enough, ... Maybe.
 
 
-def fileReadFrom(thisFile):
-    global FILE
-    checkExportFile(thisFile)
-    FILE = thisFile
-    return FILE
-
-def directoryWriteTo(dir):
-    global DIRECTORY
-    checkExportDir(dir)
-    DIRECTORY = dir + "/"
-    return DIRECTORY
-
-def fileWriteTo(thatFile):
-    try:
-        EXPORT = DIRECTORY + "/" + thatFile
-    except IndexError:
-        EXPORT = DIRECTORY + FILE + ".md"
-        if verboseActive:
-            print("No output file provided, guessing... " + EXPORT)
-    return EXPORT
-
 def stringManage(lineInFile):
     stringUnstripped = lineInFile
     if verboseActive:
@@ -108,6 +87,22 @@ def readFile(inputFile, outputFile):
                 codeblockWrite(stringUnstripped)
     inFile.close()
     outFile.close()
+
+def getFlags():
+    try:
+        inFile = sys.argv[1]
+    except IndexError:
+        inFile = "docbuilder.py"
+    try:
+        outDir = sys.argv[3]
+    except IndexError:
+        outDir = "docs"
+    checkExportDir(outDir)
+    try:
+        outFile = sys.argv[2]
+    except IndexError:
+        outFile = outDir + inFile + ".md"
+    checkExportFile(outFile)
 
 def main():
     global verboseActive
