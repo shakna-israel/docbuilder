@@ -102,6 +102,7 @@ def getFlags():
     except IndexError:
         outFile = outDir + inFile + ".md"
     checkExportFile(outFile)
+    return (inFile, outFile, outDir)
 
 def main():
     global verboseActive
