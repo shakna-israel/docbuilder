@@ -21,16 +21,8 @@
 import os
 import sys
 
-# # Global Variables:
-# The *verboseActive* variable is used to make Docbuilder speak louder.
-global verboseActive
-# By default, keep Docbuilder quiet.
-verboseActive = False
-# *For Developers:*
-# Adding a global variable is one way to make sure your pull request won't be accepted.
-# That being said, if you can explain the need well enough, ... Maybe.
-
 def stringManage(lineInFile):
+    global verboseActive
     stringUnstripped = lineInFile
     if verboseActive:
         print("The current unstripped line is... " + stringUnstripped)
@@ -102,7 +94,7 @@ def getFlags():
         outDir = "docs/"
     checkExportDir(outDir)
     try:
-        outFile = sys.argv[2]
+        outFile = outDir + sys.argv[2]
     except IndexError:
         outFile = outDir + inFile + ".md"
     checkExportFile(outFile)
@@ -110,7 +102,7 @@ def getFlags():
 
 def main():
     global verboseActive
-    verboseActive = True
+    verboseActive = False
     inFile = getFlags()[0]
     outFile = getFlags()[1]
     readFile(inFile, outFile)
