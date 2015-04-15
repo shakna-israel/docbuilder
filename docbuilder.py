@@ -78,7 +78,7 @@ def initFileOut(outFile):
     initFile.close()
 
     
-def readFile(inputFile, outputFile):
+def readFile(inputFile):
     outFile = getFlags()[1]
     inFile = open(inputFile, "r")
     initFileOut(outFile)
@@ -117,8 +117,7 @@ def main():
     global verboseActive
     verboseActive = False
     inFile = getFlags()[0]
-    outFile = getFlags()[1]
-    readFile(inFile, outFile)
+    readFile(inFile)
     
     
 if __name__ == '__main__':
