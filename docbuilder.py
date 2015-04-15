@@ -21,6 +21,7 @@
 import os
 import sys
 
+
 def stringManage(lineInFile):
     global verboseActive
     stringUnstripped = lineInFile
@@ -37,20 +38,24 @@ def stringManage(lineInFile):
         print("After first character stripping, the current unstripped line is..." + stringStripped)
     return (stringUnstripped, stringStripped, firstChar)
 
+
 def checkExportFile(fileExists):
     if os.path.isfile(fileExists):
         os.remove(fileExists)
 
+        
 def checkExportDir(dir):
     if not os.path.exists(dir):
         os.makedirs(dir)
 
+        
 def unicodeCompareChar(uniCode):
     try:
         compareChar = unichr(uniCode)
     except NameError:
         compareChar = chr(uniCode)
     return compareChar
+
 
 def markdownWrite(stringLine, fileToWrite):
     outFile = open(fileToWrite, "a")
@@ -59,6 +64,7 @@ def markdownWrite(stringLine, fileToWrite):
     outFile.write("\n")
     outFile.close()
 
+    
 def codeblockWrite(stringLine, fileToWrite):
     outFile = open(fileToWrite, "a")
     outFile.write("\n```\n")
@@ -66,10 +72,12 @@ def codeblockWrite(stringLine, fileToWrite):
     outFile.write("\n```\n")
     outFile.close()
 
+    
 def initFileOut(outFile):
     initFile = open(outFile, "w+")
     initFile.close()
 
+    
 def readFile(inputFile, outputFile):
     outFile = getFlags()[1]
     inFile = open(inputFile, "r")
@@ -86,6 +94,7 @@ def readFile(inputFile, outputFile):
                 codeblockWrite(stringUnstripped, outFile)
     inFile.close()
 
+    
 def getFlags():
     try:
         inFile = sys.argv[1]
@@ -103,6 +112,7 @@ def getFlags():
     checkExportFile(outFile)
     return (inFile, outFile, outDir)
 
+
 def main():
     global verboseActive
     verboseActive = False
@@ -110,4 +120,6 @@ def main():
     outFile = getFlags()[1]
     readFile(inFile, outFile)
     
-if __name__ =='__main__':main()
+    
+if __name__ == '__main__':
+    main()
