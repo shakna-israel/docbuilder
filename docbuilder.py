@@ -27,11 +27,14 @@ def stringManage(lineInFile):
     if verboseActive:
         print("The current unstripped line is... " + stringUnstripped)
     stringStripped = stringUnstripped.strip()
-    if verboseActive:
-        print("The current stripped line is... " + stringStripped)
     firstChar = stringStripped[:1]
     if verboseActive:
         print("The first character of the current line is..." + firstChar)
+    if verboseActive:
+        print("The current stripped line is... " + stringStripped)
+    stringStripped = stringStripped[1:].strip()
+    if verboseActive:
+        print("After first character stripping, the current unstripped line is..." + stringStripped)
     return (stringUnstripped, stringStripped, firstChar)
 
 def checkExportFile(fileExists):
