@@ -44,9 +44,9 @@ def checkExportFile(fileExists):
         os.remove(fileExists)
 
         
-def checkExportDir(dir):
-    if not os.path.exists(dir):
-        os.makedirs(dir)
+def checkExportDir(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
         
 def unicodeCompareChar(uniCode):
