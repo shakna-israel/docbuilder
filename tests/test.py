@@ -103,7 +103,7 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[1] == "# This is a title.\n":
+        if lines[0] == "# This is a title.\n":
             print("Titles compile correctly to Markdown.")
             pass
         else:
@@ -118,7 +118,7 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[3] == "This is a comment.\n":
+        if lines[2] == "This is a comment.\n":
             print("Comments compile correctly to Markdown.")
             pass
         else:
@@ -132,7 +132,7 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[5] == "* This is a bullet point.\n":
+        if lines[4] == "* This is a bullet point.\n":
             print("Bullet points compile correctly to Markdown.")
             pass
         else:
@@ -146,7 +146,7 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[7] == "*This* is an italic word.\n":
+        if lines[6] == "*This* is an italic word.\n":
             print("Italics compile correctly to Markdown.")
             pass
         else:
@@ -160,7 +160,7 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[9] == "**This** is a bold word.\n":
+        if lines[8] == "**This** is a bold word.\n":
             print("Bold compiled correctly to Markdown.")
             pass
         else:
@@ -174,13 +174,13 @@ class TestCodeFormat(unittest.TestCase):
         teardown()
         buildup()
         global lines
-        if lines[11] == "***This*** is an italic and bold word.\n":
+        if lines[10] == "***This*** is an italic and bold word.\n":
             print("Both bold and italic compiles correctly to Markdown.")
             pass
         else:
             print("Both bold and italic phrases failed to compile to Markdown.")
             print("Expected: ***This*** is an italic and bold word.\n")
-            print("Received: " + lines[11])
+            print("Received: " + lines[10])
             assert False
     
     def test_markdown_codeblocks(self):
@@ -206,7 +206,7 @@ class TestCodeFormat(unittest.TestCase):
         else:
             print("Code block failed to compile to Markdown.")
             print("Expected: ```\n")
-            print("Received: " + lines[13])
+            print("Received: " + lines[12])
             assert False
 
     def test_markdown_indented_code_block(self):

@@ -25,6 +25,10 @@ import sys
 def stringManage(lineInFile):
     global verboseActive
     stringUnstripped = lineInFile
+    if stringUnstripped[:3] == "#!/":
+        if verboseActive:
+            print("Found hashbang! Ignoring.")
+        stringUnstripped = "hashBang"
     if verboseActive:
         print("The current unstripped line is... " + stringUnstripped)
     stringStripped = stringUnstripped.strip()
@@ -59,18 +63,15 @@ def unicodeCompareChar(uniCode):
 
 def markdownWrite(stringLine, fileToWrite):
     outFile = open(fileToWrite, "a")
-    outFile.write("\n")
-    outFile.write(stringLine)
-    outFile.write("\n")
+    outFile.write(stringLine + "\n\n")
     outFile.close()
 
     
 def codeblockWrite(stringLine, fileToWrite):
-    outFile = open(fileToWrite, "a")
-    outFile.write("\n```\n")
-    outFile.write(stringLine)
-    outFile.write("\n```\n")
-    outFile.close()
+    if stringLine != "hashBang":
+        outFile = open(fileToWrite, "a")
+        outFile.write("\n```\n" + stringLine + "\n```\n")
+        outFile.close()
 
     
 def initFileOut(outFile):
@@ -88,7 +89,8 @@ def readFile(inputFile):
         firstChar = stringManage(lineRead)[2]
         compareChar = unicodeCompareChar(35)
         if firstChar == compareChar:
-            markdownWrite(stringStripped, outFile)
+            if stringUnstripped != "hashBang":
+                markdownWrite(stringStripped, outFile)
         else:
             if stringUnstripped != "":
                 codeblockWrite(stringUnstripped, outFile)
