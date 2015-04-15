@@ -63,18 +63,14 @@ def unicodeCompareChar(uniCode):
 
 def markdownWrite(stringLine, fileToWrite):
     outFile = open(fileToWrite, "a")
-    outFile.write("\n")
-    outFile.write(stringLine)
-    outFile.write("\n")
+    outFile.write(stringLine + "\n\n")
     outFile.close()
 
     
 def codeblockWrite(stringLine, fileToWrite):
     if stringLine != "hashBang":
         outFile = open(fileToWrite, "a")
-        outFile.write("\n```\n")
-        outFile.write(stringLine)
-        outFile.write("\n```\n")
+        outFile.write("\n```\n" + stringLine + "\n```\n")
         outFile.close()
 
     
