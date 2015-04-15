@@ -19,5 +19,3 @@ Docbuilder has a few development dependencies, these can be installed with:
 ```
 pip install -r tests/dev-requirements.txt
 ```
-
-If you plan on running tests, as you should for development, then you will want to remove the ```docs``` directory.
