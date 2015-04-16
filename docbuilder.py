@@ -98,23 +98,29 @@ def readFile(inputFile):
 
     
 def getFlags():
+    dirSet = False
+    outDir = ""
+    for flag in sys.argv:
+        if dirSet:
+            outDir = flag
+        if flag == "-d":
+            dirSet = True
     try:
         inFile = sys.argv[1]
     except IndexError:
         inFile = "docbuilder.py"
-    try:
-        outDir = sys.argv[3] + "/"
-    except IndexError:
-        outDir = "docs/"
+    if outDir == "":
+        try:
+            outDir = sys.argv[3] + "/"
+        except IndexError:
+            outDir = "docs/"
     checkExportDir(outDir)
     try:
         outFile = outDir + sys.argv[2]
     except IndexError:
         outFile = outDir + inFile + ".md"
     checkExportFile(outFile)
-    for flag in sys.argv:
-        if flag == "-d":
-            #Set a variable read on the next loop through?
+    
     return (inFile, outFile, outDir)
 
 
