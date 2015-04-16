@@ -112,6 +112,7 @@ def getFlags():
     if outDir == "":
         try:
             outDir = sys.argv[3] + "/"
+            print("This usage is deprecated and will be removed in 1.0... Use the -d flag.")
         except IndexError:
             outDir = "docs/"
     checkExportDir(outDir)

@@ -26,7 +26,7 @@ def buildup():
     file = open("testme.py", "w+")
     file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n print('This should be in a code block.')\n    print('This is an indented code block.')")
     file.close()
-    subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
+    subprocess.call("python docbuilder.py testme.py testme.md -d testdocs", shell=True)
     testfile=open('testdocs/testme.md')
     global lines
     lines = testfile.readlines()
