@@ -112,6 +112,9 @@ def getFlags():
     except IndexError:
         outFile = outDir + inFile + ".md"
     checkExportFile(outFile)
+    for flag in sys.argv:
+        if flag == "-d":
+            #Set a variable read on the next loop through?
     return (inFile, outFile, outDir)
 
 
