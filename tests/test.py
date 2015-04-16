@@ -98,6 +98,19 @@ class TestCodeFormat(unittest.TestCase):
             print("Docbuilder failed to create a custom directory.")
             assert False
             
+    def test_custom_directory_flag(self):
+        """Test that Docbuilder can make custom coumentation directories when using the -d flag"""
+        # Remove artefacts from previous tests.
+        teardown()
+        # This subprocess calls docbuilder.
+        subprocess.call("python docbuilder.py docbuilder.py docbuilder.py.md -d documents", shell=True)
+        if os.path.isfile("documents/docbuilder.py.md"):
+            print("Docbuilder successfully read the -d flag.")
+            pass
+        else:
+            print("Docbuilder failed to create a custom directory based on the -d flag.")
+            assert False
+            
     def test_markdown_titles(self):
         """Test that titles appear correctly when compiled to Markdown."""
         teardown()

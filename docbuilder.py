@@ -102,7 +102,7 @@ def getFlags():
     outDir = ""
     for flag in sys.argv:
         if dirSet:
-            outDir = flag
+            outDir = flag + "/"
         if flag == "-d":
             dirSet = True
     try:
