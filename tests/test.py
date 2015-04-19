@@ -111,6 +111,19 @@ class TestCodeFormat(unittest.TestCase):
             print("Docbuilder failed to create a custom directory based on the -d flag.")
             assert False
             
+    def test_relative_path_input(self):
+        """Test that Docbuilder will build correctly when given a nested folder input."""
+        # Remove artefacts from previous tests.
+        teardown()
+        # This subprocess calls docbuilder.
+        subprocess.call("python docbuilder.py examples/helloworld.pylit helloworld.md -d documents", shell=True)
+        if os.path.isfile("documents/helloworld.md"):
+            print("Docbuilder successfully built from a relative path.")
+            pass
+        else:
+            print("Docbuilder failed to build from a relative path.")
+            assert False
+            
     def test_markdown_titles(self):
         """Test that titles appear correctly when compiled to Markdown."""
         teardown()
