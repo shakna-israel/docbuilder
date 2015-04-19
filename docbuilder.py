@@ -107,8 +107,12 @@ def getFlags():
         if flag == "-d":
             dirSet = True
     try:
-        for splitRead in sys.argv[1].split("/"):
-            outName = splitRead
+        if os.name == "nt":
+            for splitRead in sys.argv[1].split(r'"\"'):
+                outName = splitRead
+        else:
+            for splitRead in sys.argv[1].split("/"):
+                outName = splitRead
         inFile = sys.argv[1]
     except IndexError:
         inFile = "docbuilder.py"
