@@ -63,30 +63,10 @@ def checkExportFile(fileExists):
         os.remove(fileExists)
 
 # # Check Export Directory
-# This is a function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
+# This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
 def checkExportDir(directory):
-    # To allow for longer paths, we need to check if directories are expected to have ```/``` or ```\``` between them.
-    if os.name == "nt":
-        slashMarker = r'"\"'
-    else:
-        slashMarker = "/"
-    # If this a simple directory, and not a path, just check if it exists and make it if it doesn't.
-    if slashMarker not in directory:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        # Otherwise, let's do a fancy loop to check that all the directories given exist, and if not, make them.
-        else:
-            previousDirectory = ""
-            for lineRead in directory.split(slashMarker):
-                if "." not in lineRead:
-                    if previousDirectory == "":
-                        if not os.path.exists(lineRead):
-                            os.makedirs(lineRead)
-                        previousDirectory = lineRead
-                    else:
-                        if not os.path.exists(previousDirectory + slashMarker + lineRead):
-                            os.makedirs(previousDirectory + slashMarker + lineRead)
-                        previousDirectory = previousDirectory + slashMarker + lineRead
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 # # Unicode Compare Character
 # This is a function that only exists due to the unicode differences between Python 2.8, 3.0, and 3.3.
