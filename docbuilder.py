@@ -112,6 +112,7 @@ def getFlags():
         inFile = sys.argv[1]
     except IndexError:
         inFile = "docbuilder.py"
+        outName = "docbuilder.py"
     if outDir == "":
         try:
             outDir = sys.argv[3] + "/"
