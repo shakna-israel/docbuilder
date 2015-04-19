@@ -78,14 +78,15 @@ def checkExportDir(directory):
         else:
             previousDirectory = ""
             for lineRead in directory.split(slashMarker):
-                if previousDirectory == "":
-                    if not os.path.exists(lineRead):
-                        os.makedirs(lineRead)
-                    previousDirectory = lineRead
-                else:
-                    if not os.path.exists(previousDirectory + slashMarker + lineRead):
-                        os.makedirs(previousDirectory + slashMarker + lineRead)
-                    previousDirectory = previousDirectory + slashMarker + lineRead
+                if "." not in lineRead:
+                    if previousDirectory == "":
+                        if not os.path.exists(lineRead):
+                            os.makedirs(lineRead)
+                        previousDirectory = lineRead
+                    else:
+                        if not os.path.exists(previousDirectory + slashMarker + lineRead):
+                            os.makedirs(previousDirectory + slashMarker + lineRead)
+                        previousDirectory = previousDirectory + slashMarker + lineRead
 
 # # Unicode Compare Character
 # This is a function that only exists due to the unicode differences between Python 2.8, 3.0, and 3.3.
