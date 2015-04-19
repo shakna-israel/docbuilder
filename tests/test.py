@@ -87,6 +87,16 @@ class TestCodeFormat(unittest.TestCase):
             print("Docbuilder failed to build correctly when given both a from filename and a to filename.")
             assert False
             
+    def test_from_absolute_path(self):
+        """Test to test Docbuilder behaves when given a file from an absolute path."""
+        # Not yet implemented.
+        pass
+    
+    def test_to_absolute_path(self):
+        """Test to test Docbuilder behaves when writing to an absolute path."""
+        # Not yet implemented.
+        pass
+            
     def test_custom_directories(self):
         """Test that Docbuilder can make custom documentation directories"""
         # Remove artefacts from previous tests.
