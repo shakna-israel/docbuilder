@@ -18,6 +18,8 @@ def teardown():
         os.remove("docs/docbuilder.md")
     if os.path.isfile("documents/docbuilder.py.md"):
         os.remove("documents/docbuilder.py.md")
+    if os.path.isfile("documents/helloworld.md"):
+        os.remove("documents/helloworld.md")
     if os.path.exists("documents"):
         os.rmdir("documents")
 
@@ -26,7 +28,7 @@ def buildup():
     file = open("testme.py", "w+")
     file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n print('This should be in a code block.')\n    print('This is an indented code block.')")
     file.close()
-    subprocess.call("python docbuilder.py testme.py testme.md testdocs", shell=True)
+    subprocess.call("python docbuilder.py testme.py testme.md -d testdocs", shell=True)
     testfile=open('testdocs/testme.md')
     global lines
     lines = testfile.readlines()
@@ -85,6 +87,16 @@ class TestCodeFormat(unittest.TestCase):
             print("Docbuilder failed to build correctly when given both a from filename and a to filename.")
             assert False
             
+    def test_from_absolute_path(self):
+        """Test to test Docbuilder behaves when given a file from an absolute path."""
+        # Not yet implemented.
+        pass
+    
+    def test_to_absolute_path(self):
+        """Test to test Docbuilder behaves when writing to an absolute path."""
+        # Not yet implemented.
+        pass
+            
     def test_custom_directories(self):
         """Test that Docbuilder can make custom documentation directories"""
         # Remove artefacts from previous tests.
@@ -96,6 +108,32 @@ class TestCodeFormat(unittest.TestCase):
             pass
         else:
             print("Docbuilder failed to create a custom directory.")
+            assert False
+            
+    def test_custom_directory_flag(self):
+        """Test that Docbuilder can make custom coumentation directories when using the -d flag"""
+        # Remove artefacts from previous tests.
+        teardown()
+        # This subprocess calls docbuilder.
+        subprocess.call("python docbuilder.py docbuilder.py docbuilder.py.md -d documents", shell=True)
+        if os.path.isfile("documents/docbuilder.py.md"):
+            print("Docbuilder successfully read the -d flag.")
+            pass
+        else:
+            print("Docbuilder failed to create a custom directory based on the -d flag.")
+            assert False
+            
+    def test_relative_path_input(self):
+        """Test that Docbuilder will build correctly when given a nested folder input."""
+        # Remove artefacts from previous tests.
+        teardown()
+        # This subprocess calls docbuilder.
+        subprocess.call("python docbuilder.py examples/helloworld.pylit helloworld.md -d documents", shell=True)
+        if os.path.isfile("documents/helloworld.md"):
+            print("Docbuilder successfully built from a relative path.")
+            pass
+        else:
+            print("Docbuilder failed to build from a relative path.")
             assert False
             
     def test_markdown_titles(self):
