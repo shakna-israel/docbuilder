@@ -100,12 +100,15 @@ def readFile(inputFile):
 def getFlags():
     dirSet = False
     outDir = ""
+    outName = ""
     for flag in sys.argv:
         if dirSet:
             outDir = flag + "/"
         if flag == "-d":
             dirSet = True
     try:
+        for splitRead in sys.argv[1].split("/"):
+            outName = splitRead
         inFile = sys.argv[1]
     except IndexError:
         inFile = "docbuilder.py"
@@ -119,7 +122,7 @@ def getFlags():
     try:
         outFile = outDir + sys.argv[2]
     except IndexError:
-        outFile = outDir + inFile + ".md"
+        outFile = outDir + outName + ".md"
     checkExportFile(outFile)
     
     return (inFile, outFile, outDir)
