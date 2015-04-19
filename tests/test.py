@@ -18,6 +18,8 @@ def teardown():
         os.remove("docs/docbuilder.md")
     if os.path.isfile("documents/docbuilder.py.md"):
         os.remove("documents/docbuilder.py.md")
+    if os.path.isfile("documents/helloworld.md"):
+        os.remove("documents/helloworld.md")
     if os.path.exists("documents"):
         os.rmdir("documents")
 
