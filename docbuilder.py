@@ -125,7 +125,8 @@ def readFile(inputFile):
                 markdownWrite(stringStripped, outFile)
         else:
             # Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
-            if stringUnstripped != "":
+            # The strip() statement is just to ensure there isn't any invisible indentation that might muck us around.
+            if stringUnstripped.strip() != "":
                 codeblockWrite(stringUnstripped, outFile)
     inFile.close()
 
