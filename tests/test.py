@@ -12,14 +12,20 @@ def teardown():
         os.remove("testme.py")
     if os.path.isfile("testdocs/testme.md"):
         os.remove("testdocs/testme.md")
-    if os.path.exists("testdocs"):
-        os.rmdir("testdocs")
     if os.path.isfile("docs/docbuilder.md"):
         os.remove("docs/docbuilder.md")
     if os.path.isfile("documents/helloworld.md"):
         os.remove("documents/helloworld.md")
-    if os.path.exists("documents"):
-        os.rmdir("documents")
+    for root, dirs, files in os.walk("documents", topdown=False):
+        for name in files:
+            os.remove(os.path.join(root, name))
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
+    for root, dirs, files in os.walk("testdocs", topdown=False):
+        for name in files:
+            os.remove(os.path.join(root, name))
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
 
 # A function to test against to check for Markdown syntax:
 def buildup():
