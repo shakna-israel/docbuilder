@@ -11,6 +11,16 @@
 * Docbuilder is used to generate technical documentation. *It isn't reccomended at this stage for User Documentation.*
 * It generates Markdown documents, though it does expect that MKDocs will use it.
 
+## Usage
+
+Check the [Public API](API.md)
+
+Or, if you just want a quickstart:
+
+```
+python docbuilder.py -i mypthonlit.pylit -o mydoc
+```
+
 ## Python Versions
 
 Currently, the supported versions of Python are: [![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12)
