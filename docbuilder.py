@@ -146,7 +146,7 @@ def readFile(inputFile):
         compareChar = unicodeCompareChar(35)
         # If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
         if firstChar == compareChar:
-            if stringUnstripped != "hashBang"
+            if stringUnstripped != "hashBang":
                 if markdownIndent:
                     markdownWrite(stringUnstripped, outFile)
                 else:
