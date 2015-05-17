@@ -135,11 +135,19 @@ def readFile(inputFile):
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
 def getFlags():
+    # Initialise our parser for arguments.
     parser = argparse.ArgumentParser()
+    # Create the parsing for verbose arguments.
     parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
+    # Simplify parsing the arguments.
     cliArgs = parser.parse_args()
+    # If verbose is an argument:
     if cliArgs.verbose:
         verboseActive = True
+    else:
+        # If the user didn't ask for verbose, Docbuilder shouldn't be verbose.
+        verboseActive = False
+    # Return the found values.
     return (inFile, outFile, outDir, verboseActive)
 
 # # Main
