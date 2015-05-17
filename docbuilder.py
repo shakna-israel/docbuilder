@@ -134,19 +134,48 @@ def readFile(inputFile):
 
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
+# It's also where we define the Public API.
+# NOTE: All command-line arguments are *optional*.
 def getFlags():
     # Initialise our parser for arguments.
     parser = argparse.ArgumentParser()
+    # Create the parsing for the input file. (The file to build documentation from).
+    parser.add_argument("-i", "--input", help="The input file. Normally, a *.pylit file.")
+    # Create the parsing for the output file. (The file to build documentation for).
+    parser.add_argument("-o", "--output", help="The output file name, without file extension.")
     # Create the parsing for verbose arguments.
     parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
+    # Create the parsing for the output directory.
+    parser.add_argument("-d", "--directory", help="Set the output directory.")
     # Simplify parsing the arguments.
     cliArgs = parser.parse_args()
-    # If verbose is an argument:
+    # Work out the filepath of the file Docbuilder is building documentation for.
+    if cliArgs.input:
+        inFile = cliArgs.input
+    # If the user didn't specify a file, assume they're build Docbuilder's own documentation.
+    else:
+        inFile = "docbuilder.py"
+    # Set whether verbose is turned on or not:
     if cliArgs.verbose:
         verboseActive = True
+    # If the user didn't ask for verbose, set Docbuilder to not be verbose.
     else:
-        # If the user didn't ask for verbose, Docbuilder shouldn't be verbose.
         verboseActive = False
+    # Set what directory Docbuilder will build to:
+    if cliArgs.directory:
+        outDir = cliArgs.directory + "/"
+        # If the output directory doesn't exist, ask Docbuilder to create it.
+        checkExportDir(outDir)
+    # If the user didn't specify a directory, assume they want the *docs* directory.
+    else:
+        outDir = "docs" + "/"
+    # Set the output file path.
+    if cliArgs.output:
+        outFile = outDir + "/" + cliArgs.output + ".md"
+    else:
+        outFile = outDir + "/docbuilder.md"
+    # If the output file already exists, clobber it.
+    checkExportFile(outFile)
     # Return the found values.
     return (inFile, outFile, outDir, verboseActive)
 
