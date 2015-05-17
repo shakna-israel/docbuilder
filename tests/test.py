@@ -8,14 +8,8 @@ lines = "Not set"
 
 # A function to clean up after each test.
 def teardown():
-    if os.path.isfile("testme.py"):
-        os.remove("testme.py")
-    if os.path.isfile("testdocs/testme.md"):
-        os.remove("testdocs/testme.md")
     if os.path.isfile("docs/docbuilder.md"):
         os.remove("docs/docbuilder.md")
-    if os.path.isfile("documents/helloworld.md"):
-        os.remove("documents/helloworld.md")
     for root, dirs, files in os.walk("documents", topdown=False):
         for name in files:
             os.remove(os.path.join(root, name))
