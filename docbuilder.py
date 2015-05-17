@@ -190,7 +190,7 @@ def getFlags():
     else:
         outFile = outDir + "docbuilder.md"
     # If the output file already exists, clobber it.
-    checkExportFile(outFile)
+    # -> This line was re-running every time getFlags() was called... checkExportFile(outFile)
     # Return the found values.
     return (inFile, outFile, outDir, verboseActive)
 
