@@ -19,7 +19,6 @@
 # # Dependencies:
 # Used to read, write and check files.
 import os
-import sys
 # Used to handle command-line arguments.
 import argparse
 
