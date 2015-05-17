@@ -20,6 +20,8 @@
 # Used to read, write and check files.
 import os
 import sys
+# Used to handle command-line arguments.
+import argparse
 
 # # String Manage:
 # *stringManage* is one of the main functions of Docbuilder.
@@ -133,51 +135,7 @@ def readFile(inputFile):
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
 def getFlags():
-    # *dirSet* is set to false, so that a flag can be read correctly later.
-    dirSet = False
-    # *outDir* and *outName* are set to empty so that flags can be read nicely later.
-    outDir = ""
-    outName = ""
-    # In this for loop, *getFlags* attempts to find any flags given to Docbuilder.
-    for flag in sys.argv:
-        # Here, these two if statements colloborate to find what directory the user is trying to write to.
-        if dirSet:
-            outDir = flag + "/"
-        if flag == "-d":
-            dirSet = True
-    # Here, *getFlags* tries to find what explicit file the user is trying to build documentation for, in a cross-platform way.
-    try:
-        if os.name == "nt":
-            for splitRead in sys.argv[1].split(r'"\"'):
-                outName = splitRead
-        else:
-            for splitRead in sys.argv[1].split("/"):
-                outName = splitRead
-        inFile = sys.argv[1]
-    # Otherwise, docbuilder will assume you are just trying to write it's own documentation.
-    except IndexError:
-        inFile = "docbuilder.py"
-        outName = "docbuilder.py"
-    # This littlestatement is deprecated, but represents the old way Docbuilder determined directories.
-    if outDir == "":
-        try:
-            outDir = sys.argv[3] + "/"
-            print("This usage is deprecated and will be removed in 1.0... Use the -d flag.")
-        except IndexError:
-            outDir = "docs/"
-    # *getFlags* nicely tries to get the documentation directory built.
-    checkExportDir(outDir)
-    # Here, *getFlags* tries to work out what the filename and path of the document it is building should be.
-    try:
-        outFile = outDir + sys.argv[2]
-    except IndexError:
-        # If the user never gave one just try and guess what it is.
-        outFile = outDir + outName + ".md"
-    # *getFlags* then nicely asks that whatever file with the same path that may exist, be removed.
-    checkExportFile(outFile)
-    
-    # *getFlags* then returns the paths for file given by the user, the file Docbuilder is creating, and the directory being created to whatever function called it.
-    return (inFile, outFile, outDir)
+    return (inFile, outFile, outDir, verboseActive)
 
 # # Main
 # This is the main function that sets Docbuilder running.
