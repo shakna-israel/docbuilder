@@ -168,6 +168,8 @@ def getFlags():
     parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
     # Create the parsing for the output directory.
     parser.add_argument("-d", "--directory", help="Set the output directory.")
+    # Create the parsing for Markdown Indentation.
+    parser.add_argument("--indent", help="Indent Markdown", action="store_true")
     # Create the parsing for file clobbering politeness.
     parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
     # Simplify parsing the arguments.
@@ -207,8 +209,12 @@ def getFlags():
         clobberFile = True
     else:
         clobberFile = False
+    if cliArgs.indent:
+        markdownIndent = True
+    else:
+        markdownIndent = False
     # Return the found values.
-    return (inFile, outFile, outDir, verboseActive, clobberFile)
+    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent)
 
 # # Main
 # This is the main function that sets Docbuilder running.
