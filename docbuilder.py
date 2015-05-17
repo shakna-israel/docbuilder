@@ -28,7 +28,7 @@ import argparse
 # It is in this function that each line of the Python Literate program is examined.
 def stringManage(lineInFile):
     # verboseActive checks to see how talkative Docbuilder is expected to be.
-    global verboseActive
+    verboseActive = getFlags()[3]
     # We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
     stringUnstripped = lineInFile
     # We check if the line is a UNIX style *hash bang*, because we don't particularly want to see that in the documentation file.
@@ -135,14 +135,16 @@ def readFile(inputFile):
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
 def getFlags():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
+    cliArgs = parser.parse_args()
+    if cliArgs.verbose:
+        verboseActive = True
     return (inFile, outFile, outDir, verboseActive)
 
 # # Main
 # This is the main function that sets Docbuilder running.
 def main():
-    # Currently, this is where Docbuilder can be told to be talkative, or not.
-    global verboseActive
-    verboseActive = False
     # The *main* function asks *getFlags* what file the user is generating documentation for.
     inFile = getFlags()[0]
     # It then tells *readFile* what file it is building documentation for.
