@@ -36,7 +36,7 @@ def stringManage(lineInFile):
             print("Found hashbang! Ignoring.")
         # By setting *stringUnstripped* to *hashBang* it can be discarded later by another function.
         stringUnstripped = "hashBang"
-    # If Docbuilder is talkative, it will tell the console exactly what theline it is examining looks like.
+    # If Docbuilder is talkative, it will tell the console exactly what the line it is examining looks like.
     if verboseActive:
         print("The current unstripped line is... " + stringUnstripped)
     # We strip the white space around the unmodified string, and name this new variable *stringStripped*.
@@ -187,7 +187,12 @@ def getFlags():
     if cliArgs.output:
         outFile = outDir + cliArgs.output + ".md"
     else:
-        outFile = outDir + "docbuilder.md"
+        # If the user specified an input file, try and magic up a name.
+        if cliArgs.input:
+            outFile = outDir + cliArgs.input + ".md"
+        # If the user didn't specify an input file either, build for Docbuilder.
+        else:
+            outFile = outDir + "docbuilder.md"
     # Return the found values.
     return (inFile, outFile, outDir, verboseActive)
 
