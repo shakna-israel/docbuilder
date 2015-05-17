@@ -84,24 +84,39 @@ def unicodeCompareChar(uniCode):
 # This is a simple function, that is given both a line of Markdown to write, and a file to append to.
 # It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
 def markdownWrite(stringLine, fileToWrite):
+    verboseActive = getFlags()[3]
+    if verboseActive:
+        print("Attempting to open " + fileToWrite + " file to append...")
     outFile = open(fileToWrite, "a")
     outFile.write(stringLine + "\n\n")
+    if verboseActive:
+        print("Closing " + fileToWrite + " file.")
     outFile.close()
 
 # # Codeblock Write
 # This is a function that, when given a line and file to append to, attempts to turn that line into a Markdown codeblock.
 def codeblockWrite(stringLine, fileToWrite):
+    verboseActive = getFlags()[3]
     # Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
     if stringLine != "hashBang":
         # It then proceeds to append to the given file, inside a Markdown codeblock.
+        if verboseActive:
+            print("Attempting to open " + fileToWrite + " file to append...")
         outFile = open(fileToWrite, "a")
         outFile.write("\n```\n" + stringLine + "\n```\n")
+        if verboseActive:
+            print("Closing " + fileToWrite + " file.")
         outFile.close()
 
 # # Initiate File Out
 # This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
 def initFileOut(outFile):
+    verboseActive = getFlags()[3]
+    if verboseActive:
+        print("Attempting to create file... " + outFile + ".")
     initFile = open(outFile, "w+")
+    if verboseActive:
+        print("Closing new file... " + outFile + ".")
     initFile.close()
 
 # # Read File
@@ -171,9 +186,9 @@ def getFlags():
         outDir = "docs" + "/"
     # Set the output file path.
     if cliArgs.output:
-        outFile = outDir + "/" + cliArgs.output + ".md"
+        outFile = outDir + cliArgs.output + ".md"
     else:
-        outFile = outDir + "/docbuilder.md"
+        outFile = outDir + "docbuilder.md"
     # If the output file already exists, clobber it.
     checkExportFile(outFile)
     # Return the found values.
