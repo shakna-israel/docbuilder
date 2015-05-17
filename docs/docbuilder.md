@@ -34,10 +34,6 @@ Used to read, write and check files.
 ```
 import os
 ```
-
-```
-import sys
-```
 Used to handle command-line arguments.
 
 
@@ -556,10 +552,6 @@ Set the output file path.
 ```
         outFile = outDir + "docbuilder.md"
 ```
-If the output file already exists, clobber it.
-
--> This line was re-running every time getFlags() was called... checkExportFile(outFile)
-
 Return the found values.
 
 
@@ -579,6 +571,18 @@ The *main* function asks *getFlags* what file the user is generating documentati
 
 ```
     inFile = getFlags()[0]
+```
+The *main* function asks *getFlags* what file the user is generating documentation to.
+
+
+```
+    outFile = getFlags()[1]
+```
+The main function checks if the output file pre-exists.
+
+
+```
+    checkExportFile(outFile)
 ```
 It then tells *readFile* what file it is building documentation for.
 
