@@ -134,6 +134,8 @@ def readFile(inputFile):
     inFile = open(inputFile, "r")
     # It asks (nicely) that the file being written to be created.
     initFileOut(outFile)
+    # Check if we want Markdown Indented or not
+    markdownIndent = getFlags()[5]
     # It then reads the file it was given, line by line.
     for lineRead in inFile.read().split("\n"):
         # For each line it reads, it asks *stringManage* to deal with.
@@ -144,8 +146,11 @@ def readFile(inputFile):
         compareChar = unicodeCompareChar(35)
         # If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
         if firstChar == compareChar:
-            if stringUnstripped != "hashBang":
-                markdownWrite(stringStripped, outFile)
+            if stringUnstripped != "hashBang"
+                if markdownIndent:
+                    markdownWrite(stringUnstripped, outFile)
+                else:
+                    markdownWrite(stringStripped, outFile)
         else:
             # Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
             # The strip() statement is just to ensure there isn't any invisible indentation that might muck us around.
