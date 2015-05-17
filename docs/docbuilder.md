@@ -34,9 +34,11 @@ Used to read, write and check files.
 ```
 import os
 ```
+Used to handle command-line arguments.
+
 
 ```
-import sys
+import argparse
 ```
 # String Manage:
 
@@ -52,7 +54,7 @@ verboseActive checks to see how talkative Docbuilder is expected to be.
 
 
 ```
-    global verboseActive
+    verboseActive = getFlags()[3]
 ```
 We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
 
@@ -218,11 +220,31 @@ def markdownWrite(stringLine, fileToWrite):
 ```
 
 ```
+    verboseActive = getFlags()[3]
+```
+
+```
+    if verboseActive:
+```
+
+```
+        print("Attempting to open " + fileToWrite + " file to append...")
+```
+
+```
     outFile = open(fileToWrite, "a")
 ```
 
 ```
     outFile.write(stringLine + "\n\n")
+```
+
+```
+    if verboseActive:
+```
+
+```
+        print("Closing " + fileToWrite + " file.")
 ```
 
 ```
@@ -236,6 +258,10 @@ This is a function that, when given a line and file to append to, attempts to tu
 ```
 def codeblockWrite(stringLine, fileToWrite):
 ```
+
+```
+    verboseActive = getFlags()[3]
+```
 Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
 
 
@@ -246,11 +272,27 @@ It then proceeds to append to the given file, inside a Markdown codeblock.
 
 
 ```
+        if verboseActive:
+```
+
+```
+            print("Attempting to open " + fileToWrite + " file to append...")
+```
+
+```
         outFile = open(fileToWrite, "a")
 ```
 
 ```
         outFile.write("\n```\n" + stringLine + "\n```\n")
+```
+
+```
+        if verboseActive:
+```
+
+```
+            print("Closing " + fileToWrite + " file.")
 ```
 
 ```
@@ -266,7 +308,27 @@ def initFileOut(outFile):
 ```
 
 ```
+    verboseActive = getFlags()[3]
+```
+
+```
+    if verboseActive:
+```
+
+```
+        print("Attempting to create file... " + outFile + ".")
+```
+
+```
     initFile = open(outFile, "w+")
+```
+
+```
+    if verboseActive:
+```
+
+```
+        print("Closing new file... " + outFile + ".")
 ```
 
 ```
@@ -344,9 +406,11 @@ If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to
 ```
 Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
 
+The strip() statement is just to ensure there isn't any invisible indentation that might muck us around.
+
 
 ```
-            if stringUnstripped != "":
+            if stringUnstripped.strip() != "":
 ```
 
 ```
@@ -360,165 +424,139 @@ Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a 
 
 *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
 
+It's also where we define the Public API.
+
+NOTE: All command-line arguments are *optional*.
+
 
 ```
 def getFlags():
 ```
-*dirSet* is set to false, so that a flag can be read correctly later.
+Initialise our parser for arguments.
 
 
 ```
-    dirSet = False
+    parser = argparse.ArgumentParser()
 ```
-*outDir* and *outName* are set to empty so that flags can be read nicely later.
+Create the parsing for the input file. (The file to build documentation from).
 
 
 ```
-    outDir = ""
+    parser.add_argument("-i", "--input", help="The input file. Normally, a *.pylit file.")
 ```
-
-```
-    outName = ""
-```
-In this for loop, *getFlags* attempts to find any flags given to Docbuilder.
+Create the parsing for the output file. (The file to build documentation for).
 
 
 ```
-    for flag in sys.argv:
+    parser.add_argument("-o", "--output", help="The output file name, without file extension.")
 ```
-Here, these two if statements colloborate to find what directory the user is trying to write to.
+Create the parsing for verbose arguments.
 
 
 ```
-        if dirSet:
+    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
 ```
-
-```
-            outDir = flag + "/"
-```
-
-```
-        if flag == "-d":
-```
-
-```
-            dirSet = True
-```
-Here, *getFlags* tries to find what explicit file the user is trying to build documentation for, in a cross-platform way.
+Create the parsing for the output directory.
 
 
 ```
-    try:
+    parser.add_argument("-d", "--directory", help="Set the output directory.")
 ```
-
-```
-        if os.name == "nt":
-```
-
-```
-            for splitRead in sys.argv[1].split(r'"\"'):
-```
-
-```
-                outName = splitRead
-```
-
-```
-        else:
-```
-
-```
-            for splitRead in sys.argv[1].split("/"):
-```
-
-```
-                outName = splitRead
-```
-
-```
-        inFile = sys.argv[1]
-```
-Otherwise, docbuilder will assume you are just trying to write it's own documentation.
+Simplify parsing the arguments.
 
 
 ```
-    except IndexError:
+    cliArgs = parser.parse_args()
+```
+Work out the filepath of the file Docbuilder is building documentation for.
+
+
+```
+    if cliArgs.input:
+```
+
+```
+        inFile = cliArgs.input
+```
+If the user didn't specify a file, assume they're build Docbuilder's own documentation.
+
+
+```
+    else:
 ```
 
 ```
         inFile = "docbuilder.py"
 ```
-
-```
-        outName = "docbuilder.py"
-```
-This littlestatement is deprecated, but represents the old way Docbuilder determined directories.
+Set whether verbose is turned on or not:
 
 
 ```
-    if outDir == "":
+    if cliArgs.verbose:
 ```
 
 ```
-        try:
+        verboseActive = True
 ```
-
-```
-            outDir = sys.argv[3] + "/"
-```
-
-```
-            print("This usage is deprecated and will be removed in 1.0... Use the -d flag.")
-```
-
-```
-        except IndexError:
-```
-
-```
-            outDir = "docs/"
-```
-*getFlags* nicely tries to get the documentation directory built.
+If the user didn't ask for verbose, set Docbuilder to not be verbose.
 
 
 ```
-    checkExportDir(outDir)
-```
-Here, *getFlags* tries to work out what the filename and path of the document it is building should be.
-
-
-```
-    try:
+    else:
 ```
 
 ```
-        outFile = outDir + sys.argv[2]
+        verboseActive = False
 ```
-
-```
-    except IndexError:
-```
-If the user never gave one just try and guess what it is.
+Set what directory Docbuilder will build to:
 
 
 ```
-        outFile = outDir + outName + ".md"
-```
-*getFlags* then nicely asks that whatever file with the same path that may exist, be removed.
-
-
-```
-    checkExportFile(outFile)
+    if cliArgs.directory:
 ```
 
 ```
-    
+        outDir = cliArgs.directory + "/"
 ```
-*getFlags* then returns the paths for file given by the user, the file Docbuilder is creating, and the directory being created to whatever function called it.
+If the output directory doesn't exist, ask Docbuilder to create it.
 
 
 ```
-    return (inFile, outFile, outDir)
+        checkExportDir(outDir)
+```
+If the user didn't specify a directory, assume they want the *docs* directory.
+
+
+```
+    else:
+```
+
+```
+        outDir = "docs" + "/"
+```
+Set the output file path.
+
+
+```
+    if cliArgs.output:
+```
+
+```
+        outFile = outDir + cliArgs.output + ".md"
+```
+
+```
+    else:
+```
+
+```
+        outFile = outDir + "docbuilder.md"
+```
+Return the found values.
+
+
+```
+    return (inFile, outFile, outDir, verboseActive)
 ```
 # Main
 
@@ -528,31 +566,29 @@ This is the main function that sets Docbuilder running.
 ```
 def main():
 ```
-Currently, this is where Docbuilder can be told to be talkative, or not.
-
-
-```
-    global verboseActive
-```
-
-```
-    verboseActive = False
-```
 The *main* function asks *getFlags* what file the user is generating documentation for.
 
 
 ```
     inFile = getFlags()[0]
 ```
+The *main* function asks *getFlags* what file the user is generating documentation to.
+
+
+```
+    outFile = getFlags()[1]
+```
+The main function checks if the output file pre-exists.
+
+
+```
+    checkExportFile(outFile)
+```
 It then tells *readFile* what file it is building documentation for.
 
 
 ```
     readFile(inFile)
-```
-
-```
-    
 ```
 # If Name
 

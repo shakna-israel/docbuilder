@@ -19,14 +19,15 @@
 # # Dependencies:
 # Used to read, write and check files.
 import os
-import sys
+# Used to handle command-line arguments.
+import argparse
 
 # # String Manage:
 # *stringManage* is one of the main functions of Docbuilder.
 # It is in this function that each line of the Python Literate program is examined.
 def stringManage(lineInFile):
     # verboseActive checks to see how talkative Docbuilder is expected to be.
-    global verboseActive
+    verboseActive = getFlags()[3]
     # We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
     stringUnstripped = lineInFile
     # We check if the line is a UNIX style *hash bang*, because we don't particularly want to see that in the documentation file.
@@ -35,7 +36,7 @@ def stringManage(lineInFile):
             print("Found hashbang! Ignoring.")
         # By setting *stringUnstripped* to *hashBang* it can be discarded later by another function.
         stringUnstripped = "hashBang"
-    # If Docbuilder is talkative, it will tell the console exactly what theline it is examining looks like.
+    # If Docbuilder is talkative, it will tell the console exactly what the line it is examining looks like.
     if verboseActive:
         print("The current unstripped line is... " + stringUnstripped)
     # We strip the white space around the unmodified string, and name this new variable *stringStripped*.
@@ -82,24 +83,39 @@ def unicodeCompareChar(uniCode):
 # This is a simple function, that is given both a line of Markdown to write, and a file to append to.
 # It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
 def markdownWrite(stringLine, fileToWrite):
+    verboseActive = getFlags()[3]
+    if verboseActive:
+        print("Attempting to open " + fileToWrite + " file to append...")
     outFile = open(fileToWrite, "a")
     outFile.write(stringLine + "\n\n")
+    if verboseActive:
+        print("Closing " + fileToWrite + " file.")
     outFile.close()
 
 # # Codeblock Write
 # This is a function that, when given a line and file to append to, attempts to turn that line into a Markdown codeblock.
 def codeblockWrite(stringLine, fileToWrite):
+    verboseActive = getFlags()[3]
     # Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
     if stringLine != "hashBang":
         # It then proceeds to append to the given file, inside a Markdown codeblock.
+        if verboseActive:
+            print("Attempting to open " + fileToWrite + " file to append...")
         outFile = open(fileToWrite, "a")
         outFile.write("\n```\n" + stringLine + "\n```\n")
+        if verboseActive:
+            print("Closing " + fileToWrite + " file.")
         outFile.close()
 
 # # Initiate File Out
 # This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
 def initFileOut(outFile):
+    verboseActive = getFlags()[3]
+    if verboseActive:
+        print("Attempting to create file... " + outFile + ".")
     initFile = open(outFile, "w+")
+    if verboseActive:
+        print("Closing new file... " + outFile + ".")
     initFile.close()
 
 # # Read File
@@ -132,61 +148,63 @@ def readFile(inputFile):
 
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
+# It's also where we define the Public API.
+# NOTE: All command-line arguments are *optional*.
 def getFlags():
-    # *dirSet* is set to false, so that a flag can be read correctly later.
-    dirSet = False
-    # *outDir* and *outName* are set to empty so that flags can be read nicely later.
-    outDir = ""
-    outName = ""
-    # In this for loop, *getFlags* attempts to find any flags given to Docbuilder.
-    for flag in sys.argv:
-        # Here, these two if statements colloborate to find what directory the user is trying to write to.
-        if dirSet:
-            outDir = flag + "/"
-        if flag == "-d":
-            dirSet = True
-    # Here, *getFlags* tries to find what explicit file the user is trying to build documentation for, in a cross-platform way.
-    try:
-        if os.name == "nt":
-            for splitRead in sys.argv[1].split(r'"\"'):
-                outName = splitRead
-        else:
-            for splitRead in sys.argv[1].split("/"):
-                outName = splitRead
-        inFile = sys.argv[1]
-    # Otherwise, docbuilder will assume you are just trying to write it's own documentation.
-    except IndexError:
+    # Initialise our parser for arguments.
+    parser = argparse.ArgumentParser()
+    # Create the parsing for the input file. (The file to build documentation from).
+    parser.add_argument("-i", "--input", help="The input file. Normally, a *.pylit file.")
+    # Create the parsing for the output file. (The file to build documentation for).
+    parser.add_argument("-o", "--output", help="The output file name, without file extension.")
+    # Create the parsing for verbose arguments.
+    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
+    # Create the parsing for the output directory.
+    parser.add_argument("-d", "--directory", help="Set the output directory.")
+    # Simplify parsing the arguments.
+    cliArgs = parser.parse_args()
+    # Work out the filepath of the file Docbuilder is building documentation for.
+    if cliArgs.input:
+        inFile = cliArgs.input
+    # If the user didn't specify a file, assume they're build Docbuilder's own documentation.
+    else:
         inFile = "docbuilder.py"
-        outName = "docbuilder.py"
-    # This littlestatement is deprecated, but represents the old way Docbuilder determined directories.
-    if outDir == "":
-        try:
-            outDir = sys.argv[3] + "/"
-            print("This usage is deprecated and will be removed in 1.0... Use the -d flag.")
-        except IndexError:
-            outDir = "docs/"
-    # *getFlags* nicely tries to get the documentation directory built.
-    checkExportDir(outDir)
-    # Here, *getFlags* tries to work out what the filename and path of the document it is building should be.
-    try:
-        outFile = outDir + sys.argv[2]
-    except IndexError:
-        # If the user never gave one just try and guess what it is.
-        outFile = outDir + outName + ".md"
-    # *getFlags* then nicely asks that whatever file with the same path that may exist, be removed.
-    checkExportFile(outFile)
-    
-    # *getFlags* then returns the paths for file given by the user, the file Docbuilder is creating, and the directory being created to whatever function called it.
-    return (inFile, outFile, outDir)
+    # Set whether verbose is turned on or not:
+    if cliArgs.verbose:
+        verboseActive = True
+    # If the user didn't ask for verbose, set Docbuilder to not be verbose.
+    else:
+        verboseActive = False
+    # Set what directory Docbuilder will build to:
+    if cliArgs.directory:
+        outDir = cliArgs.directory + "/"
+        # If the output directory doesn't exist, ask Docbuilder to create it.
+        checkExportDir(outDir)
+    # If the user didn't specify a directory, assume they want the *docs* directory.
+    else:
+        outDir = "docs" + "/"
+    # Set the output file path.
+    if cliArgs.output:
+        outFile = outDir + cliArgs.output + ".md"
+    else:
+        # If the user specified an input file, try and magic up a name.
+        if cliArgs.input:
+            outFile = outDir + cliArgs.input + ".md"
+        # If the user didn't specify an input file either, build for Docbuilder.
+        else:
+            outFile = outDir + "docbuilder.md"
+    # Return the found values.
+    return (inFile, outFile, outDir, verboseActive)
 
 # # Main
 # This is the main function that sets Docbuilder running.
 def main():
-    # Currently, this is where Docbuilder can be told to be talkative, or not.
-    global verboseActive
-    verboseActive = False
     # The *main* function asks *getFlags* what file the user is generating documentation for.
     inFile = getFlags()[0]
+    # The *main* function asks *getFlags* what file the user is generating documentation to.
+    outFile = getFlags()[1]
+    # The main function checks if the output file pre-exists.
+    checkExportFile(outFile)
     # It then tells *readFile* what file it is building documentation for.
     readFile(inFile)
     
