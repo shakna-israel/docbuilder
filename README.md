@@ -4,7 +4,7 @@
 
 [![Issues](https://img.shields.io/github/issues/shakna-israel/docbuilder.svg)](https://github.com/shakna-israel/docbuilder/issues)
 
-[![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12) ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 * Docbuilder is a small python script that will take another Python program, and turn it into documentation.
     * This is the [Literate Programming Style](https://github.com/jashkenas/journo)
@@ -13,7 +13,7 @@
 
 ## Usage
 
-Check the [Public API](API.md)
+Check the [Public API](API)
 
 Or, if you just want a quickstart:
 
