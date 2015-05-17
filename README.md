@@ -29,8 +29,10 @@ Currently, the supported versions of Python are: [![Python Versions](https://img
 
 ## Testing
 
-[![Throughput Graph](https://graphs.waffle.io/shakna-israel/docbuilder/throughput.svg)](https://waffle.io/shakna-israel/docbuilder/metrics)
+Docbuilder uses *nose* for testing.
 
-[![Codeship](https://codeship.com/projects/320ce4c0-c272-0132-53d4-36229af8a5d4/status?branch=master)](https://codeship.com/projects/73757)
+To install everything for testing:
 
-[![Code Health](https://landscape.io/github/shakna-israel/docbuilder/master/landscape.svg?style=flat)](https://landscape.io/github/shakna-israel/docbuilder/master)
+```
+pip install -r tests/dev-requirements.txt
+```
