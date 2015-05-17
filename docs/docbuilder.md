@@ -34,6 +34,12 @@ Used to read, write and check files.
 ```
 import os
 ```
+Used so we can kill Docbuilder to make it behave.
+
+
+```
+import sys
+```
 Used to handle command-line arguments.
 
 
@@ -82,7 +88,7 @@ By setting *stringUnstripped* to *hashBang* it can be discarded later by another
 ```
         stringUnstripped = "hashBang"
 ```
-If Docbuilder is talkative, it will tell the console exactly what theline it is examining looks like.
+If Docbuilder is talkative, it will tell the console exactly what the line it is examining looks like.
 
 
 ```
@@ -156,11 +162,31 @@ def checkExportFile(fileExists):
 ```
 
 ```
-    if os.path.isfile(fileExists):
+    clobberFile = getFlags()[4]
 ```
 
 ```
-        os.remove(fileExists)
+    if clobberFile:
+```
+
+```
+        if os.path.isfile(fileExists):
+```
+
+```
+            os.remove(fileExists)
+```
+
+```
+    else:
+```
+
+```
+        print("File " + fileExists + " exists. Not clobbering.")
+```
+
+```
+        sys.exit(0)     
 ```
 # Check Export Directory
 
@@ -462,6 +488,12 @@ Create the parsing for the output directory.
 ```
     parser.add_argument("-d", "--directory", help="Set the output directory.")
 ```
+Create the parsing for file clobbering politeness.
+
+
+```
+    parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
+```
 Simplify parsing the arguments.
 
 
@@ -548,15 +580,49 @@ Set the output file path.
 ```
     else:
 ```
+If the user specified an input file, try and magic up a name.
+
 
 ```
-        outFile = outDir + "docbuilder.md"
+        if cliArgs.input:
+```
+
+```
+            outFile = outDir + cliArgs.input + ".md"
+```
+If the user didn't specify an input file either, build for Docbuilder.
+
+
+```
+        else:
+```
+
+```
+            outFile = outDir + "docbuilder.md"
+```
+Set Docbuilder's politeness when clobbering files.
+
+
+```
+    if cliArgs.quiet:
+```
+
+```
+        clobberFile = True
+```
+
+```
+    else:
+```
+
+```
+        clobberFile = False
 ```
 Return the found values.
 
 
 ```
-    return (inFile, outFile, outDir, verboseActive)
+    return (inFile, outFile, outDir, verboseActive, clobberFile)
 ```
 # Main
 

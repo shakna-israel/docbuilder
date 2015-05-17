@@ -19,6 +19,8 @@
 # # Dependencies:
 # Used to read, write and check files.
 import os
+# Used so we can kill Docbuilder to make it behave.
+import sys
 # Used to handle command-line arguments.
 import argparse
 
@@ -60,8 +62,13 @@ def stringManage(lineInFile):
 # # Check Export File
 # This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
 def checkExportFile(fileExists):
-    if os.path.isfile(fileExists):
-        os.remove(fileExists)
+    clobberFile = getFlags()[4]
+    if clobberFile:
+        if os.path.isfile(fileExists):
+            os.remove(fileExists)
+    else:
+        print("File " + fileExists + " exists. Not clobbering.")
+        sys.exit(0)     
 
 # # Check Export Directory
 # This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
@@ -161,6 +168,8 @@ def getFlags():
     parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
     # Create the parsing for the output directory.
     parser.add_argument("-d", "--directory", help="Set the output directory.")
+    # Create the parsing for file clobbering politeness.
+    parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
     # Simplify parsing the arguments.
     cliArgs = parser.parse_args()
     # Work out the filepath of the file Docbuilder is building documentation for.
@@ -193,8 +202,13 @@ def getFlags():
         # If the user didn't specify an input file either, build for Docbuilder.
         else:
             outFile = outDir + "docbuilder.md"
+    # Set Docbuilder's politeness when clobbering files.
+    if cliArgs.quiet:
+        clobberFile = True
+    else:
+        clobberFile = False
     # Return the found values.
-    return (inFile, outFile, outDir, verboseActive)
+    return (inFile, outFile, outDir, verboseActive, clobberFile)
 
 # # Main
 # This is the main function that sets Docbuilder running.

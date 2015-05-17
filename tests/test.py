@@ -26,7 +26,7 @@ def buildup():
     file = open("testme.py", "w+")
     file.write("# # This is a title. \n # This is a comment. \n # * This is a bullet point. \n # *This* is an italic word. \n # **This** is a bold word. \n # ***This*** is an italic and bold word. \n print('This should be in a code block.')\n    print('This is an indented code block.')")
     file.close()
-    subprocess.call("python docbuilder.py -i testme.py -o testme -d testdocs", shell=True)
+    subprocess.call("python docbuilder.py -i testme.py -o testme -d testdocs -q", shell=True)
     testfile=open('testdocs/testme.md')
     global lines
     lines = testfile.readlines()
@@ -50,7 +50,7 @@ class TestCodeFormat(unittest.TestCase):
         # Remove artefacts from previous tests.
         teardown()
         # This subprocess calls docbuilder, so we can see if it's building it's own documentation.
-        subprocess.call("python docbuilder.py", shell=True)
+        subprocess.call("python docbuilder.py -q", shell=True)
         # Test if Docbuilder can build it's own documentation.
         if os.path.isfile("docs/docbuilder.md"):
             print("Docbuilder successfully generated it's own documentation.")
@@ -64,7 +64,7 @@ class TestCodeFormat(unittest.TestCase):
         # Remove artefacts from previous tests.
         teardown()
         # This subprocess calls docbuilder.
-        subprocess.call("python docbuilder.py -i docbuilder.py", shell=True)
+        subprocess.call("python docbuilder.py -i docbuilder.py -q", shell=True)
         if os.path.isfile("docs/docbuilder.py.md"):
             print("Docbuilder successfully guessed a name for a file.")
             pass
@@ -77,7 +77,7 @@ class TestCodeFormat(unittest.TestCase):
         # Remove artefacts from previous tests.
         teardown()
         # This subprocess calls docbuilder.
-        subprocess.call("python docbuilder.py -i docbuilder.py -o docbuilder", shell=True)
+        subprocess.call("python docbuilder.py -i docbuilder.py -o docbuilder -q", shell=True)
         if os.path.isfile("docs/docbuilder.md"):
             print("Docbuilder successfully created using a from name and a to name.")
             pass
@@ -100,7 +100,7 @@ class TestCodeFormat(unittest.TestCase):
         # Remove artefacts from previous tests.
         teardown()
         # This subprocess calls docbuilder.
-        subprocess.call("python docbuilder.py -i docbuilder.py -o docbuilder.py --directory documents", shell=True)
+        subprocess.call("python docbuilder.py -i docbuilder.py -o docbuilder.py --directory documents -q", shell=True)
         if os.path.isfile("documents/docbuilder.py.md"):
             print("Docbuilder successfully created a custom directory.")
             pass
@@ -113,7 +113,7 @@ class TestCodeFormat(unittest.TestCase):
         # Remove artefacts from previous tests.
         teardown()
         # This subprocess calls docbuilder.
-        subprocess.call("python docbuilder.py -i docbuilder.py -o docbuilder.py -d documents", shell=True)
+        subprocess.call("python docbuilder.py -i docbuilder.py -o docbuilder.py -d documents -q", shell=True)
         if os.path.isfile("documents/docbuilder.py.md"):
             print("Docbuilder successfully read the -d flag.")
             pass
@@ -126,7 +126,7 @@ class TestCodeFormat(unittest.TestCase):
         # Remove artefacts from previous tests.
         teardown()
         # This subprocess calls docbuilder.
-        subprocess.call("python docbuilder.py -i examples/helloworld.pylit -o helloworld -d documents", shell=True)
+        subprocess.call("python docbuilder.py -i examples/helloworld.pylit -o helloworld -d documents -q", shell=True)
         if os.path.isfile("documents/helloworld.md"):
             print("Docbuilder successfully built from a relative path.")
             pass
