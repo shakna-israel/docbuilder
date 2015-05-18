@@ -134,6 +134,8 @@ def readFile(inputFile):
     inFile = open(inputFile, "r")
     # It asks (nicely) that the file being written to be created.
     initFileOut(outFile)
+    # Check if we want Markdown Indented or not
+    markdownIndent = getFlags()[5]
     # It then reads the file it was given, line by line.
     for lineRead in inFile.read().split("\n"):
         # For each line it reads, it asks *stringManage* to deal with.
@@ -145,7 +147,11 @@ def readFile(inputFile):
         # If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
         if firstChar == compareChar:
             if stringUnstripped != "hashBang":
-                markdownWrite(stringStripped, outFile)
+                if markdownIndent:
+                    indentedString = stringUnstripped[2:]
+                    markdownWrite(indentedString, outFile)
+                else:
+                    markdownWrite(stringStripped, outFile)
         else:
             # Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
             # The strip() statement is just to ensure there isn't any invisible indentation that might muck us around.
@@ -168,6 +174,8 @@ def getFlags():
     parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
     # Create the parsing for the output directory.
     parser.add_argument("-d", "--directory", help="Set the output directory.")
+    # Create the parsing for Markdown Indentation.
+    parser.add_argument("--indent", help="Indent Markdown", action="store_true")
     # Create the parsing for file clobbering politeness.
     parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
     # Simplify parsing the arguments.
@@ -207,8 +215,12 @@ def getFlags():
         clobberFile = True
     else:
         clobberFile = False
+    if cliArgs.indent:
+        markdownIndent = True
+    else:
+        markdownIndent = False
     # Return the found values.
-    return (inFile, outFile, outDir, verboseActive, clobberFile)
+    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent)
 
 # # Main
 # This is the main function that sets Docbuilder running.
