@@ -75,8 +75,9 @@ def checkExportFile(fileExists):
         if os.path.isfile(fileExists):
             os.remove(fileExists)
     else:
-        print("File " + fileExists + " exists. Not clobbering.")
-        sys.exit(0)     
+        if os.path.isfile(fileExists):
+            print("File " + fileExists + " exists. Not clobbering.")
+            sys.exit(0)     
 
 # # Check Export Directory
 # This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
