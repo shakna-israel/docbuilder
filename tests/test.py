@@ -133,7 +133,14 @@ class TestCodeFormat(unittest.TestCase):
         else:
             print("Docbuilder failed to build from a relative path.")
             assert False
-            
+    
+    def test_markdown_indent(self):
+    """Test that Docbuilder can build indented Markdown."""
+    # Remove artefacts from previous tests.
+    #teardown()
+    #subprocess.call("python docbuilder.py -i tests/testIndent.py -o testIndent -d testdocs -q")
+    # NOT YET IMPLEMENTED
+        
     def test_markdown_titles(self):
         """Test that titles appear correctly when compiled to Markdown."""
         teardown()
