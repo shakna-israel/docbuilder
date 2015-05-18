@@ -148,7 +148,8 @@ def readFile(inputFile):
         if firstChar == compareChar:
             if stringUnstripped != "hashBang":
                 if markdownIndent:
-                    markdownWrite(stringUnstripped, outFile)
+                    indentedString = stringUnstripped[2:]
+                    markdownWrite(indentedString, outFile)
                 else:
                     markdownWrite(stringStripped, outFile)
         else:
