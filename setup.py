@@ -15,7 +15,7 @@ import docbuilder
 setup(name='docbuilder',
       version=docbuilder.__version__,
       description='Python Literate Programming without Detanglement',
-      long_description=docbuilder.__doc__,
+      long_description=docbuilder.__description__,
       author=docbuilder.__author__,
       author_email='jmilne@graphic-designer.com',
       url='http://docbuilder.rtfd.org/',

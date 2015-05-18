@@ -30,7 +30,7 @@ import argparse
 __author__ = 'James Milne'
 __version__ = '0.4-dev'
 __license__ = 'MIT'
-__doc__ = 'Docbuilder allows you to build Markdown documents without the need for detangling executables from literate Python programs. http://docbuilder.rtfd.org'
+__description__ = 'Docbuilder allows you to build Markdown documents without the need for detangling executables from literate Python programs. http://docbuilder.rtfd.org'
 
 # # String Manage:
 # *stringManage* is one of the main functions of Docbuilder.
