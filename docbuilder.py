@@ -16,6 +16,12 @@
 # * Docbuilder simply converts your comments and code into Markdown.
 # * Docbuilder builds Markdown, and is mostly compatible with whatever [Python Markdown](https://pythonhosted.org/Markdown/) can read. But just in case, check the [Issues](https://github.com/shakna-israel/docbuilder/issues).
 
+# # Metadata:
+
+__author__ = 'James Milne'
+__version__ = '0.3'
+__license__ = 'MIT'
+
 # # Dependencies:
 # Used to read, write and check files.
 import os
