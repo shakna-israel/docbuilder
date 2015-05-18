@@ -25,6 +25,7 @@ import sys
 import argparse
 
 # # Metadata:
+# These are used with setuptools and Pip to let people know what exactly they are installing.
 
 __author__ = 'James Milne'
 __version__ = '0.4-dev'
