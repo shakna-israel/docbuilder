@@ -81,11 +81,16 @@ def checkExportFile(fileExists):
 # This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
 def checkExportDir(directory):
     if '/' in directory:
-        previousFolder = ''
+        previousFolder = False
         for folder in directory.split('/'):
-            if not os.path.exists(previousFolder + folder):
-                os.makedirs(folder)
-                previousFolder = previousFolder + '/' + folder
+            if not previousFolder:
+                if not os.path.exists(folder):
+                    os.makedirs(folder)
+                    previousFolder = folder
+            else:
+                if not os.path.exists(previousFolder + "/" + folder):
+                    os.makedirs(previousFolder + "/" + folder)
+                    previousFolder = previousFolder + "/" + folder
     if not os.path.exists(directory):
         os.makedirs(directory)
 
