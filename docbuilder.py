@@ -21,6 +21,7 @@
 __author__ = 'James Milne'
 __version__ = '0.3'
 __license__ = 'MIT'
+__doc__ = 'Docbuilder allows you to build Markdown documents without detangling executables from literate Python programs. http://docbuilder.rtfd.org'
 
 # # Dependencies:
 # Used to read, write and check files.
