@@ -84,11 +84,14 @@ def checkExportDir(directory):
         previousFolder = False
         for folder in directory.split('/'):
             if not previousFolder:
-                if not os.path.exists(folder):
-                    os.makedirs(folder)
-                    previousFolder = folder
+                if folder != "":
+                    if not os.path.exists(folder):
+                        print(folder)
+                        os.makedirs(folder)
+                        previousFolder = folder
             else:
                 if not os.path.exists(previousFolder + "/" + folder):
+                    print(previousFolder + '/' + folder)
                     os.makedirs(previousFolder + "/" + folder)
                     previousFolder = previousFolder + "/" + folder
     if not os.path.exists(directory):
