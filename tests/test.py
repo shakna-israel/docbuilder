@@ -135,11 +135,12 @@ class TestCodeFormat(unittest.TestCase):
             assert False
     
     def test_markdown_indent(self):
-    """Test that Docbuilder can build indented Markdown."""
-    # Remove artefacts from previous tests.
-    #teardown()
-    #subprocess.call("python docbuilder.py -i tests/testIndent.py -o testIndent -d testdocs -q")
-    # NOT YET IMPLEMENTED
+        """Test that Docbuilder can build indented Markdown."""
+        # Remove artefacts from previous tests.
+        #teardown()
+        #subprocess.call("python docbuilder.py -i tests/testIndent.py -o testIndent -d testdocs -q")
+        # NOT YET IMPLEMENTED
+        pass
         
     def test_markdown_titles(self):
         """Test that titles appear correctly when compiled to Markdown."""
