@@ -16,13 +16,6 @@
 # * Docbuilder simply converts your comments and code into Markdown.
 # * Docbuilder builds Markdown, and is mostly compatible with whatever [Python Markdown](https://pythonhosted.org/Markdown/) can read. But just in case, check the [Issues](https://github.com/shakna-israel/docbuilder/issues).
 
-# # Metadata:
-
-__author__ = 'James Milne'
-__version__ = '0.4-dev'
-__license__ = 'MIT'
-__doc__ = 'Docbuilder allows you to build Markdown documents without detangling executables from literate Python programs. http://docbuilder.rtfd.org'
-
 # # Dependencies:
 # Used to read, write and check files.
 import os
@@ -30,6 +23,13 @@ import os
 import sys
 # Used to handle command-line arguments.
 import argparse
+
+# # Metadata:
+
+__author__ = 'James Milne'
+__version__ = '0.4-dev'
+__license__ = 'MIT'
+__doc__ = 'Docbuilder allows you to build Markdown documents without the need for detangling executables from literate Python programs. http://docbuilder.rtfd.org'
 
 # # String Manage:
 # *stringManage* is one of the main functions of Docbuilder.
