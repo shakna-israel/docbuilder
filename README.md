@@ -11,6 +11,36 @@
 * Docbuilder is used to generate technical documentation. *It isn't reccomended at this stage for User Documentation.*
 * It generates Markdown documents, though it does expect that MKDocs will use it.
 
+## Install
+
+### From Pip
+
+```
+pip install docbuilder
+```
+
+### From Repository
+
+```
+git clone https://github.com/shakna-israel/docbuilder.git
+cd docbuilder
+python setup.py install
+```
+
+### File Download
+
+Docbuilder is actually a single file, so you can copy that to wherever you need to run it.
+
+```
+curl -L https://github.com/shakna-israel/docbuilder/blob/master/docbuilder.py
+```
+
+or
+
+```
+wget --no-check-certificate https://github.com/shakna-israel/docbuilder/blob/master/docbuilder.py
+```
+
 ## Usage
 
 Check the [Public API](API)
@@ -18,15 +48,7 @@ Check the [Public API](API)
 Or, if you just want a quickstart:
 
 ```
-python docbuilder.py -i mypthonlit.pylit -o mydoc
-```
-
-If you prefer to install Docbuilder, rather than copying docbuilder.py to where you need, you can run:
-
-```
-git clone https://github.com/shakna-israel/docbuilder.git
-cd docbuilder
-python setup.py install
+docbuilder.py -i mypthonlit.pylit -o mydoc
 ```
 
 ## Python Versions
