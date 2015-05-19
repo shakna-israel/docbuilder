@@ -16,12 +16,6 @@
 # * Docbuilder simply converts your comments and code into Markdown.
 # * Docbuilder builds Markdown, and is mostly compatible with whatever [Python Markdown](https://pythonhosted.org/Markdown/) can read. But just in case, check the [Issues](https://github.com/shakna-israel/docbuilder/issues).
 
-# # Metadata:
-
-__author__ = 'James Milne'
-__version__ = '0.3'
-__license__ = 'MIT'
-
 # # Dependencies:
 # Used to read, write and check files.
 import os
@@ -29,6 +23,14 @@ import os
 import sys
 # Used to handle command-line arguments.
 import argparse
+
+# # Metadata:
+# These are used with setuptools and Pip to let people know what exactly they are installing.
+
+__author__ = 'James Milne'
+__version__ = '0.4'
+__license__ = 'MIT'
+__description__ = 'Docbuilder allows you to build Markdown documents without the need for detangling executables from literate Python programs. http://docbuilder.rtfd.org'
 
 # # String Manage:
 # *stringManage* is one of the main functions of Docbuilder.
@@ -69,26 +71,49 @@ def stringManage(lineInFile):
 # This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
 def checkExportFile(fileExists):
     clobberFile = getFlags()[4]
+    # Check if Docbuilder should kill any file if it is pre-existing.
     if clobberFile:
         if os.path.isfile(fileExists):
+            # If the file exists, and Docbuilder is expected to clobber, kill the file.
             os.remove(fileExists)
     else:
-        print("File " + fileExists + " exists. Not clobbering.")
-        sys.exit(0)     
+        # If the file exists, and Docbuilder is expected to not clobber, print a message and gracefully exit.
+        if os.path.isfile(fileExists):
+            print("File " + fileExists + " exists. Not clobbering.")
+            sys.exit(0)     
 
 # # Check Export Directory
 # This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
 def checkExportDir(directory):
+    # Check if we have a UNIX-style subdirectory being handed in.
+    if '/' in directory:
+        # Do some clever magic to walk through each of the folders given as a path, and check if the folder exists. If not, make it.
+        previousFolder = False
+        for folder in directory.split('/'):
+            if not previousFolder:
+                if folder != "":
+                    if not os.path.exists(folder):
+                        print(folder)
+                        os.makedirs(folder)
+                        previousFolder = folder
+            else:
+                if not os.path.exists(previousFolder + "/" + folder):
+                    print(previousFolder + '/' + folder)
+                    os.makedirs(previousFolder + "/" + folder)
+                    previousFolder = previousFolder + "/" + folder
+    # If we're just given a single directory, check if it exists, if not, make it.
     if not os.path.exists(directory):
         os.makedirs(directory)
 
 # # Unicode Compare Character
 # This is a function that only exists due to the unicode differences between Python 2.8, 3.0, and 3.3.
-# It checks the allowed functions are returns the correct unicode character for the code it was given.
+# It checks the allowed functions and returns the correct unicode character for the code it was given.
 def unicodeCompareChar(uniCode):
     try:
+        # This is one way unicode can be handled pre Python 3.x
         compareChar = unichr(uniCode)
     except NameError:
+        # This is one way unicode can be handled in Python 3.x, because Python 3.x uses unicode for... Everything.
         compareChar = chr(uniCode)
     return compareChar
 
@@ -99,10 +124,14 @@ def markdownWrite(stringLine, fileToWrite):
     verboseActive = getFlags()[3]
     if verboseActive:
         print("Attempting to open " + fileToWrite + " file to append...")
+    # Open the file in append mode.
     outFile = open(fileToWrite, "a")
+    # Write the line we're given, and append a blank line underneath.
     outFile.write(stringLine + "\n\n")
     if verboseActive:
         print("Closing " + fileToWrite + " file.")
+    # Close out the file, so we aren't doing anything blocking.
+    # This open/close procedure for every line should help with some race conditions, if they happen.
     outFile.close()
 
 # # Codeblock Write
@@ -114,10 +143,14 @@ def codeblockWrite(stringLine, fileToWrite):
         # It then proceeds to append to the given file, inside a Markdown codeblock.
         if verboseActive:
             print("Attempting to open " + fileToWrite + " file to append...")
+        # Open the file in append file.
         outFile = open(fileToWrite, "a")
+        # Append the line we're given inside a code block, with a newline before and after.
         outFile.write("\n```\n" + stringLine + "\n```\n")
         if verboseActive:
             print("Closing " + fileToWrite + " file.")
+        # Close out the file.
+        # This open/close procedure for every line should help with some race conditions, if they happen.
         outFile.close()
 
 # # Initiate File Out
@@ -126,9 +159,12 @@ def initFileOut(outFile):
     verboseActive = getFlags()[3]
     if verboseActive:
         print("Attempting to create file... " + outFile + ".")
+    # Try and create the file by opening it. If it doesn't exist, Python should create it.
     initFile = open(outFile, "w+")
     if verboseActive:
         print("Closing new file... " + outFile + ".")
+    # Close out the file, because all we're doing right now is creating it.
+    # This function could be problematic with some race conditions, if the file is edited before closing out, we could get hit by some memory errors.
     initFile.close()
 
 # # Read File
@@ -153,9 +189,12 @@ def readFile(inputFile):
         # If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
         if firstChar == compareChar:
             if stringUnstripped != "hashBang":
+                # If the user wants indented Markdown, run things a little differently.
                 if markdownIndent:
+                    # Strip only the first two characters. These should be a hash, ```#```, and a space, ``` ```.
                     indentedString = stringUnstripped[2:]
                     markdownWrite(indentedString, outFile)
+                # If the user doesn't want indented Markdown, just ask the *markdownWrite* function to do its job.
                 else:
                     markdownWrite(stringStripped, outFile)
         else:
@@ -168,7 +207,7 @@ def readFile(inputFile):
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
 # It's also where we define the Public API.
-# NOTE: All command-line arguments are *optional*.
+# NOTE: All command-line arguments are *optional*, Docbuilder will build it's own documentation if given no arguments.
 def getFlags():
     # Initialise our parser for arguments.
     parser = argparse.ArgumentParser()
@@ -221,6 +260,7 @@ def getFlags():
         clobberFile = True
     else:
         clobberFile = False
+    # Check if the user wants Markdown indented.
     if cliArgs.indent:
         markdownIndent = True
     else:
@@ -239,9 +279,7 @@ def main():
     checkExportFile(outFile)
     # It then tells *readFile* what file it is building documentation for.
     readFile(inFile)
-    
 
-# # If Name
 # This is a simple function that tells Python what the main function is.    
 if __name__ == '__main__':
     main()
