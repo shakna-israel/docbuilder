@@ -53,6 +53,10 @@ Or, if you just want a quickstart:
 docbuilder.py -i mypthonlit.pylit -o mydoc
 ```
 
+*NOTE:* 
+
+Windows users, ensure you use ```/``` to seperate directories. Not ```\```. This may cause [unexpected behaviour](https://github.com/shakna-israel/docbuilder/issues/59).
+
 ## Python Versions
 
 Currently, the supported versions of Python are: [![Python Versions](https://img.shields.io/badge/Python-2.6%2C%202.7%2C%203.2%2C%203.3%2C%203.4%2C%20PyPy%2C%20PyPy3%2C%20Cython-blue.svg)](https://github.com/shakna-israel/docbuilder/issues/12)
