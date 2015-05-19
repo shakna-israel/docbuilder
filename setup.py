@@ -37,4 +37,5 @@ setup(name='docbuilder',
         'Topic :: Documentation',
         'Topic :: Scientific/Engineering',
         'Topic :: Text Processing'
+     ]
      )
