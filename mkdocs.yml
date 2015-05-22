@@ -1,1 +1,7 @@
 site_name: Docbuilder
+pages:
+- [README.md, ReadMe]
+- [docbuilder.md, DocBuilder]
+- [StyleGuide.md, Style Guide]
+- [VariableNamingStyleGuide.md, Variable Naming Style Guide]
+- [examples/helloworld.pylit.md, Example Hello World]
