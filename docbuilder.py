@@ -228,6 +228,8 @@ def getFlags():
     parser.add_argument("--indent", help="Indent Markdown", action="store_true")
     # Create the parsing for file clobbering politeness.
     parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
+    # Create the parsing for mkdocs mode.
+    parser.add_argument("--mkdocs", help="Make Docbuilder aware you want to use mkdocs.", action="store_true")
     # Simplify parsing the arguments.
     cliArgs = parser.parse_args()
     # Work out the filepath of the file Docbuilder is building documentation for.
