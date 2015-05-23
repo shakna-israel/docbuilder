@@ -142,6 +142,8 @@ def codeblockWrite(stringLine, fileToWrite):
     verboseActive = getFlags()[3]
     # Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
     if stringLine != "hashBang":
+        #If there is any newline characters, discard them.
+        stringLine = stringLine.replace("\n","")
         # It then proceeds to append to the given file, inside a Markdown codeblock.
         if verboseActive:
             print("Attempting to open " + fileToWrite + " file to append...")
