@@ -148,7 +148,7 @@ def codeblockWrite(stringLine, fileToWrite):
         # Open the file in append file.
         outFile = open(fileToWrite, "a")
         # Append the line we're given inside a code block, with a newline before and after.
-        outFile.write("\n```\n" + stringLine + "```\n")
+        outFile.write("\n```\n" + stringLine + "\n```\n")
         if verboseActive:
             print("Closing " + fileToWrite + " file.")
         # Close out the file.
@@ -203,7 +203,8 @@ def readFile(inputFile):
             # Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
             # The strip() statement is just to ensure there isn't any invisible indentation that might muck us around.
             if stringUnstripped.strip() != "":
-                codeblockWrite(stringUnstripped, outFile)
+                if stringUnstripped.strip() != "\n":
+                    codeblockWrite(stringUnstripped, outFile)
     inFile.close()
 
 # # Get Flags
