@@ -23,6 +23,8 @@ import os
 import sys
 # Used to handle command-line arguments.
 import argparse
+# Used to make docbuilder a little speedier
+import fileinput
 
 # # Metadata:
 # These are used with setuptools and Pip to let people know what exactly they are installing.
@@ -172,14 +174,14 @@ def initFileOut(outFile):
 def readFile(inputFile):
     # Firstly, it checks to see what file the documentation is supposed to be getting written to.
     outFile = getFlags()[1]
-    # It then opens the file given the path it has received, in read-only mode.
-    inFile = open(inputFile, "r")
+    # It then opens the file given the path it has received as a stream.
+    inFile = fileinput.input(inputFile)
     # It asks (nicely) that the file being written to be created.
     initFileOut(outFile)
     # Check if we want Markdown Indented or not
     markdownIndent = getFlags()[5]
     # It then reads the file it was given, line by line.
-    for lineRead in inFile.read().split("\n"):
+    for lineRead in inFile:
         # For each line it reads, it asks *stringManage* to deal with.
         stringUnstripped = stringManage(lineRead)[0]
         stringStripped = stringManage(lineRead)[1]
