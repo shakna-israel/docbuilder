@@ -148,7 +148,7 @@ def codeblockWrite(stringLine, fileToWrite):
         # Open the file in append file.
         outFile = open(fileToWrite, "a")
         # Append the line we're given inside a code block, with a newline before and after.
-        outFile.write("\n```\n" + stringLine + "\n```\n")
+        outFile.write("\n```\n" + stringLine + "```\n")
         if verboseActive:
             print("Closing " + fileToWrite + " file.")
         # Close out the file.
@@ -182,9 +182,6 @@ def readFile(inputFile):
     markdownIndent = getFlags()[5]
     # It then reads the file it was given, line by line.
     for lineRead in inFile:
-        # Ignore blank lines
-        if lineRead == "\n":
-            continue
         # For each line it reads, it asks *stringManage* to deal with.
         stringUnstripped = stringManage(lineRead)[0]
         stringStripped = stringManage(lineRead)[1]
