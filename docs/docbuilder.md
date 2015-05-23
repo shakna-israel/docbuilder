@@ -614,6 +614,18 @@ It then reads the file it was given, line by line.
     for lineRead in inFile:
 
 ```
+Ignore blank lines
+
+
+```
+        if lineRead == "\n":
+
+```
+
+```
+            continue
+
+```
 For each line it reads, it asks *stringManage* to deal with.
 
 
