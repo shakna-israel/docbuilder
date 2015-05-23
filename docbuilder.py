@@ -23,6 +23,8 @@ import os
 import sys
 # Used to handle command-line arguments.
 import argparse
+# Used for speedy opening of files
+import fileinput
 
 # # Metadata:
 # These are used with setuptools and Pip to let people know what exactly they are installing.
@@ -179,6 +181,7 @@ def readFile(inputFile):
     # Check if we want Markdown Indented or not
     markdownIndent = getFlags()[5]
     # It then reads the file it was given, line by line.
+    print fileinput.input([inputFile])
     for lineRead in inFile.read().split("\n"):
         # For each line it reads, it asks *stringManage* to deal with.
         stringUnstripped = stringManage(lineRead)[0]
