@@ -408,7 +408,7 @@ If there is any newline characters, discard them.
 
 
 ```
-        stringLine = stringLine.replace("\n","")
+        stringLine = stringLine.replace("\n", "")
 ```
 It then proceeds to append to the given file, inside a Markdown codeblock.
 
