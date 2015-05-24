@@ -272,8 +272,13 @@ def getFlags():
         markdownIndent = True
     else:
         markdownIndent = False
+    # Check if the user wants Docbuilder to use MKDocs.
+    if cliArgs.mkdocs:
+        mkdocsUse = True
+    else:
+        mkdocsUse = False
     # Return the found values.
-    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent)
+    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent, mkdocsUse)
 
 # # MKDocs Manage
 # This is the function that manages docbuilder's awareness of mkdocs.
@@ -301,6 +306,10 @@ def main():
     checkExportFile(outFile)
     # It then tells *readFile* what file it is building documentation for.
     readFile(inFile)
+    # Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs.yml, and add itself.
+    mkdocsCheck = getFlags()[6]
+    if mkdocsCheck:
+        mkdocsAdd(outFile)
 
 # This is a simple function that tells Python what the main function is.    
 if __name__ == '__main__':
