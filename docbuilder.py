@@ -284,16 +284,27 @@ def getFlags():
 # This is the function that manages docbuilder's awareness of mkdocs.
 def mkdocsManage():
     # Check if the mkdocs.yml file exists.
+    if os.path.isfile(mkdocs.yml):
+        mkdocsExists = True
     # If it doesn't, create it, using the filename as a title.
-    print("Not yet implemented.")
+    else:
+        initFileOut(mkdocs.yml)
+        mkdocsExists = True
     # Return a happy value if everything works.
-    return True
+    return mkdocsExists
 
 def mkdocsAdd(fileName):
     # Use mkdocsManage to check if mkdocs.yml exists.
+    mkdocsExists = mkdocsManage()
+    if mkdocsExists:
     # Search mkdocs.yml for the filename.
-    # If fileName isn't in mkdocs.yml, add it to the bottom of the tree.
-    print("Not yet implemented")
+        if fileName not in open('mkdocs.yml').read():
+            # If fileName isn't in mkdocs.yml, check if mkdocs.yml is using a page tree.
+            if 'pages' in open('mkdocs.yml').read():
+                # If it is, open it in append mode.
+                with open('mkdocs.yml', 'a') as mkdocsFile:
+                    # Then add fileName to the bottom of the tree.
+                    mkdocsFile.write("- [" + fileName + ', ' + fileName.rpartition('.')[0] + ']')
 
 # # Main
 # This is the main function that sets Docbuilder running.
