@@ -283,28 +283,46 @@ def getFlags():
 # # MKDocs Manage
 # This is the function that manages docbuilder's awareness of mkdocs.
 def mkdocsManage():
+    # Check if Docbuilder is being verbose.
+    verboseActive = getFlags()[3]
+    # Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
+    mkdocsExists = False
     # Check if the mkdocs.yml file exists.
     if os.path.isfile('mkdocs.yml'):
+        if verboseActive:
+            print("mkdocs.yml exists.")
         mkdocsExists = True
     # If it doesn't, create it, using the filename as a title.
     else:
+        if verboseActive:
+            print("mkdocs.yml doesn't exist... Creating it.")
         initFileOut('mkdocs.yml')
         mkdocsExists = True
     # Return a happy value if everything works.
     return mkdocsExists
 
 def mkdocsAdd(fileName):
+    # Check if Docbuilder is being verbose.
+    verboseActive = getFlags()[3]
     # Use mkdocsManage to check if mkdocs.yml exists.
     mkdocsExists = mkdocsManage()
     if mkdocsExists:
+        if verboseActive:
+            print("mkdocs.yml exists.")
     # Search mkdocs.yml for the filename.
         if fileName not in open('mkdocs.yml').read():
+            if verboseActive:
+                print("Didn't find current file listed in mkdocs file.")
             # If fileName isn't in mkdocs.yml, check if mkdocs.yml is using a page tree.
             if 'pages' in open('mkdocs.yml').read():
+                if verboseActive:
+                    print("MKDocs is using a pages tree.")
                 # If it is, open it in append mode.
                 with open('mkdocs.yml', 'a') as mkdocsFile:
                     # Then add fileName to the bottom of the tree.
                     mkdocsFile.write("- [" + fileName + ', ' + fileName.rpartition('.')[0] + ']')
+                    if verboseActive:
+                        print("Added file listing to mkdocs.yml")
 
 # # Main
 # This is the main function that sets Docbuilder running.
