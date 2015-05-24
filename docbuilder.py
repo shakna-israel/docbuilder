@@ -278,7 +278,17 @@ def getFlags():
 # # MKDocs Manage
 # This is the function that manages docbuilder's awareness of mkdocs.
 def mkdocsManage():
-    print("Not Yet Implemented")
+    # Check if the mkdocs.yml file exists.
+    # If it doesn't, create it, using the filename as a title.
+    print("Not yet implemented.")
+    # Return a happy value if everything works.
+    return True
+
+def mkdocsAdd(fileName):
+    # Use mkdocsManage to check if mkdocs.yml exists.
+    # Search mkdocs.yml for the filename.
+    # If fileName isn't in mkdocs.yml, add it to the bottom of the tree.
+    print("Not yet implemented")
 
 # # Main
 # This is the main function that sets Docbuilder running.
