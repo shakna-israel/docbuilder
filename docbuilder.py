@@ -284,11 +284,11 @@ def getFlags():
 # This is the function that manages docbuilder's awareness of mkdocs.
 def mkdocsManage():
     # Check if the mkdocs.yml file exists.
-    if os.path.isfile(mkdocs.yml):
+    if os.path.isfile('mkdocs.yml'):
         mkdocsExists = True
     # If it doesn't, create it, using the filename as a title.
     else:
-        initFileOut(mkdocs.yml)
+        initFileOut('mkdocs.yml')
         mkdocsExists = True
     # Return a happy value if everything works.
     return mkdocsExists
