@@ -228,6 +228,8 @@ def getFlags():
     parser.add_argument("--indent", help="Indent Markdown", action="store_true")
     # Create the parsing for file clobbering politeness.
     parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
+    # Create the parsing for mkdocs mode.
+    parser.add_argument("--mkdocs", help="Make Docbuilder aware you want to use mkdocs.", action="store_true")
     # Simplify parsing the arguments.
     cliArgs = parser.parse_args()
     # Work out the filepath of the file Docbuilder is building documentation for.
@@ -270,8 +272,57 @@ def getFlags():
         markdownIndent = True
     else:
         markdownIndent = False
+    # Check if the user wants Docbuilder to use MKDocs.
+    if cliArgs.mkdocs:
+        mkdocsUse = True
+    else:
+        mkdocsUse = False
     # Return the found values.
-    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent)
+    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent, mkdocsUse)
+
+# # MKDocs Manage
+# This is the function that manages docbuilder's awareness of mkdocs.
+def mkdocsManage():
+    # Check if Docbuilder is being verbose.
+    verboseActive = getFlags()[3]
+    # Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
+    mkdocsExists = False
+    # Check if the mkdocs.yml file exists.
+    if os.path.isfile('mkdocs.yml'):
+        if verboseActive:
+            print("mkdocs.yml exists.")
+        mkdocsExists = True
+    # If it doesn't, create it, using the filename as a title.
+    else:
+        if verboseActive:
+            print("mkdocs.yml doesn't exist... Creating it.")
+        initFileOut('mkdocs.yml')
+        mkdocsExists = True
+    # Return a happy value if everything works.
+    return mkdocsExists
+
+def mkdocsAdd(fileName):
+    # Check if Docbuilder is being verbose.
+    verboseActive = getFlags()[3]
+    # Use mkdocsManage to check if mkdocs.yml exists.
+    mkdocsExists = mkdocsManage()
+    if mkdocsExists:
+        if verboseActive:
+            print("mkdocs.yml exists.")
+    # Search mkdocs.yml for the filename.
+        if fileName not in open('mkdocs.yml').read():
+            if verboseActive:
+                print("Didn't find current file listed in mkdocs file.")
+            # If fileName isn't in mkdocs.yml, check if mkdocs.yml is using a page tree.
+            if 'pages' in open('mkdocs.yml').read():
+                if verboseActive:
+                    print("MKDocs is using a pages tree.")
+                # If it is, open it in append mode.
+                with open('mkdocs.yml', 'a') as mkdocsFile:
+                    # Then add fileName to the bottom of the tree.
+                    mkdocsFile.write("- [" + fileName + ', ' + fileName.rpartition('.')[0] + ']')
+                    if verboseActive:
+                        print("Added file listing to mkdocs.yml")
 
 # # Main
 # This is the main function that sets Docbuilder running.
@@ -284,6 +335,10 @@ def main():
     checkExportFile(outFile)
     # It then tells *readFile* what file it is building documentation for.
     readFile(inFile)
+    # Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs.yml, and add itself.
+    mkdocsCheck = getFlags()[6]
+    if mkdocsCheck:
+        mkdocsAdd(outFile)
 
 # This is a simple function that tells Python what the main function is.    
 if __name__ == '__main__':
