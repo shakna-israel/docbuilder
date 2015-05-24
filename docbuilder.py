@@ -275,6 +275,11 @@ def getFlags():
     # Return the found values.
     return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent)
 
+# # MKDocs Manage
+# This is the function that manages docbuilder's awareness of mkdocs.
+def mkdocsManage():
+    print("Not Yet Implemented")
+
 # # Main
 # This is the main function that sets Docbuilder running.
 def main():
