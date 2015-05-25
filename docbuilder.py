@@ -220,16 +220,16 @@ def getFlags():
     parser.add_argument("-i", "--input", help="The input file. Normally, a *.pylit file.")
     # Create the parsing for the output file. (The file to build documentation for).
     parser.add_argument("-o", "--output", help="The output file name, without file extension.")
-    # Create the parsing for verbose arguments.
-    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
     # Create the parsing for the output directory.
     parser.add_argument("-d", "--directory", help="Set the output directory.")
     # Create the parsing for Markdown Indentation.
     parser.add_argument("--indent", help="Indent Markdown", action="store_true")
-    # Create the parsing for file clobbering politeness.
-    parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
     # Create the parsing for mkdocs mode.
     parser.add_argument("--mkdocs", help="Make Docbuilder aware you want to use mkdocs.", action="store_true")
+    # Create the parsing for verbose arguments.
+    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
+    # Create the parsing for file clobbering politeness.
+    parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
     # Simplify parsing the arguments.
     cliArgs = parser.parse_args()
     # Work out the filepath of the file Docbuilder is building documentation for.
