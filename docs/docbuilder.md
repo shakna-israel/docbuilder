@@ -176,7 +176,7 @@ Finally, we send the three variables, *stringUnstripped*, *stringStripped* and *
 
 
 ```
-    return { 'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar }
+    return {'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar}
 ```
 # Check Export File
 
@@ -334,7 +334,7 @@ This is one way unicode can be handled in Python 3.x, because Python 3.x uses un
 ```
 
 ```
-    return { 'compareChar': compareChar }
+    return {'compareChar': compareChar}
 ```
 # Markdown Write
 
@@ -832,7 +832,7 @@ Return the found values.
 
 
 ```
-    return { 'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse':mkdocsUse }
+    return {'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse': mkdocsUse}
 ```
 # MKDocs Manage
 
@@ -898,7 +898,7 @@ Return a happy value if everything works.
 
 
 ```
-    return { 'mkdocsExists': mkdocsExists }
+    return {'mkdocsExists': mkdocsExists}
 ```
 
 ```

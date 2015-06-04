@@ -67,7 +67,7 @@ def stringManage(lineInFile):
     if verboseActive:
         print("After first character stripping, the current unstripped line is..." + stringStripped)
     # Finally, we send the three variables, *stringUnstripped*, *stringStripped* and *firstChar* back to whatever function called *stringManage*.
-    return { 'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar }
+    return {'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar}
 
 # # Check Export File
 # This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
@@ -117,7 +117,7 @@ def unicodeCompareChar(uniCode):
     except NameError:
         # This is one way unicode can be handled in Python 3.x, because Python 3.x uses unicode for... Everything.
         compareChar = chr(uniCode)
-    return { 'compareChar': compareChar }
+    return {'compareChar': compareChar}
 
 # # Markdown Write
 # This is a simple function, that is given both a line of Markdown to write, and a file to append to.
@@ -278,7 +278,7 @@ def getFlags():
     else:
         mkdocsUse = False
     # Return the found values.
-    return { 'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse':mkdocsUse }
+    return {'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse': mkdocsUse}
 
 # # MKDocs Manage
 # This is the function that manages docbuilder's awareness of mkdocs.
@@ -299,7 +299,7 @@ def mkdocsManage():
         initFileOut('mkdocs.yml')
         mkdocsExists = True
     # Return a happy value if everything works.
-    return { 'mkdocsExists': mkdocsExists }
+    return {'mkdocsExists': mkdocsExists}
 
 def mkdocsAdd(fileName):
     # Check if Docbuilder is being verbose.
