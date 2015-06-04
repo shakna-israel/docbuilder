@@ -189,7 +189,7 @@ def readFile(inputFile):
         stringStripped = stringManage(lineRead)['stringStripped']
         firstChar = stringManage(lineRead)['firstChar']
         # It initiates the first-line comparator (#) so it can compare.
-        compareChar = unicodeCompareChar(35)
+        compareChar = unicodeCompareChar(35)['compareChar']
         # If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
         if firstChar == compareChar:
             if stringUnstripped != "hashBang":
