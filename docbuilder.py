@@ -39,7 +39,7 @@ __description__ = 'Docbuilder allows you to build Markdown documents without the
 # It is in this function that each line of the Python Literate program is examined.
 def stringManage(lineInFile):
     # verboseActive checks to see how talkative Docbuilder is expected to be.
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
     # We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
     stringUnstripped = lineInFile
     # We check if the line is a UNIX style *hash bang*, because we don't particularly want to see that in the documentation file.
@@ -67,12 +67,12 @@ def stringManage(lineInFile):
     if verboseActive:
         print("After first character stripping, the current unstripped line is..." + stringStripped)
     # Finally, we send the three variables, *stringUnstripped*, *stringStripped* and *firstChar* back to whatever function called *stringManage*.
-    return (stringUnstripped, stringStripped, firstChar)
+    return {'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar}
 
 # # Check Export File
 # This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
 def checkExportFile(fileExists):
-    clobberFile = getFlags()[4]
+    clobberFile = getFlags()['clobberFile']
     # Check if Docbuilder should kill any file if it is pre-existing.
     if clobberFile:
         if os.path.isfile(fileExists):
@@ -117,13 +117,13 @@ def unicodeCompareChar(uniCode):
     except NameError:
         # This is one way unicode can be handled in Python 3.x, because Python 3.x uses unicode for... Everything.
         compareChar = chr(uniCode)
-    return compareChar
+    return {'compareChar': compareChar}
 
 # # Markdown Write
 # This is a simple function, that is given both a line of Markdown to write, and a file to append to.
 # It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
 def markdownWrite(stringLine, fileToWrite):
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
     if verboseActive:
         print("Attempting to open " + fileToWrite + " file to append...")
     # Open the file in append mode.
@@ -139,7 +139,7 @@ def markdownWrite(stringLine, fileToWrite):
 # # Codeblock Write
 # This is a function that, when given a line and file to append to, attempts to turn that line into a Markdown codeblock.
 def codeblockWrite(stringLine, fileToWrite):
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
     # Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
     if stringLine != "hashBang":
         # If there is any newline characters, discard them.
@@ -160,7 +160,7 @@ def codeblockWrite(stringLine, fileToWrite):
 # # Initiate File Out
 # This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
 def initFileOut(outFile):
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
     if verboseActive:
         print("Attempting to create file... " + outFile + ".")
     # Try and create the file by opening it. If it doesn't exist, Python should create it.
@@ -175,21 +175,21 @@ def initFileOut(outFile):
 # *readFile* is function that attempts to read a Python Literate Program, and send each line it reads away to be parsed.
 def readFile(inputFile):
     # Firstly, it checks to see what file the documentation is supposed to be getting written to.
-    outFile = getFlags()[1]
+    outFile = getFlags()['outFile']
     # It then opens the file given the path it has received as a stream.
     inFile = fileinput.input(inputFile)
     # It asks (nicely) that the file being written to be created.
     initFileOut(outFile)
     # Check if we want Markdown Indented or not
-    markdownIndent = getFlags()[5]
+    markdownIndent = getFlags()['markdownIndent']
     # It then reads the file it was given, line by line.
     for lineRead in inFile:
         # For each line it reads, it asks *stringManage* to deal with.
-        stringUnstripped = stringManage(lineRead)[0]
-        stringStripped = stringManage(lineRead)[1]
-        firstChar = stringManage(lineRead)[2]
+        stringUnstripped = stringManage(lineRead)['stringUnstripped']
+        stringStripped = stringManage(lineRead)['stringStripped']
+        firstChar = stringManage(lineRead)['firstChar']
         # It initiates the first-line comparator (#) so it can compare.
-        compareChar = unicodeCompareChar(35)
+        compareChar = unicodeCompareChar(35)['compareChar']
         # If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
         if firstChar == compareChar:
             if stringUnstripped != "hashBang":
@@ -278,13 +278,13 @@ def getFlags():
     else:
         mkdocsUse = False
     # Return the found values.
-    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent, mkdocsUse)
+    return {'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse': mkdocsUse}
 
 # # MKDocs Manage
 # This is the function that manages docbuilder's awareness of mkdocs.
 def mkdocsManage():
     # Check if Docbuilder is being verbose.
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
     # Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
     mkdocsExists = False
     # Check if the mkdocs.yml file exists.
@@ -299,11 +299,11 @@ def mkdocsManage():
         initFileOut('mkdocs.yml')
         mkdocsExists = True
     # Return a happy value if everything works.
-    return mkdocsExists
+    return {'mkdocsExists': mkdocsExists}
 
 def mkdocsAdd(fileName):
     # Check if Docbuilder is being verbose.
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
     # Use mkdocsManage to check if mkdocs.yml exists.
     mkdocsExists = mkdocsManage()
     if mkdocsExists:
@@ -328,15 +328,15 @@ def mkdocsAdd(fileName):
 # This is the main function that sets Docbuilder running.
 def main():
     # The *main* function asks *getFlags* what file the user is generating documentation for.
-    inFile = getFlags()[0]
+    inFile = getFlags()['inFile']
     # The *main* function asks *getFlags* what file the user is generating documentation to.
-    outFile = getFlags()[1]
+    outFile = getFlags()['outFile']
     # The main function checks if the output file pre-exists.
     checkExportFile(outFile)
     # It then tells *readFile* what file it is building documentation for.
     readFile(inFile)
     # Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs.yml, and add itself.
-    mkdocsCheck = getFlags()[6]
+    mkdocsCheck = getFlags()['mkdocsUse']
     if mkdocsCheck:
         mkdocsAdd(outFile)
 

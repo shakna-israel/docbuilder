@@ -86,7 +86,7 @@ verboseActive checks to see how talkative Docbuilder is expected to be.
 
 
 ```
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
 ```
 We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
 
@@ -176,7 +176,7 @@ Finally, we send the three variables, *stringUnstripped*, *stringStripped* and *
 
 
 ```
-    return (stringUnstripped, stringStripped, firstChar)
+    return {'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar}
 ```
 # Check Export File
 
@@ -188,7 +188,7 @@ def checkExportFile(fileExists):
 ```
 
 ```
-    clobberFile = getFlags()[4]
+    clobberFile = getFlags()['clobberFile']
 ```
 Check if Docbuilder should kill any file if it is pre-existing.
 
@@ -334,7 +334,7 @@ This is one way unicode can be handled in Python 3.x, because Python 3.x uses un
 ```
 
 ```
-    return compareChar
+    return {'compareChar': compareChar}
 ```
 # Markdown Write
 
@@ -348,7 +348,7 @@ def markdownWrite(stringLine, fileToWrite):
 ```
 
 ```
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
 ```
 
 ```
@@ -396,7 +396,7 @@ def codeblockWrite(stringLine, fileToWrite):
 ```
 
 ```
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
 ```
 Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
 
@@ -458,7 +458,7 @@ def initFileOut(outFile):
 ```
 
 ```
-    verboseActive = getFlags()[3]
+    verboseActive = getFlags()['verboseActive']
 ```
 
 ```
@@ -502,7 +502,7 @@ Firstly, it checks to see what file the documentation is supposed to be getting 
 
 
 ```
-    outFile = getFlags()[1]
+    outFile = getFlags()['outFile']
 ```
 It then opens the file given the path it has received as a stream.
 
@@ -520,7 +520,7 @@ Check if we want Markdown Indented or not
 
 
 ```
-    markdownIndent = getFlags()[5]
+    markdownIndent = getFlags()['markdownIndent']
 ```
 It then reads the file it was given, line by line.
 
@@ -532,21 +532,21 @@ For each line it reads, it asks *stringManage* to deal with.
 
 
 ```
-        stringUnstripped = stringManage(lineRead)[0]
+        stringUnstripped = stringManage(lineRead)['stringUnstripped']
 ```
 
 ```
-        stringStripped = stringManage(lineRead)[1]
+        stringStripped = stringManage(lineRead)['stringStripped']
 ```
 
 ```
-        firstChar = stringManage(lineRead)[2]
+        firstChar = stringManage(lineRead)['firstChar']
 ```
 It initiates the first-line comparator (#) so it can compare.
 
 
 ```
-        compareChar = unicodeCompareChar(35)
+        compareChar = unicodeCompareChar(35)['compareChar']
 ```
 If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
 
@@ -638,12 +638,6 @@ Create the parsing for the output file. (The file to build documentation for).
 ```
     parser.add_argument("-o", "--output", help="The output file name, without file extension.")
 ```
-Create the parsing for verbose arguments.
-
-
-```
-    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
-```
 Create the parsing for the output directory.
 
 
@@ -656,17 +650,23 @@ Create the parsing for Markdown Indentation.
 ```
     parser.add_argument("--indent", help="Indent Markdown", action="store_true")
 ```
-Create the parsing for file clobbering politeness.
-
-
-```
-    parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
-```
 Create the parsing for mkdocs mode.
 
 
 ```
     parser.add_argument("--mkdocs", help="Make Docbuilder aware you want to use mkdocs.", action="store_true")
+```
+Create the parsing for verbose arguments.
+
+
+```
+    parser.add_argument("-v", "--verbose", help="Print more information to the console", action="store_true")
+```
+Create the parsing for file clobbering politeness.
+
+
+```
+    parser.add_argument("-q", "--quiet", help="Clobber existing files without asking.", action="store_true")
 ```
 Simplify parsing the arguments.
 
@@ -832,7 +832,7 @@ Return the found values.
 
 
 ```
-    return (inFile, outFile, outDir, verboseActive, clobberFile, markdownIndent, mkdocsUse)
+    return {'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse': mkdocsUse}
 ```
 # MKDocs Manage
 
@@ -842,11 +842,31 @@ This is the function that manages docbuilder's awareness of mkdocs.
 ```
 def mkdocsManage():
 ```
+Check if Docbuilder is being verbose.
+
+
+```
+    verboseActive = getFlags()['verboseActive']
+```
+Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
+
+
+```
+    mkdocsExists = False
+```
 Check if the mkdocs.yml file exists.
 
 
 ```
     if os.path.isfile('mkdocs.yml'):
+```
+
+```
+        if verboseActive:
+```
+
+```
+            print("mkdocs.yml exists.")
 ```
 
 ```
@@ -860,6 +880,14 @@ If it doesn't, create it, using the filename as a title.
 ```
 
 ```
+        if verboseActive:
+```
+
+```
+            print("mkdocs.yml doesn't exist... Creating it.")
+```
+
+```
         initFileOut('mkdocs.yml')
 ```
 
@@ -870,11 +898,17 @@ Return a happy value if everything works.
 
 
 ```
-    return mkdocsExists
+    return {'mkdocsExists': mkdocsExists}
 ```
 
 ```
 def mkdocsAdd(fileName):
+```
+Check if Docbuilder is being verbose.
+
+
+```
+    verboseActive = getFlags()['verboseActive']
 ```
 Use mkdocsManage to check if mkdocs.yml exists.
 
@@ -886,17 +920,41 @@ Use mkdocsManage to check if mkdocs.yml exists.
 ```
     if mkdocsExists:
 ```
+
+```
+        if verboseActive:
+```
+
+```
+            print("mkdocs.yml exists.")
+```
 Search mkdocs.yml for the filename.
 
 
 ```
         if fileName not in open('mkdocs.yml').read():
 ```
+
+```
+            if verboseActive:
+```
+
+```
+                print("Didn't find current file listed in mkdocs file.")
+```
 If fileName isn't in mkdocs.yml, check if mkdocs.yml is using a page tree.
 
 
 ```
             if 'pages' in open('mkdocs.yml').read():
+```
+
+```
+                if verboseActive:
+```
+
+```
+                    print("MKDocs is using a pages tree.")
 ```
 If it is, open it in append mode.
 
@@ -910,6 +968,14 @@ Then add fileName to the bottom of the tree.
 ```
                     mkdocsFile.write("- [" + fileName + ', ' + fileName.rpartition('.')[0] + ']')
 ```
+
+```
+                    if verboseActive:
+```
+
+```
+                        print("Added file listing to mkdocs.yml")
+```
 # Main
 
 This is the main function that sets Docbuilder running.
@@ -922,13 +988,13 @@ The *main* function asks *getFlags* what file the user is generating documentati
 
 
 ```
-    inFile = getFlags()[0]
+    inFile = getFlags()['inFile']
 ```
 The *main* function asks *getFlags* what file the user is generating documentation to.
 
 
 ```
-    outFile = getFlags()[1]
+    outFile = getFlags()['outFile']
 ```
 The main function checks if the output file pre-exists.
 
@@ -946,7 +1012,7 @@ Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs
 
 
 ```
-    mkdocsCheck = getFlags()[6]
+    mkdocsCheck = getFlags()['mkdocsUse']
 ```
 
 ```
