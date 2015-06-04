@@ -23,7 +23,7 @@ import os
 import sys
 # Used to handle command-line arguments.
 import argparse
-# Used to make docbuilder a little speedier
+# Used to make docbuilder a little speedier.
 import fileinput
 
 # # Metadata:
@@ -112,11 +112,11 @@ def checkExportDir(directory):
 # It checks the allowed functions and returns the correct unicode character for the code it was given.
 def unicodeCompareChar(uniCode):
     try:
-        # This is one way unicode can be handled pre Python 3.x
-        compareChar = unichr(uniCode)
-    except NameError:
         # This is one way unicode can be handled in Python 3.x, because Python 3.x uses unicode for... Everything.
         compareChar = chr(uniCode)
+    except NameError:
+        # This is one way unicode can be handled pre Python 3.x
+        compareChar = unichr(uniCode)
     return {'compareChar': compareChar}
 
 # # Markdown Write
