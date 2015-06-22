@@ -30,7 +30,7 @@ import fileinput
 # These are used with setuptools and Pip to let people know what exactly they are installing.
 
 __author__ = 'James Milne'
-__version__ = '0.5-dev'
+__version__ = '0.5'
 __license__ = 'MIT'
 __description__ = 'Docbuilder allows you to build Markdown documents without the need for detangling executables from literate Python programs. http://docbuilder.rtfd.org'
 
