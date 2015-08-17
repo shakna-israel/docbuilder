@@ -337,7 +337,7 @@ class Docbuilder:
             except KeyError:
                 verboseActive = False
             # Return a dictionary of values we've built.
-            return {'inFile':inFile,'outDir':outDir,'outFile':outFile,'markdownIndent':markdownIndent,'clobberFile':clobberFile,'mkdocsUse':mkdocsUse,'verboseActive':verboseActive}
+            return {'inFile': inFile, 'outDir': outDir, 'outFile': outFile, 'markdownIndent': markdownIndent, 'clobberFile': clobberFile, 'mkdocsUse': mkdocsUse, 'verboseActive': verboseActive}
         else:
             return False
 
