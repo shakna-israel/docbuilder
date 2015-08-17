@@ -48,11 +48,10 @@ class Docbuilder:
     # *stringManage* is one of the main functions of Docbuilder.
     # It is in this function that each line of the Python Literate program is examined.
     def stringManage(self, lineInFile):
-        if not self.setFlags():
-            # verboseActive checks to see how talkative Docbuilder is expected to be.
-            verboseActive = getFlags()['verboseActive']
+        if self.setFlags():
+            verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = setFlags()['verboseActive']
+            verboseActive = getFlags()['verboseActive']
         # We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
         stringUnstripped = lineInFile
         # We check if the line is a UNIX style *hash bang*, because we don't particularly want to see that in the documentation file.
@@ -86,10 +85,10 @@ class Docbuilder:
     # This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
     def checkExportFile(self, fileExists):
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not self.setFlags():
-            clobberFile = getFlags()['clobberFile']
+        if self.setFlags():
+            clobberFile = self.setFlags()['clobberFile']
         else:
-            clobberFile = setFlags()['clobberFile']
+            clobberFile = getFlags()['clobberFile']
         # Check if Docbuilder should kill any file if it is pre-existing.
         if clobberFile:
             if os.path.isfile(fileExists):
@@ -141,10 +140,10 @@ class Docbuilder:
     # It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
     def markdownWrite(self, stringLine, fileToWrite):
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not self.setFlags():
-            verboseActive = getFlags()['verboseActive']
+        if self.setFlags():
+            verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = setFlags()['verboseActive']
+            verboseActive = getFlags()['verboseActive']
         if verboseActive:
             print("Attempting to open steam to append...")
         # Write the line we're given, and append a blank line underneath.
@@ -156,10 +155,10 @@ class Docbuilder:
     # This is a function that, when given a line and file to append to, attempts to turn that line into a Markdown codeblock.
     def codeblockWrite(self, stringLine, fileToWrite):
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not self.setFlags():
-            verboseActive = getFlags()['verboseActive']
+        if self.setFlags():
+            verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = setFlags()['verboseActive']
+            verboseActive = getFlags()['verboseActive']
         # Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
         if stringLine != "hashBang":
             # If there is any newline characters, discard them.
@@ -176,10 +175,10 @@ class Docbuilder:
     # This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
     def initFileOut(self, outFile):
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not self.setFlags():
-            verboseActive = getFlags()['verboseActive']
+        if self.setFlags():
+            verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = setFlags()['verboseActive']
+            verboseActive = getFlags()['verboseActive']
         if verboseActive:
             print("Attempting to create file... " + outFile + ".")
         # Try and create the file by opening it. If it doesn't exist, Python should create it.
@@ -195,10 +194,10 @@ class Docbuilder:
     def readFile(self, inputFile):
         # Firstly, it checks to see what file the documentation is supposed to be getting written to.
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not self.setFlags:
-            outFile = getFlags()['outFile']
-        else:
+        if self.setFlags():
             outFile = self.setFlags()['outFile']
+        else:
+            outFile = getFlags()['outFile']
         # It then opens the file given the path it has received as a stream.
         inFile = fileinput.input(inputFile)
         # Creates a Stream to write to, instead of the file.
@@ -243,12 +242,10 @@ class Docbuilder:
     # This is the function that manages docbuilder's awareness of mkdocs.
     def mkdocsManage(self):
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not setFlags:
-            # Check if Docbuilder is being verbose.
-            verboseActive = getFlags()['verboseActive']
+        if self.setFlags():
+            verboseActive = self.setFlags()['verboseActive']
         else:
-            # Check if Docbuilder is being verbose.
-            verboseActive = setFlags()['verboseActive']
+            verboseActive = getFlags()['verboseActive']
         # Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
         mkdocsExists = False
         # Check if the mkdocs.yml file exists.
@@ -269,12 +266,10 @@ class Docbuilder:
     # This is the function that checks and generates the MKDocs contents file (mkdocs.yml)
     def mkdocsAdd(self, fileName):
         # Check if Docbuilder is an Object, or being called by the CLI
-        if not setFlags:
-            # Check if Docbuilder is being verbose.
-            verboseActive = getFlags()['verboseActive']
+        if self.setFlags():
+            verboseActive = self.setFlags()['verboseActive']
         else:
-            # Check if Docbuilder is being verbose.
-            verboseActive = setFlags()['verboseActive']
+            verboseActive = getFlags()['verboseActive']
         # Use mkdocsManage to check if mkdocs.yml exists.
         mkdocsExists = mkdocsManage()
         if mkdocsExists:
