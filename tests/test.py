@@ -5,6 +5,11 @@ import subprocess
 
 import docbuilder
 
+try:
+    import StringIO
+except ImportError:
+    import io as StringIO
+
 global lines
 lines = "Not set"
 
@@ -299,6 +304,8 @@ class TestCodeOO(unittest.TestCase):
         examineString = builder.stringManage("This is a string")
         if examineString['stringUnstripped'] == "This is a string":
             pass
+        else:
+            assert False
 
     def test_object_string_manage_stripped(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the stripped string"""
@@ -306,13 +313,36 @@ class TestCodeOO(unittest.TestCase):
         examineString = builder.stringManage("  This is a string  ")
         if examineString['stringStripped'] == "This is a string":
             pass
+        else:
+            assert False
 
     def test_object_string_manage_first_character(self):
-        """Test to see if string_manage behaves sensibly by default for an object, looking at the first character"""
+        """Test to see if stringManage behaves sensibly by default for an object, looking at the first character"""
         builder = docbuilder.Docbuilder()
         examineString = builder.stringManage("This is a string")
         if examineString['firstChar'] == "T":
             pass
+        else:
+            assert False
+
+    def test_object_compare_character(self):
+        """Test to see if unicodeCompareChar can take a unicode number and return the correct character"""
+        builder = docbuilder.Docbuilder()
+        compareCharacter = builder.unicodeCompareChar(35)
+        if compareCharacter['compareChar'] == "#":
+            pass
+        else:
+            assert False
+
+    def test_object_markdown_write(self):
+        """Test to see if the object oriented approach can write to Markdown"""
+        builder = docbuilder.Docbuilder()
+        streamObject = StringIO.StringIO()
+        builder.markdownWrite("# Title", streamObject)
+        if streamObject.getvalue() = "# Title":
+            pass
+        else:
+            assert False
 
 # Remove all test data. 
 teardown()
