@@ -339,7 +339,7 @@ class TestCodeOO(unittest.TestCase):
         builder = docbuilder.Docbuilder()
         streamObject = StringIO.StringIO()
         builder.markdownWrite("# Title", streamObject)
-        if streamObject.getvalue() = "# Title":
+        if streamObject.getvalue() == "# Title":
             pass
         else:
             assert False
