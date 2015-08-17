@@ -51,7 +51,7 @@ class Docbuilder:
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = getFlags()['verboseActive']
+            verboseActive = getFlags(self)['verboseActive']
         # We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
         stringUnstripped = lineInFile
         # We check if the line is a UNIX style *hash bang*, because we don't particularly want to see that in the documentation file.
@@ -88,7 +88,7 @@ class Docbuilder:
         if self.setFlags():
             clobberFile = self.setFlags()['clobberFile']
         else:
-            clobberFile = getFlags()['clobberFile']
+            clobberFile = getFlags(self)['clobberFile']
         # Check if Docbuilder should kill any file if it is pre-existing.
         if clobberFile:
             if os.path.isfile(fileExists):
@@ -143,7 +143,7 @@ class Docbuilder:
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = getFlags()['verboseActive']
+            verboseActive = getFlags(self)['verboseActive']
         if verboseActive:
             print("Attempting to open steam to append...")
         # Write the line we're given, and append a blank line underneath.
@@ -158,7 +158,7 @@ class Docbuilder:
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = getFlags()['verboseActive']
+            verboseActive = getFlags(self)['verboseActive']
         # Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
         if stringLine != "hashBang":
             # If there is any newline characters, discard them.
@@ -178,7 +178,7 @@ class Docbuilder:
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = getFlags()['verboseActive']
+            verboseActive = getFlags(self)['verboseActive']
         if verboseActive:
             print("Attempting to create file... " + outFile + ".")
         # Try and create the file by opening it. If it doesn't exist, Python should create it.
@@ -197,7 +197,7 @@ class Docbuilder:
         if self.setFlags():
             outFile = self.setFlags()['outFile']
         else:
-            outFile = getFlags()['outFile']
+            outFile = getFlags(self)['outFile']
         # It then opens the file given the path it has received as a stream.
         inFile = fileinput.input(inputFile)
         # Creates a Stream to write to, instead of the file.
@@ -206,7 +206,7 @@ class Docbuilder:
         self.initFileOut(outFile)
         if not self.setFlags():
             # Check if we want Markdown Indented or not
-            markdownIndent = getFlags()['markdownIndent']
+            markdownIndent = getFlags(self)['markdownIndent']
         else:
             # Check if we want Markdown Indented or not
             markdownIndent = setFlags()['markdownIndent']
@@ -245,7 +245,7 @@ class Docbuilder:
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = getFlags()['verboseActive']
+            verboseActive = getFlags(self)['verboseActive']
         # Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
         mkdocsExists = False
         # Check if the mkdocs.yml file exists.
@@ -269,7 +269,7 @@ class Docbuilder:
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
         else:
-            verboseActive = getFlags()['verboseActive']
+            verboseActive = getFlags(self)['verboseActive']
         # Use mkdocsManage to check if mkdocs.yml exists.
         mkdocsExists = mkdocsManage()
         if mkdocsExists:
@@ -349,7 +349,7 @@ class Docbuilder:
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
 # It's also where we define the Public API.
 # NOTE: All command-line arguments are *optional*, Docbuilder will build it's own documentation if given no arguments.
-def getFlags():
+def getFlags(docbuilderObject):
     # Initialise our parser for arguments.
     parser = argparse.ArgumentParser()
     # Create the parsing for the input file. (The file to build documentation from).
@@ -384,7 +384,7 @@ def getFlags():
     if cliArgs.directory:
         outDir = cliArgs.directory + "/"
         # If the output directory doesn't exist, ask Docbuilder to create it.
-        self.checkExportDir(outDir)
+        docbuilderObject.checkExportDir(outDir)
     # If the user didn't specify a directory, assume they want the *docs* directory.
     else:
         outDir = "docs" + "/"
@@ -422,15 +422,15 @@ def getFlags():
 def cli_main():
     builder = Docbuilder()
     # The *main* function asks *getFlags* what file the user is generating documentation for.
-    inFile = getFlags()['inFile']
+    inFile = getFlags(builder)['inFile']
     # The *main* function asks *getFlags* what file the user is generating documentation to.
-    outFile = getFlags()['outFile']
+    outFile = getFlags(builder)['outFile']
     # The main function checks if the output file pre-exists.
     builder.checkExportFile(outFile)
     # It then tells *readFile* what file it is building documentation for.
     builder.readFile(inFile)
     # Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs.yml, and add itself.
-    mkdocsCheck = getFlags()['mkdocsUse']
+    mkdocsCheck = getFlags(builder)['mkdocsUse']
     if mkdocsCheck:
         builder.mkdocsAdd(outFile)
 
