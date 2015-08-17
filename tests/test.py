@@ -285,7 +285,7 @@ class TestCodeFormat(unittest.TestCase):
 # A test suite for the object oriented approach
 class TestCodeOO(unittest.TestCase):
 
-    def test_object_creation():
+    def test_object_creation(self):
         """Test to see if we can instantiate a Docbuilder object"""
         builder = docbuilder.Docbuilder()
         if isinstance(builder, docbuilder.Docbuilder):
@@ -293,21 +293,21 @@ class TestCodeOO(unittest.TestCase):
         else:
             assert False
 
-    def test_object_string_manage_unstripped():
+    def test_object_string_manage_unstripped(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the unstripped string"""
         builder = docbuilder.Docbuilder()
         examineString = builder.string_manage("This is a string")
         if examineString['stringUnstripped'] == "This is a string":
             pass
 
-    def test_object_string_manage_stripped():
+    def test_object_string_manage_stripped(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the stripped string"""
         builder = docbuilder.Docbuilder()
         examineString = builder.string_manage("  This is a string  ")
         if examineString['stringStripped'] == "This is a string":
             pass
 
-    def test_object_string_manage_first_character():
+    def test_object_string_manage_first_character(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the first character"""
         builder = docbuilder.Docbuilder()
         examineString = builder.string_manage("This is a string")
