@@ -346,5 +346,18 @@ class TestCodeOO(unittest.TestCase):
             print(streamObject.getvalue())
             assert False
 
+    def test_object_code_write(self):
+        """Test to see if the object oriented approach can write a Markdown Codeblock"""
+        builder = docbuilder.Docbuilder()
+        streamObject = StringIO.StringIO()
+        builder.codeblockWrite("# Title", streamObject)
+        if "```" in streamObject.getvalue():
+            if "# Title" in streamObject.getvalue():
+                pass
+            else:
+                assert False
+        else:
+            assert False
+
 # Remove all test data. 
 teardown()
