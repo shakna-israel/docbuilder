@@ -8,10 +8,5 @@ python:
  - "3.4"
  - "pypy"
  - "pypy3"
- - "nightly" # Cython
 install: "pip install -r tests/dev-requirements.txt"
 script: "nosetests"
-matrix:
-  allow_failures:
-   - "nightly"
-  fast_finish: true
