@@ -3,6 +3,8 @@ import pep8
 import os
 import subprocess
 
+import docbuilder
+
 global lines
 lines = "Not set"
 
@@ -279,6 +281,38 @@ class TestCodeFormat(unittest.TestCase):
             print("Expected: ```\n")
             print("Received: " + lines[17])
             assert False
+
+# A test suite for the object oriented approach
+class TestCodeOO(unittest.TestCase):
+
+    def test_object_creation():
+        """Test to see if we can instantiate a Docbuilder object"""
+        builder = docbuilder.Docbuilder()
+        if isinstance(builder, docbuilder.Docbuilder):
+            pass
+        else:
+            assert False
+
+    def test_object_string_manage_unstripped():
+        """Test to see if string_manage behaves sensibly by default for an object, looking at the unstripped string"""
+        builder = docbuilder.Docbuilder()
+        examineString = builder.string_manage("This is a string")
+        if examineString['stringUnstripped'] == "This is a string":
+            pass
+
+    def test_object_string_manage_stripped():
+        """Test to see if string_manage behaves sensibly by default for an object, looking at the stripped string"""
+        builder = docbuilder.Docbuilder()
+        examineString = builder.string_manage("  This is a string  ")
+        if examineString['stringStripped'] == "This is a string":
+            pass
+
+    def test_object_string_manage_first_character():
+        """Test to see if string_manage behaves sensibly by default for an object, looking at the first character"""
+        builder = docbuilder.Docbuilder()
+        examineString = builder.string_manage("This is a string")
+        if examineString['firstChar'] == "T":
+            pass
 
 # Remove all test data. 
 teardown()
