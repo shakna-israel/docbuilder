@@ -384,7 +384,7 @@ def getFlags():
     if cliArgs.directory:
         outDir = cliArgs.directory + "/"
         # If the output directory doesn't exist, ask Docbuilder to create it.
-        checkExportDir(outDir)
+        self.checkExportDir(outDir)
     # If the user didn't specify a directory, assume they want the *docs* directory.
     else:
         outDir = "docs" + "/"
