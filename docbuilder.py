@@ -258,6 +258,51 @@ class Docbuilder:
                         if verboseActive:
                             print("Added file listing to mkdocs.yml")
 
+    # ## Set Flags
+    # This is a function that can be used to set Docbuilder's flags, when embedding it as a Python Object
+    def setFlags(dictIn=None):
+        raise NotYetImplementedError
+        # Check if the user has sent in a dictionary, if not, just return a False value.
+        if type(dictIn) is dict:
+            # Check if the inFile key exists in the dictionary, if not, set it to docbuilder.py
+            try:
+                inFile = dictIn['inFile']
+            except KeyError:
+                inFile = 'docbuilder.py'
+            # Check if the outDir key exists in the dictionary, if not, set it to False. *NOT* to docs.
+            # Rationale: Embedded Docbuilder could be writing to any file-like stream, not just to a file.
+            try:
+                outDir = dictIn['outDir']
+            except KeyError:
+                outDir = False
+            # Check if the outFile key exists in the dictionary, if not, set it to 'docbuilder.md'
+            try:
+                outFile = dictIn['outFile']
+            except KeyError:
+                if outDir:
+                    outfile = outDir + 'docbuilder.md'
+                else:
+                    outfile = 'docbuilder.md'
+            # Check if the markdownIndent key exists in the dictionary, if not, set it to False.
+            try:
+                markdownIndent = dictIn['markdownIndent']
+            except KeyError:
+                markdownIndent = False
+            # Check if the clobberFile key exists in the dictionary, if not, set it to False.
+            # This is only needed if writing to a file on disk.
+            try:
+                clobberFile = dictIn['clobberFile']
+            except KeyError:
+                clobberFile = False
+            # Check if the mkdocsUse key exists in the dictionary, if not, set it to False.
+            # This is only needed if writing to file, and wanted to use mkdocs.
+            try:
+                mkdocsUse = dictIn['mkdocsUse']
+            except KeyError:
+                mkdocsUse = False
+        else:
+            return False
+
 # ## CLI Functions
 # These functions are only called if Docbuilder is called from the command line.
 # e.g. ```./docbuilder.py -i somelit.pylit -o SomeLit```
@@ -334,9 +379,9 @@ def getFlags():
     return {'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse': mkdocsUse}
 
 
-# # Main
-# This is the main function that sets Docbuilder running.
-def main():
+# # CLI Main
+# This is the main function that sets Docbuilder running, if you call it from the commandline.
+def cli_main():
     builder = Docbuilder()
     # The *main* function asks *getFlags* what file the user is generating documentation for.
     inFile = getFlags()['inFile']
@@ -353,4 +398,4 @@ def main():
 
 # This is a simple function that tells Python what the main function is.    
 if __name__ == '__main__':
-    main()
+    cli_main()
