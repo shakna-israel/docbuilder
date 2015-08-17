@@ -25,6 +25,11 @@ import sys
 import argparse
 # Used to make docbuilder a little speedier.
 import fileinput
+# Used to make docbuilder a little speedier.
+try:
+    import StringIO
+except ImportError:
+    import io as StringIO
 
 # # Metadata:
 # These are used with setuptools and Pip to let people know what exactly they are installing.
@@ -120,21 +125,16 @@ def unicodeCompareChar(uniCode):
     return {'compareChar': compareChar}
 
 # # Markdown Write
-# This is a simple function, that is given both a line of Markdown to write, and a file to append to.
+# This is a simple function, that is given both a line of Markdown to write, and a stream to write to.
 # It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
 def markdownWrite(stringLine, fileToWrite):
     verboseActive = getFlags()['verboseActive']
     if verboseActive:
-        print("Attempting to open " + fileToWrite + " file to append...")
-    # Open the file in append mode.
-    outFile = open(fileToWrite, "a")
+        print("Attempting to open " + fileToWrite + " steam to append...")
     # Write the line we're given, and append a blank line underneath.
-    outFile.write(stringLine + "\n\n")
+    fileToWrite.write(stringLine + "\n\n")
     if verboseActive:
-        print("Closing " + fileToWrite + " file.")
-    # Close out the file, so we aren't doing anything blocking.
-    # This open/close procedure for every line should help with some race conditions, if they happen.
-    outFile.close()
+        print("Closing " + fileToWrite + " stream.")
 
 # # Codeblock Write
 # This is a function that, when given a line and file to append to, attempts to turn that line into a Markdown codeblock.
@@ -146,16 +146,11 @@ def codeblockWrite(stringLine, fileToWrite):
         stringLine = stringLine.replace("\n", "")
         # It then proceeds to append to the given file, inside a Markdown codeblock.
         if verboseActive:
-            print("Attempting to open " + fileToWrite + " file to append...")
-        # Open the file in append file.
-        outFile = open(fileToWrite, "a")
+            print("Attempting to open " + fileToWrite + " stream to append...")
         # Append the line we're given inside a code block, with a newline before and after.
-        outFile.write("\n```\n" + stringLine + "\n```\n")
+        fileToWrite.write("\n```\n" + stringLine + "\n```\n")
         if verboseActive:
-            print("Closing " + fileToWrite + " file.")
-        # Close out the file.
-        # This open/close procedure for every line should help with some race conditions, if they happen.
-        outFile.close()
+            print("Closing " + fileToWrite + " stream.")
 
 # # Initiate File Out
 # This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
@@ -178,6 +173,8 @@ def readFile(inputFile):
     outFile = getFlags()['outFile']
     # It then opens the file given the path it has received as a stream.
     inFile = fileinput.input(inputFile)
+    # Creates a Stream to write to, instead of the file.
+    tempOutput = StringIO.StringIO()
     # It asks (nicely) that the file being written to be created.
     initFileOut(outFile)
     # Check if we want Markdown Indented or not
@@ -197,17 +194,19 @@ def readFile(inputFile):
                 if markdownIndent:
                     # Strip only the first two characters. These should be a hash, ```#```, and a space, ``` ```.
                     indentedString = stringUnstripped[2:]
-                    markdownWrite(indentedString, outFile)
+                    markdownWrite(indentedString, tempOutput)
                 # If the user doesn't want indented Markdown, just ask the *markdownWrite* function to do its job.
                 else:
-                    markdownWrite(stringStripped, outFile)
+                    markdownWrite(stringStripped, tempOutput)
         else:
             # Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
             # The strip() statement is just to ensure there isn't any invisible indentation that might muck us around.
             if stringUnstripped.strip() != "":
                 if stringUnstripped.strip() != "\n":
-                    codeblockWrite(stringUnstripped, outFile)
-    inFile.close()
+                    codeblockWrite(stringUnstripped, tempOutput)
+    with open(outFile, 'w+') as outFileWriting:
+        outFileWriting.write(tempOutput.getvalue())
+
 
 # # Get Flags
 # *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
