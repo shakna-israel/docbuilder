@@ -11,3 +11,7 @@ python:
  - "nightly" # Cython
 install: "pip install -r tests/dev-requirements.txt"
 script: "nosetests"
+matrix:
+  allow_failures:
+   - "nightly"
+  fast_finish: true
