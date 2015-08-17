@@ -46,11 +46,29 @@ Used to handle command-line arguments.
 ```
 import argparse
 ```
-Used to make docbuilder a little speedier
+Used to make docbuilder a little speedier.
 
 
 ```
 import fileinput
+```
+Used to make docbuilder a little speedier.
+
+
+```
+try:
+```
+
+```
+    import StringIO
+```
+
+```
+except ImportError:
+```
+
+```
+    import io as StringIO
 ```
 # Metadata:
 
@@ -62,7 +80,7 @@ __author__ = 'James Milne'
 ```
 
 ```
-__version__ = '0.5-dev'
+__version__ = '0.6-dev'
 ```
 
 ```
@@ -316,16 +334,6 @@ def unicodeCompareChar(uniCode):
 ```
     try:
 ```
-This is one way unicode can be handled pre Python 3.x
-
-
-```
-        compareChar = unichr(uniCode)
-```
-
-```
-    except NameError:
-```
 This is one way unicode can be handled in Python 3.x, because Python 3.x uses unicode for... Everything.
 
 
@@ -334,11 +342,21 @@ This is one way unicode can be handled in Python 3.x, because Python 3.x uses un
 ```
 
 ```
+    except NameError:
+```
+This is one way unicode can be handled pre Python 3.x
+
+
+```
+        compareChar = unichr(uniCode)
+```
+
+```
     return {'compareChar': compareChar}
 ```
 # Markdown Write
 
-This is a simple function, that is given both a line of Markdown to write, and a file to append to.
+This is a simple function, that is given both a line of Markdown to write, and a stream to write to.
 
 It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
 
@@ -356,19 +374,13 @@ def markdownWrite(stringLine, fileToWrite):
 ```
 
 ```
-        print("Attempting to open " + fileToWrite + " file to append...")
-```
-Open the file in append mode.
-
-
-```
-    outFile = open(fileToWrite, "a")
+        print("Attempting to open " + fileToWrite + " steam to append...")
 ```
 Write the line we're given, and append a blank line underneath.
 
 
 ```
-    outFile.write(stringLine + "\n\n")
+    fileToWrite.write(stringLine + "\n\n")
 ```
 
 ```
@@ -376,15 +388,7 @@ Write the line we're given, and append a blank line underneath.
 ```
 
 ```
-        print("Closing " + fileToWrite + " file.")
-```
-Close out the file, so we aren't doing anything blocking.
-
-This open/close procedure for every line should help with some race conditions, if they happen.
-
-
-```
-    outFile.close()
+        print("Closing " + fileToWrite + " stream.")
 ```
 # Codeblock Write
 
@@ -418,19 +422,13 @@ It then proceeds to append to the given file, inside a Markdown codeblock.
 ```
 
 ```
-            print("Attempting to open " + fileToWrite + " file to append...")
-```
-Open the file in append file.
-
-
-```
-        outFile = open(fileToWrite, "a")
+            print("Attempting to open " + fileToWrite + " stream to append...")
 ```
 Append the line we're given inside a code block, with a newline before and after.
 
 
 ```
-        outFile.write("\n```\n" + stringLine + "\n```\n")
+        fileToWrite.write("\n```\n" + stringLine + "\n```\n")
 ```
 
 ```
@@ -438,15 +436,7 @@ Append the line we're given inside a code block, with a newline before and after
 ```
 
 ```
-            print("Closing " + fileToWrite + " file.")
-```
-Close out the file.
-
-This open/close procedure for every line should help with some race conditions, if they happen.
-
-
-```
-        outFile.close()
+            print("Closing " + fileToWrite + " stream.")
 ```
 # Initiate File Out
 
@@ -510,6 +500,12 @@ It then opens the file given the path it has received as a stream.
 ```
     inFile = fileinput.input(inputFile)
 ```
+Creates a Stream to write to, instead of the file.
+
+
+```
+    tempOutput = StringIO.StringIO()
+```
 It asks (nicely) that the file being written to be created.
 
 
@@ -572,7 +568,7 @@ Strip only the first two characters. These should be a hash, ```#```, and a spac
 ```
 
 ```
-                    markdownWrite(indentedString, outFile)
+                    markdownWrite(indentedString, tempOutput)
 ```
 If the user doesn't want indented Markdown, just ask the *markdownWrite* function to do its job.
 
@@ -582,7 +578,7 @@ If the user doesn't want indented Markdown, just ask the *markdownWrite* functio
 ```
 
 ```
-                    markdownWrite(stringStripped, outFile)
+                    markdownWrite(stringStripped, tempOutput)
 ```
 
 ```
@@ -602,11 +598,15 @@ The strip() statement is just to ensure there isn't any invisible indentation th
 ```
 
 ```
-                    codeblockWrite(stringUnstripped, outFile)
+                    codeblockWrite(stringUnstripped, tempOutput)
 ```
 
 ```
-    inFile.close()
+    with open(outFile, 'w+') as outFileWriting:
+```
+
+```
+        outFileWriting.write(tempOutput.getvalue())
 ```
 # Get Flags
 
