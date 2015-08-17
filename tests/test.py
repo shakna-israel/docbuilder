@@ -296,21 +296,21 @@ class TestCodeOO(unittest.TestCase):
     def test_object_string_manage_unstripped(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the unstripped string"""
         builder = docbuilder.Docbuilder()
-        examineString = builder.string_manage("This is a string")
+        examineString = builder.stringManage("This is a string")
         if examineString['stringUnstripped'] == "This is a string":
             pass
 
     def test_object_string_manage_stripped(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the stripped string"""
         builder = docbuilder.Docbuilder()
-        examineString = builder.string_manage("  This is a string  ")
+        examineString = builder.stringManage("  This is a string  ")
         if examineString['stringStripped'] == "This is a string":
             pass
 
     def test_object_string_manage_first_character(self):
         """Test to see if string_manage behaves sensibly by default for an object, looking at the first character"""
         builder = docbuilder.Docbuilder()
-        examineString = builder.string_manage("This is a string")
+        examineString = builder.stringManage("This is a string")
         if examineString['firstChar'] == "T":
             pass
 
