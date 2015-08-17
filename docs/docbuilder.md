@@ -90,7 +90,15 @@ __license__ = 'MIT'
 ```
 __description__ = 'Docbuilder allows you to build Markdown documents without the need for detangling executables from literate Python programs. http://docbuilder.rtfd.org'
 ```
-# String Manage:
+# Object Functions
+
+These functions make up a standard Docbuilder object
+
+
+```
+class Docbuilder:
+```
+## String Manage:
 
 *stringManage* is one of the main functions of Docbuilder.
 
@@ -98,229 +106,229 @@ It is in this function that each line of the Python Literate program is examined
 
 
 ```
-def stringManage(lineInFile):
+    def stringManage(self, lineInFile):
 ```
 verboseActive checks to see how talkative Docbuilder is expected to be.
 
 
 ```
-    verboseActive = getFlags()['verboseActive']
+        verboseActive = getFlags()['verboseActive']
 ```
 We set up the line fed into stringManage as the unmodified *stringUnstripped* variable.
 
 
 ```
-    stringUnstripped = lineInFile
+        stringUnstripped = lineInFile
 ```
 We check if the line is a UNIX style *hash bang*, because we don't particularly want to see that in the documentation file.
 
 
 ```
-    if stringUnstripped[:3] == "#!/":
+        if stringUnstripped[:3] == "#!/":
 ```
+
+```
+            if verboseActive:
+```
+
+```
+                print("Found hashbang! Ignoring.")
+```
+By setting *stringUnstripped* to *hashBang* it can be discarded later by another function.
+
+
+```
+            stringUnstripped = "hashBang"
+```
+If Docbuilder is talkative, it will tell the console exactly what the line it is examining looks like.
+
 
 ```
         if verboseActive:
 ```
 
 ```
-            print("Found hashbang! Ignoring.")
-```
-By setting *stringUnstripped* to *hashBang* it can be discarded later by another function.
-
-
-```
-        stringUnstripped = "hashBang"
-```
-If Docbuilder is talkative, it will tell the console exactly what the line it is examining looks like.
-
-
-```
-    if verboseActive:
-```
-
-```
-        print("The current unstripped line is... " + stringUnstripped)
+            print("The current unstripped line is... " + stringUnstripped)
 ```
 We strip the white space around the unmodified string, and name this new variable *stringStripped*.
 
 
 ```
-    stringStripped = stringUnstripped.strip()
+        stringStripped = stringUnstripped.strip()
 ```
 We fetch the first character of the string so we can compare it later.
 
 
 ```
-    firstChar = stringStripped[:1]
+        firstChar = stringStripped[:1]
 ```
 If Docbuilder is talkative, it will tell us what the first character looks like.
 
 
 ```
-    if verboseActive:
+        if verboseActive:
 ```
 
 ```
-        print("The first character of the current line is..." + firstChar)
+            print("The first character of the current line is..." + firstChar)
 ```
 Then it will tell us what the whitespace stripped line looks like.
 
 
 ```
-    if verboseActive:
+        if verboseActive:
 ```
 
 ```
-        print("The current stripped line is... " + stringStripped)
+            print("The current stripped line is... " + stringStripped)
 ```
 Finally, we strip the first character from the line so we can examine it better, without having to strip the character away later.
 
 
 ```
-    stringStripped = stringStripped[1:].strip()
+        stringStripped = stringStripped[1:].strip()
 ```
 If Docbuilder is talkative, it will tell us what that line looks like without the first character.
 
 
 ```
-    if verboseActive:
+        if verboseActive:
 ```
 
 ```
-        print("After first character stripping, the current unstripped line is..." + stringStripped)
+            print("After first character stripping, the current unstripped line is..." + stringStripped)
 ```
 Finally, we send the three variables, *stringUnstripped*, *stringStripped* and *firstChar* back to whatever function called *stringManage*.
 
 
 ```
-    return {'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar}
+        return {'stringUnstripped': stringUnstripped, 'stringStripped': stringStripped, 'firstChar': firstChar}
 ```
-# Check Export File
+## Check Export File
 
 This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
 
 
 ```
-def checkExportFile(fileExists):
+    def checkExportFile(self, fileExists):
 ```
 
 ```
-    clobberFile = getFlags()['clobberFile']
+        clobberFile = getFlags()['clobberFile']
 ```
 Check if Docbuilder should kill any file if it is pre-existing.
 
 
 ```
-    if clobberFile:
+        if clobberFile:
 ```
 
 ```
-        if os.path.isfile(fileExists):
+            if os.path.isfile(fileExists):
 ```
 If the file exists, and Docbuilder is expected to clobber, kill the file.
 
 
 ```
-            os.remove(fileExists)
+                os.remove(fileExists)
 ```
 
 ```
-    else:
+        else:
 ```
 If the file exists, and Docbuilder is expected to not clobber, print a message and gracefully exit.
 
 
 ```
-        if os.path.isfile(fileExists):
+            if os.path.isfile(fileExists):
 ```
 
 ```
-            print("File " + fileExists + " exists. Not clobbering.")
+                print("File " + fileExists + " exists. Not clobbering.")
 ```
 
 ```
-            sys.exit(0)     
+                sys.exit(0)     
 ```
-# Check Export Directory
+## Check Export Directory
 
 This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.
 
 
 ```
-def checkExportDir(directory):
+    def checkExportDir(self, directory):
 ```
 Check if we have a UNIX-style subdirectory being handed in.
 
 
 ```
-    if '/' in directory:
+        if '/' in directory:
 ```
 Do some clever magic to walk through each of the folders given as a path, and check if the folder exists. If not, make it.
 
 
 ```
-        previousFolder = False
+            previousFolder = False
 ```
 
 ```
-        for folder in directory.split('/'):
+            for folder in directory.split('/'):
 ```
 
 ```
-            if not previousFolder:
+                if not previousFolder:
 ```
 
 ```
-                if folder != "":
+                    if folder != "":
 ```
 
 ```
-                    if not os.path.exists(folder):
+                        if not os.path.exists(folder):
 ```
 
 ```
-                        print(folder)
+                            print(folder)
 ```
 
 ```
-                        os.makedirs(folder)
+                            os.makedirs(folder)
 ```
 
 ```
-                        previousFolder = folder
+                            previousFolder = folder
 ```
 
 ```
-            else:
+                else:
 ```
 
 ```
-                if not os.path.exists(previousFolder + "/" + folder):
+                    if not os.path.exists(previousFolder + "/" + folder):
 ```
 
 ```
-                    print(previousFolder + '/' + folder)
+                        print(previousFolder + '/' + folder)
 ```
 
 ```
-                    os.makedirs(previousFolder + "/" + folder)
+                        os.makedirs(previousFolder + "/" + folder)
 ```
 
 ```
-                    previousFolder = previousFolder + "/" + folder
+                        previousFolder = previousFolder + "/" + folder
 ```
 If we're just given a single directory, check if it exists, if not, make it.
 
 
 ```
-    if not os.path.exists(directory):
+        if not os.path.exists(directory):
 ```
 
 ```
-        os.makedirs(directory)
+            os.makedirs(directory)
 ```
-# Unicode Compare Character
+## Unicode Compare Character
 
 This is a function that only exists due to the unicode differences between Python 2.8, 3.0, and 3.3.
 
@@ -328,33 +336,33 @@ It checks the allowed functions and returns the correct unicode character for th
 
 
 ```
-def unicodeCompareChar(uniCode):
+    def unicodeCompareChar(self, uniCode):
 ```
 
 ```
-    try:
+        try:
 ```
 This is one way unicode can be handled in Python 3.x, because Python 3.x uses unicode for... Everything.
 
 
 ```
-        compareChar = chr(uniCode)
+            compareChar = chr(uniCode)
 ```
 
 ```
-    except NameError:
+        except NameError:
 ```
 This is one way unicode can be handled pre Python 3.x
 
 
 ```
-        compareChar = unichr(uniCode)
+            compareChar = unichr(uniCode)
 ```
 
 ```
-    return {'compareChar': compareChar}
+        return {'compareChar': compareChar}
 ```
-# Markdown Write
+## Markdown Write
 
 This is a simple function, that is given both a line of Markdown to write, and a stream to write to.
 
@@ -362,73 +370,93 @@ It takes that file, and attempts to append it, ensuring aline break underneath e
 
 
 ```
-def markdownWrite(stringLine, fileToWrite):
+    def markdownWrite(self, stringLine, fileToWrite):
 ```
 
 ```
-    verboseActive = getFlags()['verboseActive']
+        verboseActive = getFlags()['verboseActive']
 ```
 
 ```
-    if verboseActive:
+        if verboseActive:
 ```
 
 ```
-        print("Attempting to open " + fileToWrite + " steam to append...")
+            print("Attempting to open steam to append...")
 ```
 Write the line we're given, and append a blank line underneath.
 
 
 ```
-    fileToWrite.write(stringLine + "\n\n")
+        fileToWrite.write(stringLine + "\n\n")
 ```
 
 ```
-    if verboseActive:
+        if verboseActive:
 ```
 
 ```
-        print("Closing " + fileToWrite + " stream.")
+            print("Closing stream.")
 ```
-# Codeblock Write
+## Codeblock Write
 
 This is a function that, when given a line and file to append to, attempts to turn that line into a Markdown codeblock.
 
 
 ```
-def codeblockWrite(stringLine, fileToWrite):
+    def codeblockWrite(self, stringLine, fileToWrite):
 ```
 
 ```
-    verboseActive = getFlags()['verboseActive']
+        verboseActive = getFlags()['verboseActive']
 ```
 Firstly, it checks if the line is simply *hashBang*, a line created by *stringManage*, and it is, refuses to write it.
 
 
 ```
-    if stringLine != "hashBang":
+        if stringLine != "hashBang":
 ```
 If there is any newline characters, discard them.
 
 
 ```
-        stringLine = stringLine.replace("\n", "")
+            stringLine = stringLine.replace("\n", "")
 ```
 It then proceeds to append to the given file, inside a Markdown codeblock.
 
 
 ```
-        if verboseActive:
+            if verboseActive:
 ```
 
 ```
-            print("Attempting to open " + fileToWrite + " stream to append...")
+                print("Attempting to open stream to append...")
 ```
 Append the line we're given inside a code block, with a newline before and after.
 
 
 ```
-        fileToWrite.write("\n```\n" + stringLine + "\n```\n")
+            fileToWrite.write("\n```\n" + stringLine + "\n```\n")
+```
+
+```
+            if verboseActive:
+```
+
+```
+                print("Closing stream.")
+```
+## Initiate File Out
+
+This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
+
+
+```
+    def initFileOut(self, outFile):
+```
+
+```
+        verboseActive = getFlags()['verboseActive']
 ```
 
 ```
@@ -436,41 +464,21 @@ Append the line we're given inside a code block, with a newline before and after
 ```
 
 ```
-            print("Closing " + fileToWrite + " stream.")
-```
-# Initiate File Out
-
-This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
-
-
-```
-def initFileOut(outFile):
-```
-
-```
-    verboseActive = getFlags()['verboseActive']
-```
-
-```
-    if verboseActive:
-```
-
-```
-        print("Attempting to create file... " + outFile + ".")
+            print("Attempting to create file... " + outFile + ".")
 ```
 Try and create the file by opening it. If it doesn't exist, Python should create it.
 
 
 ```
-    initFile = open(outFile, "w+")
+        initFile = open(outFile, "w+")
 ```
 
 ```
-    if verboseActive:
+        if verboseActive:
 ```
 
 ```
-        print("Closing new file... " + outFile + ".")
+            print("Closing new file... " + outFile + ".")
 ```
 Close out the file, because all we're doing right now is creating it.
 
@@ -478,111 +486,111 @@ This function could be problematic with some race conditions, if the file is edi
 
 
 ```
-    initFile.close()
+        initFile.close()
 ```
-# Read File
+## Read File
 
 *readFile* is function that attempts to read a Python Literate Program, and send each line it reads away to be parsed.
 
 
 ```
-def readFile(inputFile):
+    def readFile(self, inputFile):
 ```
 Firstly, it checks to see what file the documentation is supposed to be getting written to.
 
 
 ```
-    outFile = getFlags()['outFile']
+        outFile = getFlags()['outFile']
 ```
 It then opens the file given the path it has received as a stream.
 
 
 ```
-    inFile = fileinput.input(inputFile)
+        inFile = fileinput.input(inputFile)
 ```
 Creates a Stream to write to, instead of the file.
 
 
 ```
-    tempOutput = StringIO.StringIO()
+        tempOutput = StringIO.StringIO()
 ```
 It asks (nicely) that the file being written to be created.
 
 
 ```
-    initFileOut(outFile)
+        self.initFileOut(outFile)
 ```
 Check if we want Markdown Indented or not
 
 
 ```
-    markdownIndent = getFlags()['markdownIndent']
+        markdownIndent = getFlags()['markdownIndent']
 ```
 It then reads the file it was given, line by line.
 
 
 ```
-    for lineRead in inFile:
+        for lineRead in inFile:
 ```
 For each line it reads, it asks *stringManage* to deal with.
 
 
 ```
-        stringUnstripped = stringManage(lineRead)['stringUnstripped']
+            stringUnstripped = self.stringManage(lineRead)['stringUnstripped']
 ```
 
 ```
-        stringStripped = stringManage(lineRead)['stringStripped']
+            stringStripped = self.stringManage(lineRead)['stringStripped']
 ```
 
 ```
-        firstChar = stringManage(lineRead)['firstChar']
+            firstChar = self.stringManage(lineRead)['firstChar']
 ```
 It initiates the first-line comparator (#) so it can compare.
 
 
 ```
-        compareChar = unicodeCompareChar(35)['compareChar']
+            compareChar = self.unicodeCompareChar(35)['compareChar']
 ```
 If the first line is a hash, and not just *hashBang*, it asks *markdownWrite* to write some Markdown.
 
 
 ```
-        if firstChar == compareChar:
+            if firstChar == compareChar:
 ```
 
 ```
-            if stringUnstripped != "hashBang":
+                if stringUnstripped != "hashBang":
 ```
 If the user wants indented Markdown, run things a little differently.
 
 
 ```
-                if markdownIndent:
+                    if markdownIndent:
 ```
 Strip only the first two characters. These should be a hash, ```#```, and a space, ``` ```.
 
 
 ```
-                    indentedString = stringUnstripped[2:]
+                        indentedString = stringUnstripped[2:]
 ```
 
 ```
-                    markdownWrite(indentedString, tempOutput)
+                        self.markdownWrite(indentedString, tempOutput)
 ```
 If the user doesn't want indented Markdown, just ask the *markdownWrite* function to do its job.
 
 
 ```
-                else:
+                    else:
 ```
 
 ```
-                    markdownWrite(stringStripped, tempOutput)
+                        self.markdownWrite(stringStripped, tempOutput)
 ```
 
 ```
-        else:
+            else:
 ```
 Otherwise, if the line isn't an empty line, it asks *codeBlockWrite* to write a Markdown codeblock.
 
@@ -590,24 +598,176 @@ The strip() statement is just to ensure there isn't any invisible indentation th
 
 
 ```
-            if stringUnstripped.strip() != "":
+                if stringUnstripped.strip() != "":
 ```
 
 ```
-                if stringUnstripped.strip() != "\n":
+                    if stringUnstripped.strip() != "\n":
 ```
 
 ```
-                    codeblockWrite(stringUnstripped, tempOutput)
+                        self.codeblockWrite(stringUnstripped, tempOutput)
 ```
 
 ```
-    with open(outFile, 'w+') as outFileWriting:
+        with open(outFile, 'w+') as outFileWriting:
 ```
 
 ```
-        outFileWriting.write(tempOutput.getvalue())
+            outFileWriting.write(tempOutput.getvalue())
 ```
+## MKDocs Manage
+
+This is the function that manages docbuilder's awareness of mkdocs.
+
+
+```
+    def mkdocsManage(self):
+```
+Check if Docbuilder is being verbose.
+
+
+```
+        verboseActive = getFlags()['verboseActive']
+```
+Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
+
+
+```
+        mkdocsExists = False
+```
+Check if the mkdocs.yml file exists.
+
+
+```
+        if os.path.isfile('mkdocs.yml'):
+```
+
+```
+            if verboseActive:
+```
+
+```
+                print("mkdocs.yml exists.")
+```
+
+```
+            mkdocsExists = True
+```
+If it doesn't, create it, using the filename as a title.
+
+
+```
+        else:
+```
+
+```
+            if verboseActive:
+```
+
+```
+                print("mkdocs.yml doesn't exist... Creating it.")
+```
+
+```
+            initFileOut('mkdocs.yml')
+```
+
+```
+            mkdocsExists = True
+```
+Return a happy value if everything works.
+
+
+```
+        return {'mkdocsExists': mkdocsExists}
+```
+## MKDocs Add
+
+This is the function that checks and generates the MKDocs contents file (mkdocs.yml)
+
+
+```
+    def mkdocsAdd(self, fileName):
+```
+Check if Docbuilder is being verbose.
+
+
+```
+        verboseActive = getFlags()['verboseActive']
+```
+Use mkdocsManage to check if mkdocs.yml exists.
+
+
+```
+        mkdocsExists = mkdocsManage()
+```
+
+```
+        if mkdocsExists:
+```
+
+```
+            if verboseActive:
+```
+
+```
+                print("mkdocs.yml exists.")
+```
+Search mkdocs.yml for the filename.
+
+
+```
+            if fileName not in open('mkdocs.yml').read():
+```
+
+```
+                if verboseActive:
+```
+
+```
+                    print("Didn't find current file listed in mkdocs file.")
+```
+If fileName isn't in mkdocs.yml, check if mkdocs.yml is using a page tree.
+
+
+```
+                if 'pages' in open('mkdocs.yml').read():
+```
+
+```
+                    if verboseActive:
+```
+
+```
+                        print("MKDocs is using a pages tree.")
+```
+If it is, open it in append mode.
+
+
+```
+                    with open('mkdocs.yml', 'a') as mkdocsFile:
+```
+Then add fileName to the bottom of the tree.
+
+
+```
+                        mkdocsFile.write("- [" + fileName + ', ' + fileName.rpartition('.')[0] + ']')
+```
+
+```
+                        if verboseActive:
+```
+
+```
+                            print("Added file listing to mkdocs.yml")
+```
+## CLI Functions
+
+These functions are only called if Docbuilder is called from the command line.
+
+e.g. ```./docbuilder.py -i somelit.pylit -o SomeLit```
+
 # Get Flags
 
 *getFlags* is the function that attempts to see what the user is asking of Docbuilder.
@@ -834,148 +994,6 @@ Return the found values.
 ```
     return {'inFile': inFile, 'outFile': outFile, 'outDir': outDir, 'verboseActive': verboseActive, 'clobberFile': clobberFile, 'markdownIndent': markdownIndent, 'mkdocsUse': mkdocsUse}
 ```
-# MKDocs Manage
-
-This is the function that manages docbuilder's awareness of mkdocs.
-
-
-```
-def mkdocsManage():
-```
-Check if Docbuilder is being verbose.
-
-
-```
-    verboseActive = getFlags()['verboseActive']
-```
-Set mkdocsExists to false, so that if anything goes wrong, it will stay false.
-
-
-```
-    mkdocsExists = False
-```
-Check if the mkdocs.yml file exists.
-
-
-```
-    if os.path.isfile('mkdocs.yml'):
-```
-
-```
-        if verboseActive:
-```
-
-```
-            print("mkdocs.yml exists.")
-```
-
-```
-        mkdocsExists = True
-```
-If it doesn't, create it, using the filename as a title.
-
-
-```
-    else:
-```
-
-```
-        if verboseActive:
-```
-
-```
-            print("mkdocs.yml doesn't exist... Creating it.")
-```
-
-```
-        initFileOut('mkdocs.yml')
-```
-
-```
-        mkdocsExists = True
-```
-Return a happy value if everything works.
-
-
-```
-    return {'mkdocsExists': mkdocsExists}
-```
-
-```
-def mkdocsAdd(fileName):
-```
-Check if Docbuilder is being verbose.
-
-
-```
-    verboseActive = getFlags()['verboseActive']
-```
-Use mkdocsManage to check if mkdocs.yml exists.
-
-
-```
-    mkdocsExists = mkdocsManage()
-```
-
-```
-    if mkdocsExists:
-```
-
-```
-        if verboseActive:
-```
-
-```
-            print("mkdocs.yml exists.")
-```
-Search mkdocs.yml for the filename.
-
-
-```
-        if fileName not in open('mkdocs.yml').read():
-```
-
-```
-            if verboseActive:
-```
-
-```
-                print("Didn't find current file listed in mkdocs file.")
-```
-If fileName isn't in mkdocs.yml, check if mkdocs.yml is using a page tree.
-
-
-```
-            if 'pages' in open('mkdocs.yml').read():
-```
-
-```
-                if verboseActive:
-```
-
-```
-                    print("MKDocs is using a pages tree.")
-```
-If it is, open it in append mode.
-
-
-```
-                with open('mkdocs.yml', 'a') as mkdocsFile:
-```
-Then add fileName to the bottom of the tree.
-
-
-```
-                    mkdocsFile.write("- [" + fileName + ', ' + fileName.rpartition('.')[0] + ']')
-```
-
-```
-                    if verboseActive:
-```
-
-```
-                        print("Added file listing to mkdocs.yml")
-```
 # Main
 
 This is the main function that sets Docbuilder running.
@@ -983,6 +1001,10 @@ This is the main function that sets Docbuilder running.
 
 ```
 def main():
+```
+
+```
+    builder = Docbuilder()
 ```
 The *main* function asks *getFlags* what file the user is generating documentation for.
 
@@ -1000,13 +1022,13 @@ The main function checks if the output file pre-exists.
 
 
 ```
-    checkExportFile(outFile)
+    builder.checkExportFile(outFile)
 ```
 It then tells *readFile* what file it is building documentation for.
 
 
 ```
-    readFile(inFile)
+    builder.readFile(inFile)
 ```
 Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs.yml, and add itself.
 
@@ -1020,7 +1042,7 @@ Checks if the user wants to use MKDocs, if so, triggers that to check for mkdocs
 ```
 
 ```
-        mkdocsAdd(outFile)
+        builder.mkdocsAdd(outFile)
 ```
 This is a simple function that tells Python what the main function is.
 
