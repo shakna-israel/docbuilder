@@ -13,13 +13,16 @@ import docbuilder
 builder = docbuilder.Docbuilder()
 
 # Then, we set the flags we want, by generating a dictionary.
-flagsDict = {'inFile': "embeddedDocbuilder.pylit", 'outDir': "../docs", 'outFile': "embeddedDocbuilder"}
+flagsDict = {'inFile': "embeddedDocbuilder.pylit", 'outDir': "docs", 'outFile': "embeddedDocbuilder"}
 
 # We tell our object where to use the flags
 builder.setFlags(flagsDict)
 
-# Check if the output file exists
-builder.checkExportFile(flagsDict['outFile'])
+# Check if the output directory exists
+builder.checkExportDir()
 
-# Read the input file
-builder.readFile(flagsDict['inFile'])
+# Ensure the outgoing file exists
+builder.initFileOut()
+
+# Read the input file and build the appropriate output
+builder.readFile()

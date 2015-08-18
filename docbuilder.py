@@ -83,10 +83,11 @@ class Docbuilder:
 
     # ## Check Export File
     # This is a simple function, that gets given a file name, checks if it exists, and if so, clobbers it.
-    def checkExportFile(self, fileExists):
+    def checkExportFile(self, fileExists=None):
         # Check if Docbuilder is an Object, or being called by the CLI
         if self.setFlags():
             clobberFile = self.setFlags()['clobberFile']
+            fileExists = self.setFlags()['outFile']
         else:
             clobberFile = getFlags(self)['clobberFile']
         # Check if Docbuilder should kill any file if it is pre-existing.
@@ -102,7 +103,10 @@ class Docbuilder:
 
     # ## Check Export Directory
     # This is a naive function that gets given a directory path, checks if it exists, and if it doesn't, attempts to create it.        
-    def checkExportDir(self, directory):
+    def checkExportDir(self, directory=None):
+         # Check if Docbuilder is an Object, or being called by the CLI
+        if directory == None:
+            directory = self.setFlags()['outDir']
         # Check if we have a UNIX-style subdirectory being handed in.
         if '/' in directory:
             # Do some clever magic to walk through each of the folders given as a path, and check if the folder exists. If not, make it.
@@ -138,10 +142,11 @@ class Docbuilder:
     # ## Markdown Write
     # This is a simple function, that is given both a line of Markdown to write, and a stream to write to.
     # It takes that file, and attempts to append it, ensuring aline break underneath each line for compatibility's sake.
-    def markdownWrite(self, stringLine, fileToWrite):
+    def markdownWrite(self, stringLine, fileToWrite=None):
         # Check if Docbuilder is an Object, or being called by the CLI
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
+            fileToWrite = self.setFlags()['outFile']
         else:
             verboseActive = getFlags(self)['verboseActive']
         if verboseActive:
@@ -173,10 +178,11 @@ class Docbuilder:
 
     # ## Initiate File Out
     # This is a simple function that attempts to create a file in a cross-platform friendly way, based on a file location itis given.
-    def initFileOut(self, outFile):
+    def initFileOut(self, outFile=None):
         # Check if Docbuilder is an Object, or being called by the CLI
         if self.setFlags():
             verboseActive = self.setFlags()['verboseActive']
+            outFile = self.setFlags()['outFile']
         else:
             verboseActive = getFlags(self)['verboseActive']
         if verboseActive:
@@ -191,11 +197,12 @@ class Docbuilder:
 
     # ## Read File
     # *readFile* is function that attempts to read a Python Literate Program, and send each line it reads away to be parsed.
-    def readFile(self, inputFile):
+    def readFile(self, inputFile=None):
         # Firstly, it checks to see what file the documentation is supposed to be getting written to.
         # Check if Docbuilder is an Object, or being called by the CLI
         if self.setFlags():
             outFile = self.setFlags()['outFile']
+            inputFile = self.setFlags()['inFile']
         else:
             outFile = getFlags(self)['outFile']
         # It then opens the file given the path it has received as a stream.
@@ -308,12 +315,15 @@ class Docbuilder:
                 outDir = False
             # Check if the outFile key exists in the dictionary, if not, set it to 'docbuilder.md'
             try:
-                outFile = dictIn['outFile']
+                if outDir:
+                    outFile = outDir + dictIn['outFile']
+                else:
+                    outFile = dictIn['outFile']
             except KeyError:
                 if outDir:
                     outfile = outDir + 'docbuilder.md'
                 else:
-                    outfile = 'docbuilder.md'
+                    outfile = 'docs/docbuilder.md'
             # Check if the markdownIndent key exists in the dictionary, if not, set it to False.
             try:
                 markdownIndent = dictIn['markdownIndent']
