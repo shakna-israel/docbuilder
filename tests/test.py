@@ -359,5 +359,24 @@ class TestCodeOO(unittest.TestCase):
         else:
             assert False
 
+    def test_object_set_flags(self):
+        """Test to see if we can set flags in the object oriented approach"""
+        builder = docbuilder.Docbuilder()
+        dictIn = {'inFile': "somefile.pylit", 'outDir': "docs", 'outFile': "somefile", 'markdownIndent': True, 'clobberFile': True, 'mkdocsUse': True, 'verboseActive': True}
+        if builder.setFlags(dictIn) == dictIn:
+            pass
+        else:
+            assert False
+
+    def test_object_set_flags_missing_keys(self):
+        """Test to see if we can set flags, by not setting all of them, in the object oriented approach"""
+        builder = docbuilder.Docbuilder()
+        dictIn = {'inFile': "somefile.pylit", 'outDir': "docs", 'outFile': "somefile"}
+        expectedDict = {'inFile': "somefile.pylit", 'outDir': "docs", 'outFile': "somefile", 'markdownIndent': False, 'clobberFile': False, 'mkdocsUse': False, 'verboseActive': False}
+        if builder.setFlags(dictIn) == expectedDict:
+            pass
+        else:
+            assert False
+
 # Remove all test data. 
 teardown()
